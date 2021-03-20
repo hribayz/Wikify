@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Tomas Krupka</Authors>
+    <Company>Tomas Krupka</Company>
+    <Description>Licensing service for media found on the commons.wikimedia.org free media repository. Provides methods to generate license and attributions information text.</Description>
+  </PropertyGroup>
+
+</Project>
