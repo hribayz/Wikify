@@ -2,7 +2,8 @@
 
 namespace Wikify.License
 {
-    public class Class1
+    public interface ILicenseProvider
     {
+
     }
 }
