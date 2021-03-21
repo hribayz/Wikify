@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Archive", "Wikify.Archive\Wikify.Archive.csproj", "{8BEAE884-EAAE-4AB7-BDA6-90734314B802}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikify.License", "Wikify.License\Wikify.License.csproj", "{A3C62444-8A0D-4076-95F7-BDE4B3CEA41D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.License", "Wikify.License\Wikify.License.csproj", "{A3C62444-8A0D-4076-95F7-BDE4B3CEA41D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikify.Common", "Wikify.Common\Wikify.Common.csproj", "{9EEB33D4-E9BA-4911-A4B8-BF943CA7B4BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A3C62444-8A0D-4076-95F7-BDE4B3CEA41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3C62444-8A0D-4076-95F7-BDE4B3CEA41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3C62444-8A0D-4076-95F7-BDE4B3CEA41D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EEB33D4-E9BA-4911-A4B8-BF943CA7B4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EEB33D4-E9BA-4911-A4B8-BF943CA7B4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EEB33D4-E9BA-4911-A4B8-BF943CA7B4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EEB33D4-E9BA-4911-A4B8-BF943CA7B4BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

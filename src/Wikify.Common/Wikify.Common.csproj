@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Tomas Krupka</Authors>
+    <Description>Common abstractions and interfaces for the Wikify project.</Description>
+  </PropertyGroup>
+
+</Project>
