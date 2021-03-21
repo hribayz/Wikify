@@ -1,0 +1,2 @@
+aggresive image preference mode for paintings etc.
+add github project url to nupkg descriptions, reference the eshop from there.
