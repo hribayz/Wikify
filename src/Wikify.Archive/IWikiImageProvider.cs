@@ -1,9 +1,10 @@
 ﻿using Wikify.Common;
+using System.Drawing;
 
 namespace Wikify.Archive
 {
-    public interface IWikiImageProvider
+    interface IWikiImageProvider
     {
-        public System.Drawing.Image GetImage(AWikiImageIdentifier imageIdentifier);
+        Image GetImage(AWikiImageIdentifier imageIdentifier);
     }
 }

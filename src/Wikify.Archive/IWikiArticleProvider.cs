@@ -1,10 +1,9 @@
-﻿using System;
-using Wikify.Common;
+﻿using Wikify.Common;
 
 namespace Wikify.Archive
 {
-    public interface IWikiArticleProvider
+    interface IWikiArticleProvider
     {
-        public AWikipediaArticle GetArticle(AWikiArticleIdentifier articleIdentifier);
+        AWikiArticle GetArticle(AWikiArticleIdentifier articleIdentifier);
     }
 }
