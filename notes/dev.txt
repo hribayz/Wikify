@@ -1,0 +1,20 @@
+Server/client image preview/full generation
+
+	option 1: client-side configurator (better if there's too many options)
+		start with this, do a MVP
+	option 2: server-side generated image for given options (OK if it's just article + product combination)
+		if option 1 no longer sufficient for the job
+		
+	resolution: probably eventually both but starting with option 1 as 1st iteration MVP is worth the extra work
+
+Image composition
+
+	display html in a browser window, then screenshot?
+	(glue bitmap elements together?)
+
+Elements handling
+	
+	break original page into elements, compose new page reusing some of them from scratch, send to browser.
+	cut known unwanted elements from page, send the rest to browser as is.
+	
+	
