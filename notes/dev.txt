@@ -17,4 +17,19 @@ Elements handling
 	break original page into elements, compose new page reusing some of them from scratch, send to browser.
 	cut known unwanted elements from page, send the rest to browser as is.
 	
+	who will cut the page into elements?
+	how to store the elements structure? keep the original html or try to come up with something new?
 	
+Element
+
+	what is its license?
+	who says if we can use it for display?
+	what is its MIME type? Photo, map, enumeration, quote, text block, header... do we need to know?
+	what is its IRL type? living person, map, 
+	
+AWikiArticle
+
+	Smart container or not?
+	abstract class with baked in data containing members and abstract/virtual behaviour
+	or
+	just (abstract) container class and extract behaviour out. (visitor pattern)
