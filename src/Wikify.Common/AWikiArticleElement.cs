@@ -8,6 +8,6 @@ namespace Wikify.Common
 {
     public abstract class AWikiArticleElement
     {
-
+        public bool IsIncluded { get; set; }
     }
 }

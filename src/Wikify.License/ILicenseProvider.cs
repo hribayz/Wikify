@@ -7,4 +7,11 @@ namespace Wikify.License
     {
         public AWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier);
     }
+    public class LicenseProvider : ILicenseProvider
+    {
+        public AWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

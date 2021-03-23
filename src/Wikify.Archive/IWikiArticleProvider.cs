@@ -1,9 +1,17 @@
-﻿using Wikify.Common;
+﻿using System.Threading.Tasks;
+using Wikify.Common;
 
 namespace Wikify.Archive
 {
-    interface IWikiArticleProvider
+    interface IWikiArticleArchive
     {
-        AWikiArticle GetArticle(AWikiArticleIdentifier articleIdentifier);
+        public Task<string> GetArticleHtmlAsync(AWikiArticleIdentifier articleIdentifier);
+    }
+    public class WikiArticleProvider : IWikiArticleArchive
+    {
+        public Task<string> GetArticleHtmlAsync(AWikiArticleIdentifier articleIdentifier)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -10,6 +10,13 @@ namespace Wikify.Display
 {
     interface IWikiImageGenerator
     {
-        Image GetWikiArticleImage(AWikiArticle wikiArticle, ADisplayConfiguration displayConfiguration);
+        Image CreateArticleImage(AWikiArticle wikiArticle, ADisplayConfiguration displayConfiguration);
+    }
+    public class WikiImageGenerator : IWikiImageGenerator
+    {
+        public Image CreateArticleImage(AWikiArticle wikiArticle, ADisplayConfiguration displayConfiguration)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
