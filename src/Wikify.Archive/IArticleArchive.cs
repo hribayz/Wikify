@@ -5,11 +5,11 @@ namespace Wikify.Archive
 {
     public interface IArticleArchive
     {
-        public Task<string> GetArticleHtmlAsync(AArticleIdentifier articleIdentifier);
+        public Task<string> GetArticleHtmlAsync(IArticleIdentifier articleIdentifier);
     }
     public class WikiArticleProvider : IArticleArchive
     {
-        public Task<string> GetArticleHtmlAsync(AArticleIdentifier articleIdentifier)
+        public Task<string> GetArticleHtmlAsync(IArticleIdentifier articleIdentifier)
         {
             throw new System.NotImplementedException();
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wikify.Common
 {
-    public abstract class AArticleIdentifier : AObjectIdentifier
+    public interface IImageIdentifier : IObjectIdentifier
     {
     }
 }

@@ -4,6 +4,6 @@ namespace Wikify.Parsing
 {
     internal interface IObjectIdParser
     {
-        public AObjectIdentifier GetObjectIdentifier(string input);
+        public IObjectIdentifier GetObjectIdentifier(string input);
     }
 }

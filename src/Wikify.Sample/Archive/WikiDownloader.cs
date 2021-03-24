@@ -28,7 +28,7 @@ namespace Wikify.Sample.Archive
             _renewHttpClient += () => networkingProvider.GetHttpClient();
         }
 
-        public async Task<string> GetArticleHtmlAsync(AArticleIdentifier articleIdentifier)
+        public async Task<string> GetArticleHtmlAsync(IArticleIdentifier articleIdentifier)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Wikify.Sample.Archive
             return null;
         }
 
-        public async Task<Image> GetImageAsync(AImageIdentifier imageIdentifier)
+        public async Task<Image> GetImageAsync(IImageIdentifier imageIdentifier)
         {
             try
             {

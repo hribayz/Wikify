@@ -14,7 +14,7 @@ namespace Wikify.Test
         public async Task FullRoutineAsync()
         {
             var wikiObjectParser = new ObjectIdParser();
-            var articleId = wikiObjectParser.GetObjectIdentifier("") as AArticleIdentifier;
+            var articleId = wikiObjectParser.GetObjectIdentifier("") as IArticleIdentifier;
 
             var articleProvider = new WikiArticleProvider();
             var html = await articleProvider.GetArticleHtmlAsync(articleId);

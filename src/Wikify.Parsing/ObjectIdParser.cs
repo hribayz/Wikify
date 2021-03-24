@@ -5,7 +5,7 @@ namespace Wikify.Parsing
 {
     public class ObjectIdParser : IObjectIdParser
     {
-        public AObjectIdentifier GetObjectIdentifier(string input)
+        public IObjectIdentifier GetObjectIdentifier(string input)
         {
             throw new NotImplementedException();
         }

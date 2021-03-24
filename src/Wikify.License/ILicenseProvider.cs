@@ -6,11 +6,11 @@ namespace Wikify.License
 {
     public interface ILicenseProvider
     {
-        public IObjectLicense GetLicense(AObjectIdentifier wikiObjectIdentifier);
+        public IObjectLicense GetLicense(IObjectIdentifier wikiObjectIdentifier);
     }
     public class LicenseProvider : ILicenseProvider
     {
-        public IObjectLicense GetLicense(AObjectIdentifier wikiObjectIdentifier)
+        public IObjectLicense GetLicense(IObjectIdentifier wikiObjectIdentifier)
         {
             throw new NotImplementedException();
         }

@@ -6,11 +6,11 @@ namespace Wikify.Archive
 {
     public interface IImageArchive
     {
-        Task<Image> GetImageAsync(AImageIdentifier imageIdentifier);
+        Task<Image> GetImageAsync(IImageIdentifier imageIdentifier);
     }
     public class WikiImageProvider : IImageArchive
     {
-        public Task<Image> GetImageAsync(AImageIdentifier imageIdentifier)
+        public Task<Image> GetImageAsync(IImageIdentifier imageIdentifier)
         {
             throw new System.NotImplementedException();
         }
