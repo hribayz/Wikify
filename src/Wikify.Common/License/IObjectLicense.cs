@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common
+namespace Wikify.Common.License
 {
-    public abstract class AWikiImageIdentifier : AWikiObjectIdentifier
+    public interface IObjectLicense
     {
+        public IEnumerable<IAttribution> GetAttributions();
     }
 }

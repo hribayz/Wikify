@@ -2,7 +2,7 @@
 
 namespace Wikify.Common.Element
 {
-    public interface IWikiArticleImage : IWikiArticleElement
+    public interface IArticleImage : IArticleElement
     {
         public Image GetImage();
     }

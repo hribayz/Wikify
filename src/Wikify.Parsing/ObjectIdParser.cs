@@ -3,9 +3,9 @@ using Wikify.Common;
 
 namespace Wikify.Parsing
 {
-    public class WikiObjectParser : IWikiObjectIdParser
+    public class ObjectIdParser : IObjectIdParser
     {
-        public AWikiObjectIdentifier GetWikiObjectIdentifier(string input)
+        public AObjectIdentifier GetObjectIdentifier(string input)
         {
             throw new NotImplementedException();
         }

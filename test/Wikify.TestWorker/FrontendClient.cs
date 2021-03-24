@@ -13,8 +13,8 @@ namespace Wikify.TestWorker
         [TestMethod]
         public async Task FullRoutineAsync()
         {
-            var wikiObjectParser = new WikiObjectParser();
-            var articleId = wikiObjectParser.GetWikiObjectIdentifier("") as AWikiArticleIdentifier;
+            var wikiObjectParser = new ObjectIdParser();
+            var articleId = wikiObjectParser.GetObjectIdentifier("") as AArticleIdentifier;
 
             var articleProvider = new WikiArticleProvider();
             var html = await articleProvider.GetArticleHtmlAsync(articleId);
@@ -22,7 +22,7 @@ namespace Wikify.TestWorker
             var htmlProcessor = new HtmlProcessor();
             var article = await htmlProcessor.ProcessHtmlAsync(html);
 
-            var imageGenerator = new WikiImageGenerator();
+            var imageGenerator = new ImageGenerator();
             imageGenerator.CreateArticleImage(article, null);
         }
     }

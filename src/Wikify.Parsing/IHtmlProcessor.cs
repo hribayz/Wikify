@@ -7,11 +7,11 @@ namespace Wikify.Parsing
 {
     public interface IHtmlProcessor
     {
-        public Task<IWikiArticleElement> ProcessHtmlAsync(string ElementHtml);
+        public Task<IArticleElement> ProcessHtmlAsync(string ElementHtml);
     }
     public class HtmlProcessor : IHtmlProcessor
     {
-        public Task<IWikiArticleElement> ProcessHtmlAsync(string ElementHtml)
+        public Task<IArticleElement> ProcessHtmlAsync(string ElementHtml)
         {
             throw new NotImplementedException();
         }
