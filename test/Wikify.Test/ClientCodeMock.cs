@@ -1,14 +1,14 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Common;
 using Wikify.Display;
 using Wikify.Parsing;
 
-namespace Wikify.TestWorker
+namespace Wikify.Test
 {
     [TestClass]
-    public class FrontendClient
+    public class ClientCodeMock
     {
         [TestMethod]
         public async Task FullRoutineAsync()

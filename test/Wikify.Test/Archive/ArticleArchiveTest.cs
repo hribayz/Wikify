@@ -1,13 +1,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
 
-namespace Wikify.Sample.Test
+namespace Wikify.Test.Archive
 {
     [TestClass]
     public class ArticleArchiveTest
     {
         IArticleArchive _articleArchive;
-        public ArticleArchiveTest(IArticleArchive wikiArticleArchive)
+        public ArticleArchiveTest(IArticleArchive articleArchive)
         {
             _articleArchive = articleArchive;
         }
@@ -16,4 +16,5 @@ namespace Wikify.Sample.Test
         {
         }
     }
+
 }
