@@ -20,7 +20,7 @@ namespace Wikify.TestWorker
             var html = await articleProvider.GetArticleHtmlAsync(articleId);
 
             var htmlProcessor = new HtmlProcessor();
-            var article = await htmlProcessor.ProcessArticleAsync(html);
+            var article = await htmlProcessor.ProcessHtmlAsync(html);
 
             var imageGenerator = new WikiImageGenerator();
             imageGenerator.CreateArticleImage(article, null);

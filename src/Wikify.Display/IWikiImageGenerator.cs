@@ -5,16 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common;
+using Wikify.Common.Element;
 
 namespace Wikify.Display
 {
     interface IWikiImageGenerator
     {
-        Image CreateArticleImage(AWikiArticle wikiArticle, ADisplayConfiguration displayConfiguration);
+        Image CreateArticleImage(IWikiArticleElement wikiArticle);
     }
-    public class WikiImageGenerator : IWikiImageGenerator
+    interface IWikiImageGeneratorConfigurable : IWikiImageGenerator
     {
-        public Image CreateArticleImage(AWikiArticle wikiArticle, ADisplayConfiguration displayConfiguration)
+        Image CreateArticleImage(IWikiArticleElement wikiArticle, ADisplayConfiguration displayConfiguration);
+    }
+    public class WikiImageGenerator : IWikiImageGeneratorConfigurable
+    {
+        public Image CreateArticleImage(IWikiArticleElement wikiArticle, ADisplayConfiguration displayConfiguration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Image CreateArticleImage(IWikiArticleElement wikiArticle)
         {
             throw new NotImplementedException();
         }

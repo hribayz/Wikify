@@ -1,15 +1,16 @@
 ﻿using System;
 using Wikify.Common;
+using Wikify.Common.License;
 
 namespace Wikify.License
 {
     public interface ILicenseProvider
     {
-        public AWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier);
+        public IWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier);
     }
     public class LicenseProvider : ILicenseProvider
     {
-        public AWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier)
+        public IWikiObjectLicense GetLicense(AWikiObjectIdentifier wikiObjectIdentifier)
         {
             throw new NotImplementedException();
         }

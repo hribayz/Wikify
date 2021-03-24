@@ -3,11 +3,7 @@ using Wikify.Common;
 
 namespace Wikify.Parsing
 {
-    internal interface IWikiObjectParser
-    {
-        public AWikiObjectIdentifier GetWikiObjectIdentifier(string input);
-    }
-    public class WikiObjectParser : IWikiObjectParser
+    public class WikiObjectParser : IWikiObjectIdParser
     {
         public AWikiObjectIdentifier GetWikiObjectIdentifier(string input)
         {
