@@ -1,18 +1,26 @@
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Common;
+using Wikify.Sample.Archive;
+using Wikify.Sample.Network;
+using Wikify.Test.Archive;
 
-namespace Wikify.Test.Archive
+namespace Wikify.Test.Sample
 {
     [TestClass]
-    public class ArticleArchiveTest
+    public class SampleArchiveTest
     {
-        IArticleArchive _articleArchive;
-        public ArticleArchiveTest(IArticleArchive articleArchive)
+        private static IArticleArchive _articleArchive;
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
         {
-            _articleArchive = articleArchive;
+            _articleArchive = new WikiDownloader(new NetworkingProvider(), NullLogger.Instance);
         }
+
         [TestMethod]
         [DataRow("https://en.wikipedia.org/wiki/Laboratori_Nazionali_del_Gran_Sasso", "Laboratori Nazionali del Gran Sasso")]
         [DataRow("https://en.wikipedia.org/wiki/Direct-to-garment_printing", "Direct-to-garment printing")]
@@ -26,4 +34,5 @@ namespace Wikify.Test.Archive
         }
         private TestArticleIdentifier CreateTestArticleIdentifier(string url, string title) => new TestArticleIdentifier(url, title);
     }
+
 }

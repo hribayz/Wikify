@@ -6,19 +6,21 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Wikify.Archive;
 using Wikify.Common;
+using Wikify.Common.Content;
+using Wikify.Common.Content.Types;
+using Wikify.Common.Id;
 using Wikify.Common.Network;
 
-namespace Wikify.Sample.Archive
+namespace Wikify.Archive
 {
-    public class WikiDownloader : IArticleArchive, IImageArchive
+    public class ArticleDownloader : IArchive<ArticleContent>
     {
         private HttpClient _httpClient;
         private Action _renewHttpClient;
         private ILogger _logger;
 
-        public WikiDownloader(INetworkingProvider networkingProvider, ILogger logger)
+        public ArticleDownloader(INetworkingProvider networkingProvider, ILogger logger)
         {
             _logger = logger;  
             _httpClient = networkingProvider.GetHttpClient();
@@ -28,7 +30,7 @@ namespace Wikify.Sample.Archive
             _renewHttpClient += () => networkingProvider.GetHttpClient();
         }
 
-        public async Task<string> GetArticleHtmlAsync(IArticleIdentifier articleIdentifier)
+        public async Task<IElement<ArticleContent>> GetElementAsync(IElementIdentifier<ArticleContent> articleIdentifier)
         {
             try
             {
@@ -48,7 +50,7 @@ namespace Wikify.Sample.Archive
             return null;
         }
 
-        public async Task<Image> GetImageAsync(IImageIdentifier imageIdentifier)
+        public async Task<Image> GetImageAsync(IElementIdentifier<ImageContent> imageIdentifier)
         {
             try
             {

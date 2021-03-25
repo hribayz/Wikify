@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common.License
+namespace Wikify.Common.Content.Types
 {
-    public interface IObjectLicense
+    public class TextContent : AWikiContent
     {
-        public IEnumerable<IAttribution> GetAttributions();
+        public string Text { get; private set; }
     }
+
 }

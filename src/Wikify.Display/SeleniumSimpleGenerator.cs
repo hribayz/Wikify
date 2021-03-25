@@ -4,17 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wikify.Common.Element;
+using Wikify.Common.Content;
+using Wikify.Common.Content.Types;
 
 namespace Wikify.Display
 {
     public class SeleniumSimpleGenerator : IImageGenerator
     {
-        public SeleniumSimpleGenerator()
-        {
-
-        }
-        public Image CreateArticleImage(IArticleElement wikiArticle)
+        public Image CreateArticleImage(IElement<ArticleContent> wikiArticle)
         {
             throw new NotImplementedException();
         }

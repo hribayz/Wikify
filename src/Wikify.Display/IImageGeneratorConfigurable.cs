@@ -1,10 +1,11 @@
 ﻿using System.Drawing;
-using Wikify.Common.Element;
+using Wikify.Common.Content;
+using Wikify.Common.Content.Types;
 
 namespace Wikify.Display
 {
     interface IImageGeneratorConfigurable : IImageGenerator
     {
-        Image CreateArticleImage(IArticleElement wikiArticle, ADisplayConfiguration displayConfiguration);
+        Image CreateArticleImage(IElement<ArticleContent> wikiArticle, ADisplayConfiguration displayConfiguration);
     }
 }
