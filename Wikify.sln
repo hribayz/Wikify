@@ -17,7 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{93AA739C-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Parsing", "src\Wikify.Parsing\Wikify.Parsing.csproj", "{BAA52C6C-E655-4A64-9B3D-4B98D9E49E63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikify.Test", "test\Wikify.Test\Wikify.Test.csproj", "{0B41D057-3EFB-430F-B3C6-47AAFBD1DF28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Test", "test\Wikify.Test\Wikify.Test.csproj", "{0B41D057-3EFB-430F-B3C6-47AAFBD1DF28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70C21014-CC07-4B0E-90B1-D9968FADCB65}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

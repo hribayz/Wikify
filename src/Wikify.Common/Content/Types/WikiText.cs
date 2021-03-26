@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wikify.Common.Content.Types
 {
-    public class TextContent : AWikiContent
+    public class WikiText : AWikiContent
     {
         public string Text { get; private set; }
     }

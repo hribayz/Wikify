@@ -5,19 +5,19 @@ using Wikify.Common.License;
 
 namespace Wikify.Common.Content
 {
-    public class ImageElement : IElement<ImageContent>
+    public class ImageElement : IElement<WikiImage>
     {
         public IEnumerable<IElement> GetChildren()
         {
             throw new System.NotImplementedException();
         }
 
-        public ImageContent GetContent()
+        public WikiImage GetContent()
         {
             throw new System.NotImplementedException();
         }
 
-        public IElementIdentifier GetIdentifier()
+        public IIdentifier GetIdentifier()
         {
             throw new System.NotImplementedException();
         }

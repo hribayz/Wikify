@@ -5,6 +5,7 @@
     <Authors>Tomas Krupka</Authors>
     <Company>Tomas Krupka</Company>
     <Description>Licensing service for media found on the commons.wikimedia.org free media repository. Generates license and attributions information text.</Description>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

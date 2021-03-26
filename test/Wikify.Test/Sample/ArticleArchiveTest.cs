@@ -4,8 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Sample.Archive;
-using Wikify.Sample.Network;
+using Wikify.Common.Content.Types;
+using Wikify.Common.Network;
 using Wikify.Test.Archive;
 
 namespace Wikify.Test.Sample
@@ -13,13 +13,13 @@ namespace Wikify.Test.Sample
     [TestClass]
     public class SampleArchiveTest
     {
-        private static IArticleArchive _articleArchive;
+        private static IArchive<WikiArticle> _articleArchive;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            _articleArchive = new WikiDownloader(new NetworkingProvider(), NullLogger.Instance);
-        }
+        //[ClassInitialize]
+        //public static void ClassInitialize(TestContext context)
+        //{
+        //    _articleArchive = new ArticleDownloader(,new NetworkingProvider(), NullLogger.Instance);
+        //}
 
         [TestMethod]
         [DataRow("https://en.wikipedia.org/wiki/Laboratori_Nazionali_del_Gran_Sasso", "Laboratori Nazionali del Gran Sasso")]
@@ -27,7 +27,7 @@ namespace Wikify.Test.Sample
         public async Task GetArticle(string url, string title)
         {
             var articleIdentifier = CreateTestArticleIdentifier(url, title);
-            var article = await _articleArchive.GetArticleHtmlAsync(articleIdentifier);
+            //var article = await _articleArchive.GetArticleHtmlAsync(articleIdentifier);
 
             ;
             // TODO : must contain certain substrings indicating success

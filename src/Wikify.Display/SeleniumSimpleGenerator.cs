@@ -11,7 +11,7 @@ namespace Wikify.Display
 {
     public class SeleniumSimpleGenerator : IImageGenerator
     {
-        public Image CreateArticleImage(IElement<ArticleContent> wikiArticle)
+        public System.Drawing.Image CreateArticleImage(IElement<WikiArticle> wikiArticle)
         {
             throw new NotImplementedException();
         }

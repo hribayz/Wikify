@@ -11,33 +11,37 @@ using Wikify.Common.Content;
 using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
+using Wikify.Parsing.Content;
 
 namespace Wikify.Archive
 {
-    public class ArticleDownloader : IArchive<ArticleContent>
+    public class ArticleDownloader : IArchive<WikiArticle>
     {
         private HttpClient _httpClient;
         private Action _renewHttpClient;
         private ILogger _logger;
+        private IContentParser<WikiArticle> _articleParser;
 
-        public ArticleDownloader(INetworkingProvider networkingProvider, ILogger logger)
+        public ArticleDownloader(IParserFactory parserFactory, INetworkingProvider networkingProvider, ILogger logger)
         {
             _logger = logger;  
             _httpClient = networkingProvider.GetHttpClient();
+            _articleParser = parserFactory.GetHtmlParser<WikiArticle>();
 
             // assuming that the networkingProvider handles concurrency
             // no need to manage who and when triggers this
             _renewHttpClient += () => networkingProvider.GetHttpClient();
         }
 
-        public async Task<IElement<ArticleContent>> GetElementAsync(IElementIdentifier<ArticleContent> articleIdentifier)
+        public async Task<IElement<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> articleIdentifier)
         {
             try
             {
                 var url = articleIdentifier.GetUrl();
-                var articleContent = await _httpClient.GetStringAsync(url);
+                var articleContentHtml = await _httpClient.GetStringAsync(url);
+                var articleElement = await _articleParser.ParseContentAsync(articleContentHtml);
 
-                return articleContent;
+                return articleElement;
             }
 
             // TODO: only _renewHttpClient() when appropriate exception catched.
@@ -50,13 +54,13 @@ namespace Wikify.Archive
             return null;
         }
 
-        public async Task<Image> GetImageAsync(IElementIdentifier<ImageContent> imageIdentifier)
+        public async Task<System.Drawing.Image> GetImageAsync(IIdentifier<Common.Content.Types.WikiImage> imageIdentifier)
         {
             try
             {
                 var url = imageIdentifier.GetUrl();
                 var imageStream = await _httpClient.GetStreamAsync(url);
-                var image = Image.FromStream(imageStream, true);
+                var image = System.Drawing.Image.FromStream(imageStream, true);
 
                 return image;
             }

@@ -1,8 +1,10 @@
 ﻿using Wikify.Common;
+using Wikify.Common.Content.Types;
+using Wikify.Common.Id;
 
 namespace Wikify.Test.Archive
 {
-    internal class TestArticleIdentifier : IArticleIdentifier
+    internal class TestArticleIdentifier : IIdentifier<WikiArticle>
     {
         private string _url;
         private string _title;

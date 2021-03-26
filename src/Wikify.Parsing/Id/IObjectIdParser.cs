@@ -5,6 +5,6 @@ namespace Wikify.Parsing.Id
 {
     internal interface IIdParser<T> where T : AWikiContent
     {
-        public IElementIdentifier<T> GetObjectIdentifier(string input);
+        public IIdentifier<T> GetObjectIdentifier(string input);
     }
 }

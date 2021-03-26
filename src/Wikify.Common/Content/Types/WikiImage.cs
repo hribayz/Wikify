@@ -2,10 +2,9 @@
 
 namespace Wikify.Common.Content.Types
 {
-    public class ImageContent : AWikiContent
+    public class WikiImage : AWikiContent
     {
         public Image Image { get; private set; }
 
     }
-
 }

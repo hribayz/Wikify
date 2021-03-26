@@ -1,21 +1,23 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Common;
+using Wikify.Common.Content;
+using Wikify.Common.Content.Types;
+using Wikify.Common.Id;
 
 namespace Wikify.Test.Archive
 {
 
-    public class IArticleArchiveTester
+    public class ArticleArchiveTester
     {
-        IArticleArchive _articleArchive;
-        public IArticleArchiveTester(IArticleArchive articleArchive)
+        IArchive<WikiArticle> _articleArchive;
+        public ArticleArchiveTester(IArchive<WikiArticle> articleArchive)
         {
             _articleArchive = articleArchive;
         }
-        public async Task<string> GetArticleAsync(IArticleIdentifier articleIdentifier)
+        public async Task<IElement<WikiArticle>> GetArticleAsync(IIdentifier<WikiArticle> articleIdentifier)
         {
-            return await _articleArchive.GetArticleHtmlAsync(articleIdentifier);
+            return await _articleArchive.GetElementAsync(articleIdentifier);
         }
     }
 }

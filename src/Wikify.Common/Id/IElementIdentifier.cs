@@ -6,7 +6,7 @@ namespace Wikify.Common.Id
     /// <summary>
     /// Container for data that identifies a wikipedia object, mainly where to get it.
     /// </summary>
-    public interface IElementIdentifier
+    public interface IIdentifier
     {
         /// <summary>
         /// Gets a valid url to download a wikipedia object.
@@ -17,7 +17,7 @@ namespace Wikify.Common.Id
     /// <summary>
     /// Container for data that identifies a wikipedia object with content of specific WikiObject type like image or text.
     /// </summary>
-    public interface IElementIdentifier<T> : IElementIdentifier where T : AWikiContent
+    public interface IIdentifier<T> : IIdentifier where T : AWikiContent
     {
 
     }

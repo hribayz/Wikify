@@ -13,17 +13,17 @@ namespace Wikify.Test
         [TestMethod]
         public async Task FullRoutineAsync()
         {
-            var wikiObjectParser = new ObjectIdParser();
-            var articleId = wikiObjectParser.GetObjectIdentifier("") as IArticleIdentifier;
+            //var wikiObjectParser = new ObjectIdParser();
+            //var articleId = wikiObjectParser.GetObjectIdentifier("") as IArticleIdentifier;
 
-            var articleProvider = new WikiArticleProvider();
-            var html = await articleProvider.GetArticleHtmlAsync(articleId);
+            //var articleProvider = new WikiArticleProvider();
+            //var html = await articleProvider.GetArticleHtmlAsync(articleId);
 
-            var htmlProcessor = new HtmlProcessor();
-            var article = await htmlProcessor.ProcessHtmlAsync(html);
+            //var htmlProcessor = new HtmlProcessor();
+            //var article = await htmlProcessor.ProcessHtmlAsync(html);
 
-            var imageGenerator = new ImageGenerator();
-            imageGenerator.CreateArticleImage(article, null);
+            //var imageGenerator = new ImageGenerator();
+            //imageGenerator.CreateArticleImage(article, null);
         }
     }
 }
