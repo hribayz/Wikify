@@ -1,2 +1,3 @@
-aggresive image preference mode for paintings etc.
+aggressive image preference mode for paintings etc.
 add github project url to nupkg descriptions, reference the eshop from there.
+wiki quotes? https://en.wikiquote.org/wiki/Yogi_Berra
