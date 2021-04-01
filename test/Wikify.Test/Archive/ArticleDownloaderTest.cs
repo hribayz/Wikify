@@ -32,7 +32,7 @@ namespace Wikify.Test.Archive
         [DataRow("https://en.wikipedia.org/wiki/Giorgio_Moroder")]
         public async Task TestDownloadArticleAsync(string url)
         {
-            await _articleDownloader.GetElementAsync(new ArticleIdentifier(url));
+            await _articleDownloader.GetElementAsync(new ArticleIdentifier(url), RetrieveOptions.Default);
             ;
         }
 

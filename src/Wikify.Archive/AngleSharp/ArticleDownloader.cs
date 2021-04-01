@@ -17,16 +17,11 @@ using Wikify.Parsing.Content;
 
 namespace Wikify.Archive.AngleSharp
 {
-    public class ArticleDownloader : IArchive<WikiArticle>
+    public class ArticleDownloader : AngleSharpDownloaderBase, IArchive<WikiArticle>
     {
-        private ILogger _logger;
-        private HttpClient _httpClient;
-        private Action _renewClient;
-        public ArticleDownloader(ILogger logger, INetworkingProvider networkingProvider)
+        public ArticleDownloader(ILogger logger, INetworkingProvider networkingProvider) : base(logger, networkingProvider)
         {
-            _logger = logger;
-            _httpClient = networkingProvider.GetHttpClient();
-            _renewClient = () => networkingProvider.GetHttpClient();
+
         }
 
         public async Task<IContainer<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> articleIdentifier, RetrieveOptions retrieveOptions)
@@ -34,6 +29,9 @@ namespace Wikify.Archive.AngleSharp
             try
             {
                 var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
+
+                // TODO : download using networking provider
+
                 var document = await context.OpenAsync(articleIdentifier.GetUrl());
 
                 return new ArticleContainer(document);

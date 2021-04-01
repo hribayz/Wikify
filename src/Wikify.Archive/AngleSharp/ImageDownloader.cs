@@ -1,17 +1,20 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Drawing;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
+using Wikify.Common.Network;
 
 namespace Wikify.Archive.AngleSharp
 {
-    public class ImageDownloader : IArchive<WikiImage>
+    public class ImageDownloader : AngleSharpDownloaderBase, IArchive<WikiImage>
     {
-        private HttpClient _httpClient;
-        private Action _renewClient;
+        public ImageDownloader(ILogger logger, INetworkingProvider networkingProvider) : base(logger, networkingProvider)
+        {
+
+        }
 
         public async Task<IContainer<WikiImage>> GetElementAsync(IIdentifier<WikiImage> imageIdentifier, RetrieveOptions retrieveOptions)
         {

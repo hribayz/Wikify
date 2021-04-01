@@ -15,7 +15,7 @@ namespace Wikify.Archive.AngleSharp
     {
         public ArticleContainer(IDocument document)
         {
-
+            ;
         }
         public IEnumerable<Common.Content.IElement> GetChildren()
         {
