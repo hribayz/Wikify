@@ -13,9 +13,19 @@ namespace Wikify.Archive.AngleSharp
 {
     public class ArticleContainer : IContainer<WikiArticle>, IIdentifiable<WikiArticle>
     {
+        private IDocument _document;
+        private List<Common.Content.IElement> _children;
+        private bool _extracted;
+
+        // raise event when parsing done.
         public ArticleContainer(IDocument document)
         {
-            ;
+            _document = document;
+            _children = new List<Common.Content.IElement>();
+        }
+        private void ExtractChildren()
+        {
+
         }
         public IEnumerable<Common.Content.IElement> GetChildren()
         {
