@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Wikify.Common.Content.Types;
@@ -8,14 +10,27 @@ namespace Wikify.Archive.AngleSharp
 {
     public class ImageDownloader : IArchive<WikiImage>
     {
-        public Task<IContainer<WikiImage>> GetElementAsync(IIdentifier<WikiImage> elementIdentifier)
-        {
-            throw new NotImplementedException();
-        }
+        private HttpClient _httpClient;
+        private Action _renewClient;
 
-        public Task<IContainer<WikiImage>> GetElementAsync(IIdentifier<WikiImage> elementIdentifier, RetrieveOptions retrieveOptions)
+        public async Task<IContainer<WikiImage>> GetElementAsync(IIdentifier<WikiImage> imageIdentifier, RetrieveOptions retrieveOptions)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var url = imageIdentifier.GetUrl();
+                var imageStream = await _httpClient.GetStreamAsync(url);
+                var image = Image.FromStream(imageStream, true);
+
+                return new ImageContainer();
+            }
+
+            // TODO: try to recover first by renewing client when possible
+
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+                throw;
+            }
         }
     }
 }

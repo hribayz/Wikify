@@ -1,10 +1,11 @@
-﻿using Wikify.Common.Id;
+﻿using Wikify.Common.Content.Types;
+using Wikify.Common.Id;
 
 namespace Wikify.Common.Content
 {
-    public interface IIdentifiable
+    public interface IIdentifiable<T> where T : AWikiContent
     {
-        public IIdentifier GetIdentifier();
+        public IIdentifier<T> GetIdentifier();
     }
 
 }

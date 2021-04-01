@@ -10,7 +10,7 @@ namespace Wikify.Archive
     {
         public bool Mobile { get; private set; } = false;
 
-        public static RetrieveOptions Default = new RetrieveOptions(false);
+        public static RetrieveOptions Default { get; set; } = new RetrieveOptions(false);
         public RetrieveOptions(bool mobile)
         {
             Mobile = mobile;

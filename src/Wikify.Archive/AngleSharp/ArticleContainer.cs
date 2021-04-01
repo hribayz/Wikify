@@ -11,7 +11,7 @@ using Wikify.Common.License;
 
 namespace Wikify.Archive.AngleSharp
 {
-    public class ArticleContainer : IContainer<WikiArticle>, IIdentifiable
+    public class ArticleContainer : IContainer<WikiArticle>, IIdentifiable<WikiArticle>
     {
         public ArticleContainer(IDocument document)
         {
@@ -32,12 +32,13 @@ namespace Wikify.Archive.AngleSharp
             throw new NotImplementedException();
         }
 
-        public IIdentifier GetIdentifier()
+
+        public ILicense GetLicense()
         {
             throw new NotImplementedException();
         }
 
-        public ILicense GetLicense()
+        public IIdentifier<WikiArticle> GetIdentifier()
         {
             throw new NotImplementedException();
         }

@@ -6,7 +6,7 @@ using Wikify.Common.License;
 
 namespace Wikify.Archive.AngleSharp
 {
-    public class ImageContainer : IContainer<WikiImage>, IIdentifiable
+    public class ImageContainer : IContainer<WikiImage>, IIdentifiable<WikiImage>
     {
         public IEnumerable<IElement> GetChildren()
         {
@@ -23,12 +23,12 @@ namespace Wikify.Archive.AngleSharp
             throw new System.NotImplementedException();
         }
 
-        public IIdentifier GetIdentifier()
+        public ILicense GetLicense()
         {
             throw new System.NotImplementedException();
         }
 
-        public ILicense GetLicense()
+        public IIdentifier<WikiImage> GetIdentifier()
         {
             throw new System.NotImplementedException();
         }

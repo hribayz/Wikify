@@ -22,7 +22,6 @@ namespace Wikify.Archive.AngleSharp
         private ILogger _logger;
         private HttpClient _httpClient;
         private Action _renewClient;
-
         public ArticleDownloader(ILogger logger, INetworkingProvider networkingProvider)
         {
             _logger = logger;
@@ -30,7 +29,7 @@ namespace Wikify.Archive.AngleSharp
             _renewClient = () => networkingProvider.GetHttpClient();
         }
 
-        public async Task<IContainer<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> articleIdentifier)
+        public async Task<IContainer<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> articleIdentifier, RetrieveOptions retrieveOptions)
         {
             try
             {
@@ -47,29 +46,5 @@ namespace Wikify.Archive.AngleSharp
             }
         }
 
-        public Task<IContainer<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> elementIdentifier, RetrieveOptions retrieveOptions)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Image> GetImageAsync(IIdentifier<WikiImage> imageIdentifier)
-        {
-            try
-            {
-                var url = imageIdentifier.GetUrl();
-                var imageStream = await _httpClient.GetStreamAsync(url);
-                var image = Image.FromStream(imageStream, true);
-
-                return image;
-            }
-
-            // TODO: try to recover first by renewing client when possible
-
-            catch (Exception e)
-            {
-                _logger.LogError(e.ToString());
-                throw;
-            }
-        }
     }
 }

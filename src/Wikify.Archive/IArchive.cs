@@ -9,7 +9,6 @@ namespace Wikify.Archive
 {
     public interface IArchive<T> where T : AWikiContent
     {
-        public Task<IContainer<T>> GetElementAsync(IIdentifier<T> elementIdentifier);
         public Task<IContainer<T>> GetElementAsync(IIdentifier<T> elementIdentifier, RetrieveOptions retrieveOptions);
     }
 }
