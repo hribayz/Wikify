@@ -13,6 +13,7 @@ namespace Wikify.Common.Id
         /// </summary>
         /// <returns></returns>
         public string GetUrl();
+        public string GetFileName();
     }
     /// <summary>
     /// Container for data that identifies a wikipedia object with content of specific WikiObject type like image or text.
@@ -21,5 +22,4 @@ namespace Wikify.Common.Id
     {
 
     }
-
 }

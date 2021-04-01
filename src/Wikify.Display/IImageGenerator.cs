@@ -12,6 +12,6 @@ namespace Wikify.Display
 {
     interface IImageGenerator
     {
-        System.Drawing.Image CreateArticleImage(IElement<WikiArticle> wikiArticle);
+        System.Drawing.Image CreateArticleImage(IContainer<WikiArticle> wikiArticle);
     }
 }

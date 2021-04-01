@@ -9,6 +9,6 @@ namespace Wikify.Parsing.Content
 {
     public interface IContentParserFactory
     {
-        public IContentParser<T> CreateContentParser<T>() where T : AWikiContent;
+        public IStreamedContentParser<T> CreateStreamedContentParser<T>() where T : AWikiContent;
     }
 }

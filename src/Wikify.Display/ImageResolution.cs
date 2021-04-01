@@ -13,7 +13,7 @@ namespace Wikify.Display
             this.y = y;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ImageResolution other &&
                    x == other.x &&

@@ -2,16 +2,20 @@
 using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 
-namespace Wikify.Test.Archive
+namespace Wikify.Common.Id
 {
-    internal class TestArticleIdentifier : IIdentifier<WikiArticle>
+    public class ArticleIdentifier : IIdentifier<WikiArticle>
     {
         private string _url;
         private string _title;
-        public TestArticleIdentifier(string url, string title)
+        public ArticleIdentifier(string url)
         {
             _url = url;
-            _title = title;
+        }
+
+        public string GetFileName()
+        {
+            throw new System.NotImplementedException();
         }
 
         public string GetTitle() => _title;

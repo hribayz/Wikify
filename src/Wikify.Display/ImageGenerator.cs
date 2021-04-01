@@ -9,11 +9,17 @@ using Wikify.Common.Content.Types;
 
 namespace Wikify.Display
 {
-    public class SeleniumSimpleGenerator : IImageGenerator
+    public class ImageGenerator : IImageGenerator
     {
-        public System.Drawing.Image CreateArticleImage(IElement<WikiArticle> wikiArticle)
+        public ImageGenerator()
+        {
+
+        }
+
+        public Image CreateArticleImage(IContainer<WikiArticle> wikiArticle)
         {
             throw new NotImplementedException();
         }
+
     }
 }

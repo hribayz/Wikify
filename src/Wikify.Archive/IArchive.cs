@@ -7,13 +7,9 @@ using Wikify.Common.Id;
 
 namespace Wikify.Archive
 {
-    //public interface IArchive
-    //{
-    //    public Task<IElement> GetElementAsync(IElementIdentifier elementIdentifier);
-
-    //}
     public interface IArchive<T> where T : AWikiContent
     {
-        public Task<IElement<T>> GetElementAsync(IIdentifier<T> elementIdentifier);
+        public Task<IContainer<T>> GetElementAsync(IIdentifier<T> elementIdentifier);
+        public Task<IContainer<T>> GetElementAsync(IIdentifier<T> elementIdentifier, RetrieveOptions retrieveOptions);
     }
 }

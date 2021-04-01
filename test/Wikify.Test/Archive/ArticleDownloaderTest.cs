@@ -11,28 +11,28 @@ using Wikify.Archive.AngleSharp;
 using Wikify.Common.Id;
 using Wikify.Parsing.Content;
 
-namespace Wikify.Test.Parsing
+namespace Wikify.Test.Archive
 {
     [TestClass]
-    public class WikiDownloaderTest
+    public class ArticleDownloaderTest
     {
+        private static LoggerFactory _loggerFactory;
         private static ArticleDownloader _articleDownloader;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
+            _loggerFactory = new LoggerFactory();
             _articleDownloader = new ArticleDownloader(
-                (new LoggerFactory()).CreateLogger<ArticleDownloader>(),
-                new Common.Network.NetworkingProvider());
+                _loggerFactory.CreateLogger<ArticleDownloader>(),
+                new Wikify.Common.Network.NetworkingProvider());
         }
 
         [TestMethod]
-        [DataRow("C:\\Users\\TK\\Desktop\\Laboratori Nazionali del Gran Sasso - Wikipedia.html")]
-        public async Task TestParseArticle(string articleFileName)
+        [DataRow("https://en.wikipedia.org/wiki/Giorgio_Moroder")]
+        public async Task TestDownloadArticleAsync(string url)
         {
-            var html = File.ReadAllText(articleFileName);
-            await _articleDownloader.GetElementAsync(new ArticleIdentifier(articleFileName));
-
+            await _articleDownloader.GetElementAsync(new ArticleIdentifier(url));
             ;
         }
 

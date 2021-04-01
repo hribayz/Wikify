@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Wikify.Common.Content;
 using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 using Wikify.Common.License;
 
-namespace Wikify.Common.Content
+namespace Wikify.Archive.AngleSharp
 {
-    public class ImageElement : IElement<WikiImage>
+    public class ImageContainer : IContainer<WikiImage>, IIdentifiable
     {
         public IEnumerable<IElement> GetChildren()
         {
@@ -13,6 +14,11 @@ namespace Wikify.Common.Content
         }
 
         public WikiImage GetContent()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public string GetHtml()
         {
             throw new System.NotImplementedException();
         }

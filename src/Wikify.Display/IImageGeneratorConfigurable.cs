@@ -6,6 +6,6 @@ namespace Wikify.Display
 {
     interface IImageGeneratorConfigurable : IImageGenerator
     {
-        System.Drawing.Image CreateArticleImage(IElement<WikiArticle> wikiArticle, ADisplayConfiguration displayConfiguration);
+        System.Drawing.Image CreateArticleImage(IContainer<WikiArticle> wikiArticle, ADisplayConfiguration displayConfiguration);
     }
 }
