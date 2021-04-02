@@ -1,0 +1,2 @@
+You can't edit embedded resources outside VS. They are baked into the binary.
+Strings are compared by value in C# and by reference in Java. The only time you can be sure in C# that two strings with the same value also point to the same instance is compile-time literals.

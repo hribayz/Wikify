@@ -2,7 +2,7 @@
 
 namespace Wikify.Common.Content
 {
-    public interface IContainer<T> : IElement where T : AWikiContent
+    public interface IContainer<T> : IComponent where T : AWikiContent
     {
         public T GetContent();
     }

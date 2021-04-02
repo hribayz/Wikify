@@ -5,7 +5,7 @@ Server/client image preview/full generation
 	option 2: server-side generated image for given options (OK if it's just article + product combination)
 		if option 1 no longer sufficient for the job
 		
-	resolution: probably eventually both but starting with option 1 as 1st iteration MVP is worth the extra work
+	resolution: probably eventually both but starting with option 2 as 1st iteration MVP is worth the extra work
 
 Image composition
 
@@ -14,11 +14,14 @@ Image composition
 
 Elements handling
 	
-	break original page into elements, compose new page reusing some of them from scratch, send to browser.
+	break original page into elements, compose new page (reusing some of them from scratch) from element prototypes, send to browser.
 	cut known unwanted elements from page, send the rest to browser as is.
 	
 	who will cut the page into elements?
-	how to store the elements structure? keep the original html or try to come up with something new?
+	how to store the elements structure? keep the original html or try to come up with something new? Answer: come up with smth new.
+		1) There is too much extra information and decision making related to page elements. Additional data structure next to the original html that will hold that all is better than injecting into html or deriving from ad hoc. Is it image of a living person? What is the license?
+		2) Editing an html and then displaying it sounds like a recipe for disaster. Fragile, reactionary in case smth changes...
+		3) Knowing all elements will enable building element picker.
 	
 Element
 
@@ -33,3 +36,8 @@ AWikiArticle
 	abstract class with baked in data containing members and abstract/virtual behaviour
 	or
 	just (abstract) container class and extract behaviour out. (visitor pattern)
+
+How to decide what elements are valuable?
+	
+	Keep a populated data structure with known elements. Downloader will compare new ones against the database, keep known elements and throw away all other. Better than the other way around as there will be more useless elements than useful. Omission will result into missing some minor element which is better than accidentally including some rubbish.
+	Build the data structure at startup and keep in memory. Keep data as file.

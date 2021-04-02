@@ -3,10 +3,10 @@ using Wikify.Common.License;
 
 namespace Wikify.Common.Content
 {
-    public interface IElement
+    public interface IComponent
     {
         public ILicense GetLicense();
-        public IEnumerable<IElement> GetChildren();
+        public IEnumerable<IComponent> GetChildren();
         public string GetHtml();
     }
 }

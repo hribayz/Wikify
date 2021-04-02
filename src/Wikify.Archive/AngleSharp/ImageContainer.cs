@@ -8,7 +8,7 @@ namespace Wikify.Archive.AngleSharp
 {
     public class ImageContainer : IContainer<WikiImage>, IIdentifiable<WikiImage>
     {
-        public IEnumerable<IElement> GetChildren()
+        public IEnumerable<IComponent> GetChildren()
         {
             throw new System.NotImplementedException();
         }
