@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Wikify.Archive
 {
-    public class RetrieveOptions
+    public class RetrievalOptions
     {
         public bool Mobile { get; private set; } = false;
 
-        public static RetrieveOptions Default { get; set; } = new RetrieveOptions(false);
-        public RetrieveOptions(bool mobile)
+        public static RetrievalOptions Default { get; set; } = new RetrievalOptions(false);
+        public RetrievalOptions(bool mobile)
         {
             Mobile = mobile;
         }

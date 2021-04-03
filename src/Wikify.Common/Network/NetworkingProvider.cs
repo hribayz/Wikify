@@ -2,9 +2,6 @@
 
 namespace Wikify.Common.Network
 {
-    /// <summary>
-    /// Mockup implementation that relies on the client code to treat the HttpClient instance nicely
-    /// </summary>
     public class NetworkingProvider : INetworkingProvider
     {
         private HttpClient _httpClient;
@@ -28,7 +25,7 @@ namespace Wikify.Common.Network
 
         HttpClient INetworkingProvider.GetHttpClient()
         {
-            // TODO: check if http client OK. Other client code might have broken or disposed it.
+            // TODO: check if http client OK. Client code might have broken or disposed it.
             return _httpClient;
         }
 

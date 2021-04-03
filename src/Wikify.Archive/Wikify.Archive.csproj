@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wikify.Common\Wikify.Common.csproj" />
+    <ProjectReference Include="..\Wikify.License\Wikify.License.csproj" />
     <ProjectReference Include="..\Wikify.Parsing\Wikify.Parsing.csproj" />
   </ItemGroup>
 

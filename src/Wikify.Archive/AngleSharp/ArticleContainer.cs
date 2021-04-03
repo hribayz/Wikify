@@ -5,37 +5,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
-using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 using Wikify.Common.License;
 
 namespace Wikify.Archive.AngleSharp
 {
-    public class ArticleContainer : IContainer<WikiArticle>, IIdentifiable<WikiArticle>
+    public class ArticleContainer : IWikiContainer<WikiArticle>, IIdentifiable
     {
         private IDocument _document;
-        private List<IComponent> _children;
+        private List<IWikiComponent> _children;
         private bool _extracted;
+
+        public IContentIdentifier ContentIdentifier => throw new NotImplementedException();
 
         // raise event when parsing done.
         public ArticleContainer(IDocument document)
         {
             _document = document;
-            _children = new List<IComponent>();
+            _children = new List<IWikiComponent>();
         }
-        private async Task<IComponent> ExtractChildrenAsync(IElement element)
+        private async Task<IWikiComponent> ExtractChildrenAsync(IElement element)
         {
             // recursively evaluate elements
 
-            foreach (var child in element.GetDescendants())
+            
+
+            foreach (var child in element.Children)
             {
-                child.b
+                child.
             }
             ;
 
 
         }
-        public IEnumerable<Common.Content.IComponent> GetChildren()
+        public IEnumerable<Common.Content.IWikiComponent> GetChildren()
         {
             throw new NotImplementedException();
         }
@@ -56,9 +59,5 @@ namespace Wikify.Archive.AngleSharp
             throw new NotImplementedException();
         }
 
-        public IIdentifier<WikiArticle> GetIdentifier()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

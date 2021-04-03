@@ -10,21 +10,29 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common;
 using Wikify.Common.Content;
-using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
+using Wikify.License;
 using Wikify.Parsing.Content;
 
 namespace Wikify.Archive.AngleSharp
 {
     public class ArticleDownloader : AngleSharpDownloaderBase, IArchive<WikiArticle>
     {
-        public ArticleDownloader(ILogger logger, INetworkingProvider networkingProvider) : base(logger, networkingProvider)
-        {
+        private readonly IElementValidator _elementValidator;
+        private readonly ILicenseProvider _licenseProvider;
 
+        public ArticleDownloader(
+            ILogger logger,
+            INetworkingProvider networkingProvider,
+            IElementValidator elementValidator,
+            ILicenseProvider licenseProvider) : base(logger, networkingProvider)
+        {
+            _elementValidator = elementValidator;
+            _licenseProvider = licenseProvider;
         }
 
-        public async Task<IContainer<WikiArticle>> GetElementAsync(IIdentifier<WikiArticle> articleIdentifier, RetrieveOptions retrieveOptions)
+        public async Task<IWikiContainer<WikiArticle>> GetElementAsync(IContentIdentifier<WikiArticle> articleIdentifier, RetrievalOptions retrievalOptions)
         {
             try
             {
@@ -32,7 +40,9 @@ namespace Wikify.Archive.AngleSharp
 
                 // TODO : download using networking provider
 
-                var document = await context.OpenAsync(articleIdentifier.GetUrl());
+                var document = await context.OpenAsync(articleIdentifier.GetUrl()) as IElement;
+
+
 
                 return new ArticleContainer(document);
             }
@@ -44,5 +54,23 @@ namespace Wikify.Archive.AngleSharp
             }
         }
 
+        private IWikiComponent? GetComponent(IElement element)
+        {
+            var tagName = element.TagName;
+            var id = element.Id;
+            var classes = element.ClassList;
+
+            if (_elementValidator.IsValidElement(tagName, id, classes))
+            {
+                WikiComponent wikiComponent = new WikiComponent(element, _licenseProvider.GetLicense())
+            }
+
+            foreach (var child in element.Children)
+            {
+
+            }
+
+
+        }
     }
 }

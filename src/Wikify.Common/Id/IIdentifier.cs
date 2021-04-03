@@ -1,19 +1,14 @@
 ﻿using System;
-using Wikify.Common.Content.Types;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Wikify.Common.Id
 {
-    /// <summary>
-    /// Container for data that identifies a wikipedia object, mainly where to get it.
-    /// </summary>
-    public interface IIdentifier<T> where T : AWikiContent
+    public interface IIdentifier
     {
-
-        /// <summary>
-        /// Gets a valid url to download a wikipedia object.
-        /// </summary>
-        /// <returns></returns>
-        public string GetUrl();
-        public string GetFileName();
+        public string Url { get; }
+        public string FileName { get; }
     }
 }

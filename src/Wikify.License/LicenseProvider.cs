@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
+using Wikify.Common.Id;
+using Wikify.Common.License;
 
-namespace Wikify.Display
+namespace Wikify.License
 {
-    public class ImageGenerator : IImageGenerator
+    public class LicenseProvider : ILicenseProvider
     {
-        public ImageGenerator()
-        {
-
-        }
-
-        public Image CreateArticleImage(IWikiContainer<WikiArticle> wikiArticle)
+        public ILicense GetLicense(IWikiMedia media)
         {
             throw new NotImplementedException();
         }
-
     }
 }

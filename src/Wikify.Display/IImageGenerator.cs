@@ -6,12 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common;
 using Wikify.Common.Content;
-using Wikify.Common.Content.Types;
 
 namespace Wikify.Display
 {
     interface IImageGenerator
     {
-        System.Drawing.Image CreateArticleImage(IContainer<WikiArticle> wikiArticle);
+        System.Drawing.Image CreateArticleImage(IWikiContainer<WikiArticle> wikiArticle);
     }
 }
