@@ -6,7 +6,7 @@ namespace Wikify.Common.Content
 {
     public interface IWikiArticle : IWikiMedia
     {
-        public string ArticleHtml { get; }
+        public string ArticleData { get; }
 
     }
 }

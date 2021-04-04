@@ -8,17 +8,16 @@ using Wikify.Common.Content;
 
 namespace Wikify.Display
 {
-    public class ImageGenerator : IImageGenerator
+    public class ArticleRenderer : IRenderer
     {
-        public ImageGenerator()
+        public ArticleRenderer()
         {
 
         }
 
-        public Image CreateArticleImage(IWikiContainer<WikiArticle> wikiArticle)
+        public Image RenderArticle(IWikiContainer<IWikiArticle> wikiArticle)
         {
             throw new NotImplementedException();
         }
-
     }
 }

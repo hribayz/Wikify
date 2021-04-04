@@ -23,17 +23,4 @@
     <ProjectReference Include="..\Wikify.Parsing\Wikify.Parsing.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PageElements\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="PageElements\whitelist_id.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="PageElements\whitelist_tag.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

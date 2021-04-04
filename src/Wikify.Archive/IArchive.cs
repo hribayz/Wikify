@@ -6,6 +6,6 @@ namespace Wikify.Archive
 {
     public interface IArchive<T> where T : IWikiMedia
     {
-        public Task<T> GetMediaAsync(IIdentifier elementIdentifier);
+        public Task<T> GetMediaAsync(IIdentifier<T> elementIdentifier);
     }
 }

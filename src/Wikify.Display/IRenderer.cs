@@ -9,8 +9,8 @@ using Wikify.Common.Content;
 
 namespace Wikify.Display
 {
-    interface IImageGenerator
+    interface IRenderer
     {
-        System.Drawing.Image CreateArticleImage(IWikiContainer<WikiArticle> wikiArticle);
+        Image RenderArticle(IWikiContainer<IWikiArticle> wikiArticle);
     }
 }

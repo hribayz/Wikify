@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Wikify.Common\Wikify.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Id\" />
+  </ItemGroup>
+
 </Project>
