@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Common.Content;
-using Wikify.Common.Content.Types;
 using Wikify.Common.Id;
 
 namespace Wikify.Test.Archive
@@ -10,14 +9,14 @@ namespace Wikify.Test.Archive
 
     public class ArticleArchiveTester
     {
-        IArchive<WikiArticle> _articleArchive;
-        public ArticleArchiveTester(IArchive<WikiArticle> articleArchive)
+        IArchive<IWikiArticle> _articleArchive;
+        public ArticleArchiveTester(IArchive<IWikiArticle> articleArchive)
         {
             _articleArchive = articleArchive;
         }
-        public async Task<IContainer<WikiArticle>> GetArticleAsync(IIdentifier<WikiArticle> articleIdentifier)
+        public async Task<IWikiArticle> GetArticleAsync(IIdentifier<IWikiArticle> articleIdentifier)
         {
-            return await _articleArchive.GetElementAsync(articleIdentifier, RetrieveOptions.Default);
+            return await _articleArchive.GetMediaAsync(articleIdentifier);
         }
     }
 }

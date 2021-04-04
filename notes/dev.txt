@@ -1,3 +1,32 @@
+User Selects wiki page - URL upload
+Validate page
+Download page as it is
+Identify media on page
+Determine legal availability of a piece of media
+Generate attributions
+Link to attributions somewhere somehow
+Display attributions / each product has own page
+Display warning when legal stuff uncertain (living person...)
+Create image of page
+User can switch between sizes, details (advanced)
+User selects product, image displayed real time
+User can proceed to eshop
+
+Nothing says x like y generator
+Wiki content Buffer, Wiki Traffic controller
+Image generator
+Sold products images, license database
+Eshop, orders, clients database
+License generator
+Eshop
+
+How to get wikipedia content
+
+	option 1 : use revisions api. Outputs wikitext. Good for content rather than the full page as it is.
+	option 2 : use parse api. https://en.wikipedia.org/w/api.php?action=parse
+	option 3 : use textExtract api. Limited to 1200 chars.
+	option 4 : query wikipedia directly. Same as parse api but has all outer html as well.
+
 Server/client image preview/full generation
 
 	option 1: client-side configurator (better if there's too many options)
@@ -23,8 +52,10 @@ Elements handling
 		2) Editing an html and then displaying it sounds like a recipe for disaster. Fragile, reactionary in case smth changes...
 		3) Knowing all elements will enable building element picker.
 	
-Element
+IComponent<T>
 
+	Contains information extrinsic to the media itself.
+	Contains everything that can change in time, with use case
 	what is its license?
 	who says if we can use it for display?
 	what is its MIME type? Photo, map, enumeration, quote, text block, header... do we need to know?
@@ -41,3 +72,10 @@ How to decide what elements are valuable?
 	
 	Keep a populated data structure with known elements. Downloader will compare new ones against the database, keep known elements and throw away all other. Better than the other way around as there will be more useless elements than useful. Omission will result into missing some minor element which is better than accidentally including some rubbish.
 	Build the data structure at startup and keep in memory. Keep data as file.
+	
+Build parameters
+
+	{Include / collapse / do not include} {content panel, part of a series sidebar, infobox biography vcard, wikitable
+	Put all photos on one side
+	Do not include photos of living persons.
+	

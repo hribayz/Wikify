@@ -10,7 +10,6 @@ namespace Wikify.Common.Id
     public interface IIdentifier
     {
         public string Url { get; }
-        public string FileName { get; }
     }
     public interface IIdentifier<T> : IIdentifier where T : IWikiMedia
     {
@@ -18,8 +17,10 @@ namespace Wikify.Common.Id
     }
     public class ArticleIdentifier : IIdentifier<IWikiArticle>
     {
-        public string Url => throw new NotImplementedException();
-
-        public string FileName => throw new NotImplementedException();
+        public ArticleIdentifier(string url)
+        {
+            Url = url;
+        }
+        public string Url { get; private set; }
     }
 }
