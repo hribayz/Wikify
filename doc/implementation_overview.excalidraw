@@ -585,8 +585,8 @@
     },
     {
       "type": "text",
-      "version": 813,
-      "versionNonce": 288120808,
+      "version": 936,
+      "versionNonce": 1246810922,
       "isDeleted": false,
       "id": "PflNEF7yoLSJnuCq84ZBl",
       "fillStyle": "hachure",
@@ -600,15 +600,15 @@
       "strokeColor": "#000000",
       "backgroundColor": "transparent",
       "width": 355,
-      "height": 168,
+      "height": 200,
       "seed": 390262504,
       "groupIds": [],
       "strokeSharpness": "sharp",
       "boundElementIds": [],
       "fontSize": 16,
       "fontFamily": 1,
-      "text": "<<Interface>>\nIwikiContainer<T> : IWikiComponent\n    where T : IWikiMedia\n\nContains everything needed to use the media\nas Wikipedia content.\n\nImage resolution, Is living person?, ",
-      "baseline": 162,
+      "text": "<<Interface>>\nIwikiContainer<T> : IWikiComponent\n    where T : IWikiMedia\n\nContains everything needed to use the media\nas Wikipedia content that is related to\ncomposition, not rendering.\n\nCan use based on license? Minimal resolution\nestimate.",
+      "baseline": 194,
       "textAlign": "left",
       "verticalAlign": "top"
     },
@@ -672,8 +672,8 @@
     },
     {
       "type": "rectangle",
-      "version": 333,
-      "versionNonce": 1416450536,
+      "version": 343,
+      "versionNonce": 484539638,
       "isDeleted": false,
       "id": "K7Y1fCPaPcZpC8qxkoqkZ",
       "fillStyle": "hachure",
@@ -687,7 +687,7 @@
       "strokeColor": "#000000",
       "backgroundColor": "transparent",
       "width": 393,
-      "height": 208,
+      "height": 223.00000000000009,
       "seed": 634770328,
       "groupIds": [],
       "strokeSharpness": "sharp",
@@ -930,8 +930,8 @@
     },
     {
       "type": "arrow",
-      "version": 238,
-      "versionNonce": 1056265112,
+      "version": 258,
+      "versionNonce": 88496810,
       "isDeleted": false,
       "id": "a_vG1gnlYmP5GDzDpkDFJ",
       "fillStyle": "hachure",
@@ -940,24 +940,24 @@
       "roughness": 2,
       "opacity": 100,
       "angle": 0,
-      "x": 2023.1019375418336,
-      "y": 812,
+      "x": 2023.8231544173782,
+      "y": 811.2788461538462,
       "strokeColor": "#000000",
       "backgroundColor": "transparent",
-      "width": 0.3472613581134283,
-      "height": 59.011576446890786,
+      "width": 0.5624681518261241,
+      "height": 56.77683436373388,
       "seed": 2020829592,
       "groupIds": [],
       "strokeSharpness": "round",
       "boundElementIds": [],
       "startBinding": {
         "elementId": "K7Y1fCPaPcZpC8qxkoqkZ",
-        "gap": 10,
+        "gap": 10.721153846153848,
         "focus": -0.03276882354418634
       },
       "endBinding": {
         "elementId": "P3m7OwSeh6ZHUQTKRVzQX",
-        "gap": 20.988423553109214,
+        "gap": 22.502011790112284,
         "focus": 0.027947471522279378
       },
       "points": [
@@ -966,8 +966,8 @@
           0
         ],
         [
-          -0.3472613581134283,
-          -59.011576446890786
+          -0.5624681518261241,
+          -56.77683436373388
         ]
       ],
       "lastCommittedPoint": null,

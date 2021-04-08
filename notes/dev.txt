@@ -75,7 +75,8 @@ How to decide what elements are valuable?
 	
 Build parameters
 
-	{Include / collapse / do not include} {content panel, part of a series sidebar, infobox biography vcard, wikitable
+	{Include / collapse / do not include} {content panel, part of a series sidebar, infobox biography vcard, wikitable, hatnote (see also),...}
 	Put all photos on one side
 	Do not include photos of living persons.
-	
+
+Even the simplest container can have some logic
