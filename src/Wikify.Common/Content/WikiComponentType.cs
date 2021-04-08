@@ -8,6 +8,6 @@ namespace Wikify.Common.Content
 {
     public enum WikiComponentType
     {
-        Article, ShortDescription, InfoPanel, Section, SubSection, Paragraph, Header1, Header2, Header3, Header4, Gallery, Image, 
+        Article, ShortDescription, InfoPanel, Section, SubSection, Paragraph, Gallery, Image, 
     }
 }

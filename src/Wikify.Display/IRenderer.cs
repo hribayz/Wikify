@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,8 @@ using Wikify.Common.Content;
 
 namespace Wikify.Display
 {
-    interface IRenderer
+    public interface IHtmlRenderer
     {
-        Image RenderArticle(IWikiContainer<IWikiArticle> wikiArticle);
+        Image RenderHtml(DirectoryInfo directory, RenderOptions renderOptions);
     }
 }

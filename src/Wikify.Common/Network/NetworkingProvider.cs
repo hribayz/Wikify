@@ -22,7 +22,6 @@ namespace Wikify.Common.Network
             _httpClient = new HttpClient(handler);
         }
 
-
         HttpClient INetworkingProvider.GetHttpClient()
         {
             // TODO: check if http client OK. Client code might have broken or disposed it.
