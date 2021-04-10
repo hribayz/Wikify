@@ -32,7 +32,7 @@ namespace Wikify.Common.Network
         {
             if (_disposalRunning)
             {
-                // get out of the way if other thread just performs this.
+                // get out of the way if other thread is already running this.
                 return;
             }
 

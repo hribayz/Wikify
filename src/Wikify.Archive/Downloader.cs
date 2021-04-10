@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
@@ -13,13 +15,16 @@ namespace Wikify.Archive.AngleSharp
     {
         private readonly ILicenseProvider _licenseProvider;
         private readonly ILogger _logger;
+        private readonly IWikiMediaFactory _wikiMediaFactory;
         private readonly Action _networkFailed;
         private HttpClient _client;
 
-        public Downloader(ILogger logger, INetworkingProvider networkingProvider, ILicenseProvider licenseProvider)
+        public Downloader(ILogger logger, INetworkingProvider networkingProvider, ILicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
         {
-            _licenseProvider = licenseProvider;
             _logger = logger;
+            _licenseProvider = licenseProvider;
+            _wikiMediaFactory = wikiMediaFactory;
+
             _client = networkingProvider.GetHttpClient();
             _networkFailed = () =>
             {
@@ -32,9 +37,13 @@ namespace Wikify.Archive.AngleSharp
         {
             try
             {
-                throw new NotImplementedException();
-            }
+                var articleHtmlTask = _client.GetStringAsync(elementIdentifier.Url);
+                var license = await _licenseProvider.GetLicenseAsync(elementIdentifier);
+                var articleHtml = await articleHtmlTask;
 
+                return _wikiMediaFactory.CreateWikiArticle(elementIdentifier, license, articleHtml);
+            }
+            // TODO : try to recover from networking related exceptions
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
@@ -46,9 +55,16 @@ namespace Wikify.Archive.AngleSharp
         {
             try
             {
-                throw new NotImplementedException();
-            }
+                var licenseTask = _licenseProvider.GetLicenseAsync(elementIdentifier);
+                
+                var imageStream = await _client.GetStreamAsync(elementIdentifier.Url);
+                var image = Image.FromStream(imageStream);
 
+                var license = await licenseTask;
+
+                return _wikiMediaFactory.CreateWikiImage(elementIdentifier, license, image);
+            }
+            // TODO : try to recover from networking related exceptions
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());

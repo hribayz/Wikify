@@ -8,5 +8,4 @@ namespace Wikify.Common.Content
         public IIdentifier Identifier { get; }
         public ILicense License { get; }
     }
-
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
@@ -8,6 +9,6 @@ namespace Wikify.License
 {
     public interface ILicenseProvider
     {
-        public ILicense GetLicense(IWikiMedia media);
+        public Task<ILicense> GetLicenseAsync(IIdentifier identifier);
     }
 }
