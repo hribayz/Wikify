@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;

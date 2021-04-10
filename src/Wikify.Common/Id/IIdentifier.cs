@@ -7,20 +7,19 @@ using Wikify.Common.Content;
 
 namespace Wikify.Common.Id
 {
+    public interface IIdProvider
+    {
+        public Task<IIdentifier> GetIdentifierAsync(IIdUserInput idUserInput);
+    }
+
     public interface IIdentifier
     {
-        public string Url { get; }
+        public Uri Uri { get; }
+        public Uri LicenseUri { get; }
     }
-    public interface IIdentifier<T> : IIdentifier where T : IWikiMedia
-    {
 
-    }
-    public class ArticleIdentifier : IIdentifier<IWikiArticle>
-    {
-        public ArticleIdentifier(string url)
-        {
-            Url = url;
-        }
-        public string Url { get; private set; }
-    }
+    //public interface IIdentifier<T> : IIdentifier where T : IWikiMedia
+    //{
+    //    // TODO : not sure if I'm gonna need this
+    //}
 }

@@ -11,8 +11,9 @@ namespace Wikify.License
 {
     public class LicenseProvider : ILicenseProvider
     {
-        public ILicense GetLicense(IWikiMedia media)
+        public Task<ILicense> GetLicenseAsync(IIdentifier identifier)
         {
+
             throw new NotImplementedException();
         }
     }
