@@ -8,6 +8,6 @@ namespace Wikify.Common.License
 {
     public interface ILicense
     {
-        public IEnumerable<IAttribution> GetAttributions();
+        public IReadOnlyCollection<IAttribution> GetAttributions();
     }
 }
