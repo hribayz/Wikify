@@ -7,6 +7,7 @@ using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
 {
+    // TODO : enforce functional implementation as in ILicenseProvider by returning parsed container with accessors
     public interface IArticleParser
     {
         public Task LoadArticleAsync(IWikiArticle article);

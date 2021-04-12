@@ -8,6 +8,9 @@ namespace Wikify.Common.License
 {
     public interface ILicense
     {
-        public IReadOnlyCollection<IAttribution> GetAttributions();
+        public IAttribution Attribution { get; }
+        public LicenseType LicenseType { get; }
+        public Uri LicenseInformationUri { get; }
+
     }
 }
