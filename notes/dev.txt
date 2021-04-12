@@ -80,3 +80,15 @@ Build parameters
 	Do not include photos of living persons.
 
 Even the simplest container can have some logic
+
+Should it even be possible to have a media container without license?
+
+License
+	
+	Only include media with comercially enabled licenses
+	License everything as CC-BY-SA 4.0
+	Do not have to open source the code that produced the derivative work
+	probably can include photos of living persons: https://en.wikipedia.org/wiki/Model_release
+	
+	
+	
