@@ -28,7 +28,12 @@ namespace Wikify.Parsing.Content
             var context = BrowsingContext.New(Configuration.Default);
             var document = await context.OpenAsync(req => req.Content(article.ArticleData));
 
-            // Identify wiki components
+            // Identify wiki components.
+            var contentDiv = document.GetElementById("content");
+
+            
+            
+            // Identify media.
 
 
         }
