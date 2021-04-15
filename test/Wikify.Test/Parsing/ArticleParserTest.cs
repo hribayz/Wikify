@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wikify.Common.Content;
+using Wikify.Common.Id;
 using Wikify.Parsing.Content;
 
 namespace Wikify.Test.Parsing
@@ -22,13 +24,16 @@ namespace Wikify.Test.Parsing
             _loggerFactory = new LoggerFactory();
         }
 
-        [TestMethod]
-        [DataRow("Edinburgh - Wikipedia.html")]
-        public async Task TestParseArticle(string fileLocation)
-        {
-            var articleHtml = File.ReadAllText(fileLocation);
-            _articleParser.LoadArticleAsync()
-        }
+        //[TestMethod]
+        //[DataRow("Edinburgh - Wikipedia.html")]
+        //public async Task TestParseArticle(string fileLocation)
+        //{
+        //    var articleHtml = File.ReadAllText(fileLocation);
+        //    _articleParser.LoadArticleAsync(new WikiArticle(
+        //        new Identifier()
+        //        ))
+        //}
 
+        //private WikiArticle CreateWikiArticle(string )
     }
 }

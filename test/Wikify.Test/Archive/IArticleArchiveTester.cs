@@ -9,14 +9,14 @@ namespace Wikify.Test.Archive
 
     public class ArticleArchiveTester
     {
-        IArchive<IWikiArticle> _articleArchive;
-        public ArticleArchiveTester(IArchive<IWikiArticle> articleArchive)
+        IArticleArchive _articleArchive;
+        public ArticleArchiveTester(IArticleArchive articleArchive)
         {
             _articleArchive = articleArchive;
         }
-        public async Task<IWikiArticle> GetArticleAsync(IIdentifier<IWikiArticle> articleIdentifier)
+        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier)
         {
-            return await _articleArchive.GetMediaAsync(articleIdentifier);
+            return await _articleArchive.GetArticleAsync(articleIdentifier, WikiContentModel.Html);
         }
     }
 }
