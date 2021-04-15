@@ -14,12 +14,18 @@ namespace Wikify.Common.Id
 
     public interface IIdentifier
     {
-        public Uri Uri { get; }
-        public Uri LicenseUri { get; }
+        public string Title { get; }
+
     }
 
-    //public interface IIdentifier<T> : IIdentifier where T : IWikiMedia
-    //{
-    //    // TODO : not sure if I'm gonna need this
-    //}
+    public interface IArticleIdentifier : IIdentifier
+    {
+        public Uri GetEndpoint(WikiContentModel contentModel);
+    }
+
+    public interface IImageIdentifier : IIdentifier
+    {
+        public Uri Endpoint { get; }
+    }
+
 }

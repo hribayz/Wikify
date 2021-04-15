@@ -3,11 +3,13 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
+using MwParserFromScratch;
+using MwParserFromScratch.Nodes;
 
 namespace Wikify.Parsing.Content
 {
     /// <summary>
-    /// AngleSharp based implementation.
+    /// 
     /// </summary>
     public class ArticleParser : IArticleParser
     {
@@ -23,18 +25,15 @@ namespace Wikify.Parsing.Content
 
         public async Task LoadArticleAsync(IWikiArticle article)
         {
-            // Use the default configuration for AngleSharp.
-            var config = Configuration.Default;
-            var context = BrowsingContext.New(Configuration.Default);
-            var document = await context.OpenAsync(req => req.Content(article.ArticleData));
+            if (article.ContentModel != WikiContentModel.WikiText)
+            {
+                throw new NotImplementedException();
+            }
 
-            // Identify wiki components.
-            var contentDiv = document.GetElementById("content");
+            var parser = new WikitextParser();
+            var ast = parser.Parse(article.ArticleData);
 
-            
-            
-            // Identify media.
-
+            throw new NotImplementedException();
 
         }
 

@@ -6,24 +6,24 @@ using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
 
-namespace Wikify.Archive.AngleSharp
+namespace Wikify.Archive
 {
-    public class ArticleDownloader : DownloaderBase, IArchive<IWikiArticle>
+    public class ArticleDownloader : DownloaderBase, IArticleArchive
     {
         public ArticleDownloader(ILogger logger, INetworkingProvider networkingProvider, ILicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory) :
             base(logger, networkingProvider, licenseProvider, wikiMediaFactory)
         {
 
         }
-        public async Task<IWikiArticle> GetMediaAsync(IIdentifier elementIdentifier)
+        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, WikiContentModel contentModel)
         {
             try
             {
-                var articleHtmlTask = _client.GetStringAsync(elementIdentifier.Uri);
-                var license = await _licenseProvider.GetLicenseAsync(elementIdentifier);
+                var articleHtmlTask = _client.GetStringAsync(articleIdentifier.GetEndpoint(contentModel));
+                var license = await _licenseProvider.GetLicenseAsync(articleIdentifier);
                 var articleHtml = await articleHtmlTask;
 
-                return _wikiMediaFactory.CreateWikiArticle(elementIdentifier, license, articleHtml);
+                return _wikiMediaFactory.CreateWikiArticle(articleIdentifier, license, articleHtml, contentModel);
             }
             // TODO : try to recover from networking related exceptions by re-instantiating client
             catch (Exception e)

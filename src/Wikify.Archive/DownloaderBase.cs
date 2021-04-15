@@ -6,7 +6,7 @@ using Wikify.Common.Content;
 using Wikify.Common.Network;
 using Wikify.License;
 
-namespace Wikify.Archive.AngleSharp
+namespace Wikify.Archive
 {
     public abstract class DownloaderBase
     {

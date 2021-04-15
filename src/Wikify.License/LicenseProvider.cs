@@ -15,9 +15,14 @@ namespace Wikify.License
     {
         private ILogger _logger;
         private INetworkingProvider _networkingProvider;
+
         public Task<ILicense> GetLicenseAsync(IIdentifier identifier)
         {
+            throw new NotImplementedException();
+        }
 
+        public Task<ILicenseCollection> GetLicensesAsync(IEnumerable<IIdentifier> identifiers)
+        {
             throw new NotImplementedException();
         }
     }

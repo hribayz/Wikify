@@ -4,8 +4,12 @@ using Wikify.Common.Id;
 
 namespace Wikify.Archive
 {
-    public interface IArchive<T> where T : IWikiMedia
+    public interface IArticleArchive
     {
-        public Task<T> GetMediaAsync(IIdentifier elementIdentifier);
+        public Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, WikiContentModel contentModel);
+    }
+    public interface IImageArchive
+    {
+        public Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier);
     }
 }
