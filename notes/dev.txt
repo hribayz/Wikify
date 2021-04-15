@@ -26,6 +26,8 @@ How to get wikipedia content
 	option 2 : use parse api. https://en.wikipedia.org/w/api.php?action=parse
 	option 3 : use textExtract api. Limited to 1200 chars.
 	option 4 : query wikipedia directly. Same as parse api but has all outer html as well.
+	
+The api can return _some_ interesting outputs (like list of image urls) but most will have to be parsed from the raw html anyway. It's a parsed wikitext with some extracted information, not a complete composition of prebuilt blocks.
 
 Server/client image preview/full generation
 
