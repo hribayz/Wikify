@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Wikify.Common.Content;
 
 namespace Wikify.Common.Id
 {
-    public interface IIdProvider
-    {
-        public Task<IIdentifier> GetIdentifierAsync(IIdUserInput idUserInput);
-    }
 
     public interface IIdentifier
     {
@@ -20,12 +15,12 @@ namespace Wikify.Common.Id
 
     public interface IArticleIdentifier : IIdentifier
     {
-        public Uri GetEndpoint(WikiContentModel contentModel);
+        public LanguageEnum Language { get; }
     }
 
     public interface IImageIdentifier : IIdentifier
     {
-        public Uri Endpoint { get; }
+
     }
 
 }

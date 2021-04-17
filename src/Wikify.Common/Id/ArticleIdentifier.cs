@@ -1,15 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Wikify.Common.Content;
 
 namespace Wikify.Common.Id
 {
     public class ArticleIdentifier : IArticleIdentifier
     {
-        public string Title => throw new NotImplementedException();
+        private IReadOnlyDictionary<WikiContentModel, string> _endpoints;
+        public string Title { get; private set; }
 
-        public Uri GetEndpoint(WikiContentModel contentModel)
+        public ArticleIdentifier(string title,  IReadOnlyDictionary<WikiContentModel, string> endpoints)
         {
-            throw new NotImplementedException();
+            Title = title;
+            _endpoints = endpoints;
+        }
+
+        public string GetEndpoint(WikiContentModel contentModel)
+        {
+            return _endpoints[contentModel];
         }
     }
 }
