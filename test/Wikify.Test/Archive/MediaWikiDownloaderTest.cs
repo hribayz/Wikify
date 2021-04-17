@@ -16,7 +16,7 @@ using Wikify.Parsing.Content;
 namespace Wikify.Test.Archive
 {
     [TestClass]
-    public class ArticleDownloaderTest
+    public class MediaWikiDownloaderTest
     {
         private static LoggerFactory _loggerFactory;
         private static MediaWikiDownloader _articleDownloader;

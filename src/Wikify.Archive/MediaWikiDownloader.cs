@@ -39,11 +39,10 @@ namespace Wikify.Archive
         {
             try
             {
-                var parseQuery = _utils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
-
-                // resolve license on a background task
+                // Resolve license on a background task, retrieve after content has been parsed.
                 var licenseTask = _licenseProvider.GetLicenseAsync(articleIdentifier);
 
+                var parseQuery = _utils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
                 var mwResponse = await _client.GetStringAsync(parseQuery);
                 var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiResponse>(mwResponse);
 
