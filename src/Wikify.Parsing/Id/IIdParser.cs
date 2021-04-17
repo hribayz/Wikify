@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 
@@ -10,30 +11,30 @@ namespace Wikify.Parsing.Id
 {
     public interface IIdParser
     {
-        public Task<IIdentifier> GetIdentifierAsync(string userInput);
+        public Task<IIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language);
+        public Task<IIdentifier> GetIdentifierAsync(string articleUrl);
     }
     public class ArticleTitleParser : IIdParser
     {
         private IUserInputValidator _userInputValidator;
-        public ArticleTitleParser(IUserInputValidator userInputValidator)
+        private IArticleIdentifierFactory _articleIdentifierFactory;
+        public ArticleTitleParser(IUserInputValidator userInputValidator, IArticleIdentifierFactory articleIdentifierFactory)
         {
             _userInputValidator = userInputValidator;
+            _articleIdentifierFactory = articleIdentifierFactory;
         }
         // https://en.wikipedia.org/w/api.php?action=parse&page=Early_life_of_Vladimir_Lenin&format=json
-        public async Task<IIdentifier> GetIdentifierAsync(string userInput)
+        public async Task<IIdentifier> GetIdentifierAsync(string articleTitle)
         {
-            var validatedTitle = await _userInputValidator.ValidateArticleTitleAsync(userInput);
-            var noSpacesTitle = validatedTitle.Replace(' ', '_');
+            throw new NotImplementedException();
+        }
 
+        public async Task<IIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language)
+        {
+            var validatedTitle = await _userInputValidator.ValidateArticleTitleAsync(articleTitle);
+            var urlEncodedTitle = HttpUtility.UrlEncode(validatedTitle);
 
-
-            var urlEncodedTitle = HttpUtility.UrlEncode(noSpacesTitle);
-
-            var endpoints = new Dictionary<WikiContentModel, string>()
-            {
-                [WikiContentModel.WikiText] = ""
-            };
-
+            return _articleIdentifierFactory.GetIdentifier(urlEncodedTitle, language);
         }
     }
 }

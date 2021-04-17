@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
@@ -38,15 +40,39 @@ namespace Wikify.Archive
             try
             {
                 var parseQuery = _utils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
-                var contentTask = _client.GetStringAsync(parseQuery);
 
-                var license = await _licenseProvider.GetLicenseAsync(articleIdentifier);
-                var content = await contentTask;
+                // resolve license on a background task
+                var licenseTask = _licenseProvider.GetLicenseAsync(articleIdentifier);
 
+                var mwResponse = await _client.GetStringAsync(parseQuery);
+                var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiResponse>(mwResponse);
+
+                string? content = contentModel switch
+                {
+                    WikiContentModel.Text => mwResponseObject?.parse?.text?["*"],
+                    WikiContentModel.WikiText => mwResponseObject?.parse?.wikitext?["*"],
+                    _ => throw new NotImplementedException()
+                };
+
+                if (content == null)
+                {
+                    string errorMessage = new StringBuilder()
+                        .Append("Failed to deserialize MediaWiki parser output.").Append(Environment.NewLine)
+                        .Append("Parse Query: ").Append(parseQuery).Append(Environment.NewLine)
+                        .Append("Media Wiki response: ").Append(mwResponse)
+                        .ToString();
+
+                    _logger.LogError(errorMessage);
+
+                    throw new ApplicationException(errorMessage);
+                }
+
+                var license = await licenseTask;
+                
                 return _wikiMediaFactory.CreateWikiArticle(articleIdentifier, license, content, contentModel);
             }
 
-            // TODO : Let networking provider know that the client does not work if it's its fault
+            // TODO : Let the networking provider know that the client does not work if it's its fault
             catch (Exception e)
             {
                 _logger.LogError(e.ToString());
