@@ -8,6 +8,6 @@ namespace Wikify.Common.Content
 {
     public enum WikiContentModel
     {
-        WikiText, Html, Stream
+        WikiText, Text
     }
 }

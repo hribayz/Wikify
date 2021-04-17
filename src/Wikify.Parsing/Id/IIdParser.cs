@@ -35,6 +35,5 @@ namespace Wikify.Parsing.Id
             };
 
         }
-        private 
     }
 }

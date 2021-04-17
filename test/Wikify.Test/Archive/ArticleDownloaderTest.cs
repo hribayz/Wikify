@@ -18,14 +18,14 @@ namespace Wikify.Test.Archive
     public class ArticleDownloaderTest
     {
         private static LoggerFactory _loggerFactory;
-        private static ArticleDownloader _articleDownloader;
+        private static MediaWikiDownloader _articleDownloader;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             _loggerFactory = new LoggerFactory();
             _articleDownloader = new ArticleDownloader(
-                _loggerFactory.CreateLogger<ArticleDownloader>(),
+                _loggerFactory.CreateLogger<MediaWikiDownloader>(),
                 new Wikify.Common.Network.NetworkingProvider(),
                 new LicenseProvider(),
                 new WikiMediaFactory());
