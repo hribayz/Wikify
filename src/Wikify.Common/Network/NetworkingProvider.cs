@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 
 namespace Wikify.Common.Network
 {
@@ -20,6 +21,7 @@ namespace Wikify.Common.Network
             };
 
             _httpClient = new HttpClient(handler);
+            _httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Properties.Resources.UserAgent);
         }
 
         HttpClient INetworkingProvider.GetHttpClient()

@@ -6,7 +6,6 @@ using Wikify.Common.Id;
 
 namespace Wikify.Test.Archive
 {
-
     public class ArticleArchiveTester
     {
         IArticleArchive _articleArchive;
@@ -16,7 +15,7 @@ namespace Wikify.Test.Archive
         }
         public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier)
         {
-            return await _articleArchive.GetArticleAsync(articleIdentifier, WikiContentModel.Html);
+            return await _articleArchive.GetArticleAsync(articleIdentifier, WikiContentModel.Text);
         }
     }
 }

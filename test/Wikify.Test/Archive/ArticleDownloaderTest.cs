@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
+using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.License;
@@ -19,25 +20,27 @@ namespace Wikify.Test.Archive
     {
         private static LoggerFactory _loggerFactory;
         private static MediaWikiDownloader _articleDownloader;
+        private static ArticleIdentifierFactory _articleIdentifierFactory;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             _loggerFactory = new LoggerFactory();
-            _articleDownloader = new ArticleDownloader(
+            _articleIdentifierFactory = new ArticleIdentifierFactory();
+            _articleDownloader = new MediaWikiDownloader(
                 _loggerFactory.CreateLogger<MediaWikiDownloader>(),
                 new Wikify.Common.Network.NetworkingProvider(),
                 new LicenseProvider(),
                 new WikiMediaFactory());
         }
 
-        //[TestMethod]
-        //[DataRow("https://en.wikipedia.org/wiki/Giorgio_Moroder")]
-        //public async Task TestDownloadArticleAsync(string url)
-        //{
-        //    await _articleDownloader.GetMediaAsync(new Identifier(url));
-        //    ;
-        //}
+        [TestMethod]
+        [DataRow("Giorgio Moroder", LanguageEnum.English, WikiContentModel.WikiText)]
+        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, WikiContentModel contentModel)
+        {
+            var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, language), contentModel);
+            ;
+        }
 
     }
 }
