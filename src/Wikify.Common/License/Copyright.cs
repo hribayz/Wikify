@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wikify.Common.License
 {
-    public enum LicenseType
+    public enum Copyright
     {
         Cc0, CcBy, CcBySa, CcByNc, CcByNcSa, CcByNd, CcByNcNd
     }

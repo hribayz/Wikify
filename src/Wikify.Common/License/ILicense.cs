@@ -8,9 +8,11 @@ namespace Wikify.Common.License
 {
     public interface ILicense
     {
+        public bool IsCopyrighted { get; }
+        public bool IsAttributionRequered { get; }
         public IAttribution Attribution { get; }
-        public LicenseType LicenseType { get; }
-        public Uri LicenseInformationUri { get; }
-
+        public Copyright Copyright { get; }
+        public LicenseWarnings Warnings { get; }
+        public bool IsCompatibleWith(Copyright copyright);
     }
 }

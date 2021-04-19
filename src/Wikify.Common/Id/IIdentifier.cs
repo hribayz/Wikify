@@ -6,11 +6,9 @@ using Wikify.Common.Content;
 
 namespace Wikify.Common.Id
 {
-
     public interface IIdentifier
     {
         public string Title { get; }
-
     }
 
     public interface IArticleIdentifier : IIdentifier

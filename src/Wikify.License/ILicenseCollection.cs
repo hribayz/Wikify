@@ -8,6 +8,6 @@ namespace Wikify.License
     public interface ILicenseCollection
     {
         public IImmutableDictionary<IIdentifier, ILicense> All { get; }
-        public IEnumerable<KeyValuePair<IIdentifier, ILicense>> GetCompatibleWith(LicenseType licenseType);
+        public IEnumerable<KeyValuePair<IIdentifier, ILicense>> GetCompatibleWith(Copyright licenseType);
     }
 }
