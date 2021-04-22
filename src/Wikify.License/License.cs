@@ -9,20 +9,15 @@ namespace Wikify.License
 {
     internal class License : ILicense
     {
-        public CopyrightLicense Copyright { get; }
+        public ICopyright Copyright { get; }
+        public IAttribution Attribution { get; }
         public LicenseRestrictionsEnum Restrictions { get; }
 
-        public License(CopyrightLicense copyrightLicense, LicenseRestrictionsEnum licenseRestrictions)
+        public License(ICopyright copyright, IAttribution attribution, LicenseRestrictionsEnum licenseRestrictions)
         {
-            Copyright = copyrightLicense;
+            Copyright = copyright;
+            Attribution = attribution;
             Restrictions = licenseRestrictions;
-        }
-    }
-    public class LicenseFactory : ILicenseFactory
-    {
-        public ILicense CreateLicense(CopyrightLicense copyrightLicense, LicenseRestrictionsEnum licenseRestrictions)
-        {
-            return new License(copyrightLicense, licenseRestrictions);
         }
     }
 }

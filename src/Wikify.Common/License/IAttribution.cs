@@ -10,8 +10,6 @@ namespace Wikify.Common.License
     {
         public string Title { get; }
         public string Author { get; }
-        public string MediaSource { get; }
-        public string License { get; }
-        public string LicenseSource { get; }
+        public string Credit { get; }
     }
 }

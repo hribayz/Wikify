@@ -11,8 +11,7 @@ namespace Wikify.License
     {
         public ICopyright CreateCopyright(CopyrightLicense copyrightLicense, IAttribution attribution);
         public CopyrightLicense ParseLicense(string license);
-        public IAttribution CreateAttribution(string title, string author, string source, string license);
-        public IAttribution CreateAttribution(string title, string author, string source, string license, string plainText);
+        public IAttribution CreateAttribution(string title, string author, string credit);
     }
     public class CopyrightFactory : ICopyrightFactory
     {
@@ -33,20 +32,10 @@ namespace Wikify.License
                 attribution: attribution);
         }
 
-        public IAttribution CreateAttribution(string title, string author, string source, string license)
+        public IAttribution CreateAttribution(string title, string author, string credit)
         {
-            var plainText = new StringBuilder()
-                .Append(title)
-                .Append(" by ").Append(author)
-                .Append(" licensed under ").Append(license).Append(". ");
-                
+            return new Attribution(title, author, credit);
         }
-
-        public IAttribution CreateAttribution(string title, string author, string source, string license, string plainText)
-        {
-            return new Attribution(title, author, source, license, plainText);
-        }
-
         public CopyrightLicense ParseLicense(string license)
         {
             throw new NotImplementedException();

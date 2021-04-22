@@ -39,9 +39,20 @@ namespace Wikify.License
 
             // Retrieve image metadata.
             var responseContent = await _networkingProvider.GetResponseContentAsync(licenseQueryUri);
-            var imageInfo = JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
+            logSb.Append("Parse Query response content: ").Append(responseContent);
+
+            // Deserialize, check response validity.
+            var imageInfoResponse = JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
+            var imagePage = imageInfoResponse?.query.pages.Single();
+            var imageInfo = imagePage?.Value.imageinfo.Single();
+
+            // TODO: if no credit retrieved (or maybe always, the entries are low effort), use wikipedia file page instead. If no object name retrieved, use filename instead.
 
 
+            var copyrightLicense = _copyrightFactory.ParseLicense(imageInfo.extmetadata["LicenseShortName"].value);
+            var attribution = _copyrightFactory.CreateAttribution(imageInfo.extmetadata["ObjectName"].value, imageInfo.extmetadata["Artist"].value, imageInfo.extmetadata["Credit"].value);
+
+            var copyright = _copyrightFactory.CreateCopyright()
 
             var copyrightLicense = _copyrightFactory.CreateCopyright();
 
@@ -50,7 +61,7 @@ namespace Wikify.License
 
             // TODO: Just for debug purposes, check here that if the new license object has IsAttributionRequired == false, the MW Api says the same.
 
-            imageInfo.query
+            imageInfoResponse.query
         }
 
         public Task<IImmutableDictionary<IIdentifier, ILicense>> GetLicensesAsync(IEnumerable<IImageIdentifier> identifiers)

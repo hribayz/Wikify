@@ -9,6 +9,6 @@ namespace Wikify.License
 {
     public interface ILicenseFactory
     {
-        public ILicense CreateLicense(CopyrightLicense copyrightLicense, LicenseRestrictionsEnum licenseRestrictions);
+        public ILicense CreateLicense(ICopyright copyright, IAttribution attribution, LicenseRestrictionsEnum licenseRestrictions);
     }
 }

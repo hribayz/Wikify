@@ -11,15 +11,13 @@ namespace Wikify.License
     {
         public string Title { get; }
         public string Author { get; }
-        public string MediaSource { get; }
-        public string License { get; }
+        public string Credit { get; }
 
-        public Attribution(string title, string author, string source, string license)
+        public Attribution(string title, string author, string credit)
         {
             Title = title;
             Author = author;
-            MediaSource = source;
-            License = license;
+            Credit = credit;
         }
 
     }
