@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Wikify.Common.License
 {
     [Flags]
-    public enum LicenseWarnings
+    public enum LicenseRestrictionsEnum
     {
         None = 0,
         Personality = 1,

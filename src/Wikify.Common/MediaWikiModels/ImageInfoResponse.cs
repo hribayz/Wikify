@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Archive.MediaWikiModels
+namespace Wikify.Common.MediaWikiModels
 {
     public class ImageInfoResponse
-    { 
+    {
         public string batchcomplete { get; set; }
         public Query query { get; set; }
     }

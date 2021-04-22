@@ -8,11 +8,10 @@ namespace Wikify.Common.License
 {
     public interface IAttribution
     {
-        public string ArtTitle { get; }
-        public string Artist { get; }
-        public string Credit { get; }
-        public string ArtDescription { get; }
-        public string AttributonText { get; }
-
+        public string Title { get; }
+        public string Author { get; }
+        public string MediaSource { get; }
+        public string License { get; }
+        public string LicenseSource { get; }
     }
 }

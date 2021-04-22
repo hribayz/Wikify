@@ -8,11 +8,8 @@ namespace Wikify.Common.License
 {
     public interface ILicense
     {
-        public bool IsCopyrighted { get; }
-        public bool IsAttributionRequered { get; }
+        public ICopyright Copyright { get; }
         public IAttribution Attribution { get; }
-        public Copyright Copyright { get; }
-        public LicenseWarnings Warnings { get; }
-        public bool IsCompatibleWith(Copyright copyright);
+        public LicenseRestrictionsEnum Restrictions { get; }
     }
 }
