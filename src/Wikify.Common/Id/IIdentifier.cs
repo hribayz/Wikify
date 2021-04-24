@@ -35,7 +35,7 @@ namespace Wikify.Common.Id
 
     public interface IImageIdentifier : IIdentifier
     {
-
+        public string MetadataUri { get; }
     }
 
 }

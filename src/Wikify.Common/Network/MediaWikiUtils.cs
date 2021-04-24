@@ -58,5 +58,6 @@ namespace Wikify.Common.Network
             querySb.Remove(querySb.Length - 1, 1);
             return querySb.ToString();
         }
+
     }
 }

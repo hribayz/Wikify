@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Wikify.Common.Id;
 using Wikify.Common.License;
 
-namespace Wikify.License
+namespace Wikify.License.Copyright
 {
     public interface ICopyrightResolver
     {
@@ -15,4 +15,5 @@ namespace Wikify.License
         public bool IsCompatible(CopyrightLicense copyrightLicense, CopyrightLicense withCopyrightLicense);
         public IEnumerable<CopyrightLicense> GetCompatibleWith(CopyrightLicense copyrightLicense);
     }
+
 }

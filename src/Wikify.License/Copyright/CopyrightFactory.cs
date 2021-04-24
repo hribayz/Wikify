@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Wikify.Common.License;
 
-namespace Wikify.License
+namespace Wikify.License.Copyright
 {
-    public interface ICopyrightFactory
-    {
-        public ICopyright CreateCopyright(CopyrightLicense copyrightLicense, IAttribution attribution);
-        public CopyrightLicense ParseLicense(string license);
-        public IAttribution CreateAttribution(string title, string author, string credit);
-    }
     public class CopyrightFactory : ICopyrightFactory
     {
         private ICopyrightResolver _copyrightResolver;
@@ -20,16 +10,15 @@ namespace Wikify.License
         {
             _copyrightResolver = copyrightResolver;
         }
-        public ICopyright CreateCopyright(CopyrightLicense copyrightLicense, IAttribution attribution)
+        public ICopyright CreateCopyright(CopyrightLicense copyrightLicense)
         {
             var isCopyrighted = _copyrightResolver.IsCopyrighted(copyrightLicense);
             var isAttributionRequired = _copyrightResolver.IsAttributionRequired(copyrightLicense);
 
             return new Copyright(
-                isCopyrighted: isCopyrighted, 
+                isCopyrighted: isCopyrighted,
                 copyrightLicense: copyrightLicense,
-                isAttributionRequired: isAttributionRequired,
-                attribution: attribution);
+                isAttributionRequired: isAttributionRequired);
         }
 
         public IAttribution CreateAttribution(string title, string author, string credit)
