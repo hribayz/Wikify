@@ -96,5 +96,7 @@ WikiContentModel does not reflect all types of media -- only relevant to article
 wikipedia is quirky
 https://www.mediawiki.org/wiki/Manual:Deciding_whether_to_use_a_wiki_as_your_website_type
 
-Who knows about media or article whereabouts: ID provider or Archive. ID should be independent on archive implementation, archive should target its own resource. 	
+Who knows about media or article whereabouts: ID provider or Archive. ID should be independent on archive implementation, archive should target its own resource. 
+
+Tokenization is not the same as data mining, rather a step in the pipeline, but keeping it as one module to prevent more scattering.	
 	

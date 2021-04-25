@@ -1,1 +1,8 @@
 https://en.wikipedia.org/wiki/File:Edgar_F_Codd.jpg
+
+personality rights warning
+https://commons.wikimedia.org/wiki/File:Portrait_photoshoot_at_Worldcon_75,_Helsinki,_before_the_Hugo_Awards_%E2%80%93_George_R._R._Martin.jpg
+
+no trademark warning
+https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Logo_Adidas.png&format=json
+https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Adida-removebg-preview.png&format=json
