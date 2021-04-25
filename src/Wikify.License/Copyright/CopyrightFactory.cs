@@ -10,7 +10,7 @@ namespace Wikify.License.Copyright
         {
             _copyrightResolver = copyrightResolver;
         }
-        public ICopyright CreateCopyright(CopyrightLicense copyrightLicense)
+        public ICopyright CreateCopyright(CopyrightLicenseEnum copyrightLicense)
         {
             var isCopyrighted = _copyrightResolver.IsCopyrighted(copyrightLicense);
             var isAttributionRequired = _copyrightResolver.IsAttributionRequired(copyrightLicense);
@@ -25,7 +25,7 @@ namespace Wikify.License.Copyright
         {
             return new Attribution(title, author, credit);
         }
-        public CopyrightLicense ParseLicense(string license)
+        public CopyrightLicenseEnum ParseLicense(string license)
         {
             throw new NotImplementedException();
         }

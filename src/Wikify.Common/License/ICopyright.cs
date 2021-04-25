@@ -3,7 +3,7 @@
     public interface ICopyright
     {
         public bool IsCopyrighted { get; }
-        public CopyrightLicense CopyrightLicense { get; }
+        public CopyrightLicenseEnum CopyrightLicense { get; }
         public bool IsAttributionRequired { get; }
     }
 }

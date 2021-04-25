@@ -8,6 +8,6 @@ namespace Wikify.License
 {
     internal static class MediaWikiConstants
     {
-        internal static HashSet<string> TrademarkRedFlags = 
+
     }
 }

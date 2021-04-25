@@ -13,6 +13,7 @@ using Wikify.Common.License;
 using Wikify.Common.MediaWikiModels;
 using Wikify.Common.Network;
 using Wikify.License.Copyright;
+using Wikify.License.Tokenization;
 
 namespace Wikify.License
 {
@@ -22,13 +23,15 @@ namespace Wikify.License
         private INetworkingProvider _networkingProvider;
         private ICopyrightFactory _copyrightFactory;
         private ILicenseFactory _licenseFactory;
+        private ITokenizer _tokenizer;
 
-        public ImageLicenseProvider(ILogger logger, INetworkingProvider networkingProvider, ICopyrightFactory copyrightFactory, ILicenseFactory licenseFactory)
+        public ImageLicenseProvider(ILogger logger, INetworkingProvider networkingProvider, ICopyrightFactory copyrightFactory, ILicenseFactory licenseFactory, ITokenizer tokenizer)
         {
             _logger = logger;
             _networkingProvider = networkingProvider;
             _copyrightFactory = copyrightFactory;
             _licenseFactory = licenseFactory;
+            _tokenizer = tokenizer;
         }
 
         public async Task<ILicense> GetLicenseAsync(IImageIdentifier identifier)
@@ -37,12 +40,12 @@ namespace Wikify.License
             var licenseQuery = MediaWikiUtils.GetImageMetadataQuery(new[] { identifier.Title });
             var licenseQueryUri = new Uri(licenseQuery);
 
-            var logSb = new StringBuilder().Append("Parse Query: ").Append(licenseQuery).Append(Environment.NewLine);
+            _logger.LogInformation("Parse Query: " + licenseQuery);
 
             // Retrieve image metadata.
             var responseContent = await _networkingProvider.GetResponseContentAsync(licenseQueryUri);
 
-            logSb.Append("Parse Query response content: ").Append(responseContent);
+            _logger.LogInformation("Parse Query response content: " + responseContent);
 
             var imageInfoResponse = JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
 
@@ -52,8 +55,9 @@ namespace Wikify.License
 
             if (imageInfo?.extmetadata == null)
             {
-                logSb.Append("Failed to retrieve image info. Was there something missing in the response?").Append(Environment.NewLine);
-                throw new ApplicationException(logSb.ToString());
+                var errorMessage = "Failed to retrieve image info. Was there something missing in the response?";
+                _logger.LogError(errorMessage);
+                throw new ApplicationException(errorMessage);
             }
 
             // TODO: if no credit retrieved (or maybe always, the entries are low effort), use wikipedia file page instead. If no object name retrieved, use filename instead.
@@ -105,10 +109,6 @@ namespace Wikify.License
             throw new NotImplementedException();
         }
 
-        private LicenseRestrictionsEnum ParseRestrictions(string categories, string imageDescription, string restrictions)
-        {
-
-        }
 
     }
 }

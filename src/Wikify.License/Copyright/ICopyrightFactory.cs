@@ -8,8 +8,8 @@ namespace Wikify.License.Copyright
 {
     public interface ICopyrightFactory
     {
-        public ICopyright CreateCopyright(CopyrightLicense copyrightLicense);
-        public CopyrightLicense ParseLicense(string license);
+        public ICopyright CreateCopyright(CopyrightLicenseEnum copyrightLicense);
+        public CopyrightLicenseEnum ParseLicense(string license);
         public IAttribution CreateAttribution(string title, string author, string credit);
     }
 }

@@ -5,10 +5,10 @@ namespace Wikify.License.Copyright
     public class Copyright : ICopyright
     {
         public bool IsCopyrighted { get; }
-        public CopyrightLicense CopyrightLicense { get; }
+        public CopyrightLicenseEnum CopyrightLicense { get; }
         public bool IsAttributionRequired { get; }
 
-        public Copyright(bool isCopyrighted, CopyrightLicense copyrightLicense, bool isAttributionRequired)
+        public Copyright(bool isCopyrighted, CopyrightLicenseEnum copyrightLicense, bool isAttributionRequired)
         {
             IsCopyrighted = isCopyrighted;
             CopyrightLicense = copyrightLicense;

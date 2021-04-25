@@ -10,10 +10,10 @@ namespace Wikify.License.Copyright
 {
     public interface ICopyrightResolver
     {
-        public bool IsCopyrighted(CopyrightLicense copyrightLicense);
-        public bool IsAttributionRequired(CopyrightLicense copyrightLicense);
-        public bool IsCompatible(CopyrightLicense copyrightLicense, CopyrightLicense withCopyrightLicense);
-        public IEnumerable<CopyrightLicense> GetCompatibleWith(CopyrightLicense copyrightLicense);
+        public bool IsCopyrighted(CopyrightLicenseEnum copyrightLicense);
+        public bool IsAttributionRequired(CopyrightLicenseEnum copyrightLicense);
+        public bool IsCompatible(CopyrightLicenseEnum copyrightLicense, CopyrightLicenseEnum withCopyrightLicense);
+        public IEnumerable<CopyrightLicenseEnum> GetCompatibleWith(CopyrightLicenseEnum copyrightLicense);
     }
 
 }
