@@ -6,3 +6,6 @@ https://commons.wikimedia.org/wiki/File:Portrait_photoshoot_at_Worldcon_75,_Hels
 no trademark warning
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Logo_Adidas.png&format=json
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Adida-removebg-preview.png&format=json
+
+nazi insignia
+https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Flag_of_Germany_(1935%E2%80%931945).svg&format=json
