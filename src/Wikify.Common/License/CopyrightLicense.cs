@@ -8,6 +8,10 @@ namespace Wikify.Common.License
 {
     public enum CopyrightLicenseEnum
     {
-        PublicDomain, Cc0, CcBy, CcBySa, CcByNc, CcByNcSa, CcByNd, CcByNcNd
+        PublicDomainEquivalent, 
+        CcBy, 
+        CcBySa, 
+        Gfdl,
+        Unknown
     }
 }
