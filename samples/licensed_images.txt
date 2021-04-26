@@ -7,5 +7,22 @@ no trademark warning
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Logo_Adidas.png&format=json
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Adida-removebg-preview.png&format=json
 
+
+NON COPYRIGHT RESTRICTIONS
+
+
 nazi insignia
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Flag_of_Germany_(1935%E2%80%931945).svg&format=json
+
+public persons consent:
+https://commons.wikimedia.org/wiki/Template:Consent
+
+counterfeiting
+File:Osobna_iskaznica_2013_-_prednja_strana.jpg
+
+without consent:
+File:-August_Kleinzahler_045549.JPG
+
+obscenity, child protection
+Restrictions:2257
+https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:02_Girls_Mud_Wrestling.JPG&format=json
