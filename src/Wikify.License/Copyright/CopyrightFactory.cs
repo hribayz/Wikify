@@ -5,6 +5,7 @@ namespace Wikify.License.Copyright
 {
     public class CopyrightFactory : ICopyrightFactory
     {
+        private const string _authorUnknown = "Unknown author";
         private ICopyrightResolver _copyrightResolver;
         public CopyrightFactory(ICopyrightResolver copyrightResolver)
         {
@@ -25,9 +26,9 @@ namespace Wikify.License.Copyright
         {
             return new Attribution(title, author, credit);
         }
-        public CopyrightLicenseEnum ParseLicense(string license)
+        public IAttribution CreateAttributionWithoutAuthor(string title, string credit)
         {
-            throw new NotImplementedException();
+            return new Attribution(title, _authorUnknown, credit);
         }
     }
 }

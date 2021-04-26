@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wikify.Common.MediaWikiModels
 {
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public class ImageInfoResponse
     {
         //public string? batchcomplete { get; set; }
@@ -25,18 +26,19 @@ namespace Wikify.Common.MediaWikiModels
         //public string? missing { get; set; }
         //public string? known { get; set; }
         //public string? imagerepository { get; set; }
-        public Imageinfo?[]? imageinfo { get; set; }
+
+        public Imageinfo[] imageinfo { get; set; }
     }
 
     public class Imageinfo
     {
-        public Dictionary<string, Metadata?>? extmetadata { get; set; }
+        public Dictionary<string, Metadata> extmetadata { get; set; }
     }
 
 
     public class Metadata
     {
-        public string? value { get; set; }
+        public string value { get; set; }
         //public string source { get; set; }
         //public string hidden { get; set; }
     }
@@ -48,4 +50,5 @@ namespace Wikify.Common.MediaWikiModels
         public string? to { get; set; }
     }
 
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 }

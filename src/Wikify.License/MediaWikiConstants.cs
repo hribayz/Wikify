@@ -10,6 +10,7 @@ namespace Wikify.License
     {
         public HashSet<string> CopyrightKeys { get; }
         public HashSet<string> RestrictionsKeys { get; }
+        public HashSet<string> PublicDomainEquivalentNames { get; }
     }
     public class MediaWikiConstantsContainer : IMediaWikiConstantsContainer
     {
@@ -24,7 +25,16 @@ namespace Wikify.License
             "Categories",
             "Restrictions"
         };
+
+        private readonly HashSet<string> _publicDomainEquivalentNames = new()
+        {
+            "public domain",
+            "pd",
+            "cc0",
+            "pdm owner"
+        };
         public HashSet<string> CopyrightKeys => _copyrightKeys;
         public HashSet<string> RestrictionsKeys => _restrictionsKeys;
+        public HashSet<string> PublicDomainEquivalentNames => _publicDomainEquivalentNames;
     }
 }

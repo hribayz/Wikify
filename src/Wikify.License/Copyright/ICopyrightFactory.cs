@@ -9,7 +9,7 @@ namespace Wikify.License.Copyright
     public interface ICopyrightFactory
     {
         public ICopyright CreateCopyright(CopyrightLicenseEnum copyrightLicense);
-        public CopyrightLicenseEnum ParseLicense(string license);
         public IAttribution CreateAttribution(string title, string author, string credit);
+        public IAttribution CreateAttributionWithoutAuthor(string title, string credit);
     }
 }

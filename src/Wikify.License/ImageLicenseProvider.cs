@@ -23,15 +23,23 @@ namespace Wikify.License
         private INetworkingProvider _networkingProvider;
         private ICopyrightFactory _copyrightFactory;
         private ILicenseFactory _licenseFactory;
-        private ITokenizer _tokenizer;
+        private ICopyrightTokenizer _copyrightTokenizer;
+        private ILicenseRestrictionsTokenizer _licenseRestrictionsTokenizer;
 
-        public ImageLicenseProvider(ILogger logger, INetworkingProvider networkingProvider, ICopyrightFactory copyrightFactory, ILicenseFactory licenseFactory, ITokenizer tokenizer)
+        public ImageLicenseProvider(
+            ILogger logger,
+            INetworkingProvider networkingProvider,
+            ICopyrightFactory copyrightFactory,
+            ILicenseFactory licenseFactory,
+            ICopyrightTokenizer tokenizer,
+            ILicenseRestrictionsTokenizer licenseRestrictionsTokenizer)
         {
             _logger = logger;
             _networkingProvider = networkingProvider;
             _copyrightFactory = copyrightFactory;
             _licenseFactory = licenseFactory;
-            _tokenizer = tokenizer;
+            _copyrightTokenizer = tokenizer;
+            _licenseRestrictionsTokenizer = licenseRestrictionsTokenizer;
         }
 
         public async Task<ILicense> GetLicenseAsync(IImageIdentifier identifier)
@@ -60,48 +68,30 @@ namespace Wikify.License
                 throw new ApplicationException(errorMessage);
             }
 
-            // TODO: if no credit retrieved (or maybe always, the entries are low effort), use wikipedia file page instead. If no object name retrieved, use filename instead.
+            // Create copyright license enum.
+            var allExtMetadataAttributes = imageInfo.extmetadata.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value));
+            var copyrightLicense = _copyrightTokenizer.GetCopyrightLicense(allExtMetadataAttributes);
 
-            var keysToCheck = new[] { "LicenseShortName", "ObjectName", "Artist" };
+            IAttribution attribution;
 
-            bool allKeysPresent = true;
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8604 // Possible null reference argument.
-
-            foreach (var key in keysToCheck)
+            // Try fetch artist name.
+            var artistName = imageInfo.extmetadata.GetValueOrDefault("Artist")?.value;
+            if (!string.IsNullOrWhiteSpace(artistName))
             {
-                bool isLicenseShortNamePresent = imageInfo.extmetadata.ContainsKey(key) && imageInfo.extmetadata[key].value != null;
-
-                if (!isLicenseShortNamePresent)
-                {
-                    logSb.Append("Failed to retrieve license name from imageInfo.extmetadata. Missing key: ").Append(key).Append(Environment.NewLine);
-                    allKeysPresent = false;
-                }
+                attribution = _copyrightFactory.CreateAttribution(identifier.Title, artistName, identifier.MetadataUri);
+            }
+            else
+            {
+                attribution = _copyrightFactory.CreateAttributionWithoutAuthor(identifier.Title, identifier.MetadataUri);
             }
 
-            if (!allKeysPresent)
-            {
-                throw new ApplicationException(logSb.ToString());
-            }
-
-            var copyrightLicense = _copyrightFactory.ParseLicense(imageInfo.extmetadata["LicenseShortName"].value);
-            var attribution = _copyrightFactory.CreateAttribution(imageInfo.extmetadata["ObjectName"].value, imageInfo.extmetadata["Artist"].value, identifier.MetadataUri);
-
-#pragma warning restore CS8604 // Possible null reference argument.
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            // Create license restrictions enum.
+            var licenseRestrictions = _licenseRestrictionsTokenizer.GetLicenseRestrictions(allExtMetadataAttributes);
 
             var copyright = _copyrightFactory.CreateCopyright(copyrightLicense);
+            var license = _licenseFactory.CreateLicense(copyright, attribution, licenseRestrictions);
 
-            var license = _licenseFactory.CreateLicense(copyright, attribution,);
-
-
-
-            // TODO: Just for debug purposes, check here that if the new license object has IsAttributionRequired == false, the MW Api says the same.
-
-            Debug.Assert()
-
-            imageInfoResponse.query
+            return license;
         }
 
         public Task<IImmutableDictionary<IIdentifier, ILicense>> GetLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
