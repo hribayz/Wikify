@@ -17,7 +17,7 @@ using Wikify.License.Tokenization;
 
 namespace Wikify.License
 {
-    public class ImageLicenseProvider : IImageLicenseProvider
+    public class LicenseProvider : ILicenseProvider
     {
         private ILogger _logger;
         private INetworkingProvider _networkingProvider;
@@ -26,7 +26,7 @@ namespace Wikify.License
         private ICopyrightTokenizer _copyrightTokenizer;
         private ILicenseRestrictionsTokenizer _licenseRestrictionsTokenizer;
 
-        public ImageLicenseProvider(
+        public LicenseProvider(
             ILogger logger,
             INetworkingProvider networkingProvider,
             ICopyrightFactory copyrightFactory,
@@ -42,63 +42,122 @@ namespace Wikify.License
             _licenseRestrictionsTokenizer = licenseRestrictionsTokenizer;
         }
 
-        public async Task<ILicense> GetLicenseAsync(IImageIdentifier identifier)
+        private async Task<ImageInfoResponse?> QueryLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
         {
-            // Compose query.
-            var licenseQuery = MediaWikiUtils.GetImageMetadataQuery(new[] { identifier.Title });
+            // Compose request
+
+            string licenseQuery = MediaWikiUtils.GetImageMetadataQuery(imageIdentifiers.Select(x => x.Title));
             var licenseQueryUri = new Uri(licenseQuery);
 
             _logger.LogInformation("Parse Query: " + licenseQuery);
 
-            // Retrieve image metadata.
+            // Query the API.
+
             var responseContent = await _networkingProvider.GetResponseContentAsync(licenseQueryUri);
 
             _logger.LogInformation("Parse Query response content: " + responseContent);
 
-            var imageInfoResponse = JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
+            return JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
+        }
 
-            // Check response validity.
-            var imagePage = imageInfoResponse?.query?.pages?.SingleOrDefault();
-            var imageInfo = imagePage?.Value?.imageinfo?.SingleOrDefault();
-
-            if (imageInfo?.extmetadata == null)
+        private async Task<ILicense> TokenizeLicenseMetadataWithValidationAsync(IImageIdentifier identifier, Dictionary<string, Metadata>? metaAttributes)
+        {
+            if (metaAttributes is null)
             {
-                var errorMessage = "Failed to retrieve image info. Was there something missing in the response?";
-                _logger.LogError(errorMessage);
-                throw new ApplicationException(errorMessage);
+                _logger.LogError(nameof(TokenizeLicenseMetadataWithValidationAsync) + " Cannot tokenize metadata, null " + nameof(metaAttributes));
+                throw new ArgumentNullException(nameof(metaAttributes));
             }
 
-            // Create copyright license enum.
-            var allExtMetadataAttributes = imageInfo.extmetadata.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value));
-            var copyrightLicense = _copyrightTokenizer.GetCopyrightLicense(allExtMetadataAttributes);
+            // Valid metadata dictionary. Attributes have non-empty keys and non-null values.
 
-            IAttribution attribution;
+            var attributesKeyValuePairs =
+                metaAttributes.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value));
 
-            // Try fetch artist name.
-            var artistName = imageInfo.extmetadata.GetValueOrDefault("Artist")?.value;
-            if (!string.IsNullOrWhiteSpace(artistName))
-            {
-                attribution = _copyrightFactory.CreateAttribution(identifier.Title, artistName, identifier.MetadataUri);
-            }
-            else
-            {
-                attribution = _copyrightFactory.CreateAttributionWithoutAuthor(identifier.Title, identifier.MetadataUri);
-            }
+            // Tokenize license on a background thread.
 
-            // Create license restrictions enum.
-            var licenseRestrictions = _licenseRestrictionsTokenizer.GetLicenseRestrictions(allExtMetadataAttributes);
+            var copyrightLicenseTask =
+                Task.Run(() => _copyrightTokenizer.GetCopyrightLicense(attributesKeyValuePairs));
 
-            var copyright = _copyrightFactory.CreateCopyright(copyrightLicense);
+            var artistName = metaAttributes.GetValueOrDefault("Artist")?.value;
+
+            IAttribution attribution = string.IsNullOrWhiteSpace(artistName)
+                ? _copyrightFactory.CreateAttributionWithoutAuthor(identifier.Title, identifier.MetadataUri)
+                : _copyrightFactory.CreateAttribution(identifier.Title, artistName, identifier.MetadataUri);
+
+
+            var licenseRestrictions = _licenseRestrictionsTokenizer.GetLicenseRestrictions(attributesKeyValuePairs);
+
+            var copyright = _copyrightFactory.CreateCopyright(await copyrightLicenseTask);
+
+            // Retrieve tokenized license from background job.
+
             var license = _licenseFactory.CreateLicense(copyright, attribution, licenseRestrictions);
 
             return license;
         }
 
-        public Task<IImmutableDictionary<IIdentifier, ILicense>> GetLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
+        public async Task<ILicense> GetImageLicenseAsync(IImageIdentifier identifier)
+        {
+            var imageInfoResponse = await QueryLicensesAsync(new[] { identifier });
+
+            Dictionary<string, Metadata>? metaAttributes =
+                imageInfoResponse?.query?.pages?.SingleOrDefault().Value?.imageinfo?.SingleOrDefault()?.extmetadata;
+
+            return await TokenizeLicenseMetadataWithValidationAsync(identifier, metaAttributes);
+        }
+
+        public async Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
+        {
+            var imageInfosResponse = await QueryLicensesAsync(identifiers);
+
+            // Validate response.
+
+            if (imageInfosResponse?.query?.pages == null)
+            {
+                throw new ApplicationException("Failed to retrieve image info. imageInfosResponse?.query?.pages is null.");
+            }
+
+            var originalTitles = new Dictionary<string, string>();
+
+            if (imageInfosResponse.query.normalized != null)
+            {
+                originalTitles = imageInfosResponse.query.normalized.ToDictionary(x => x.to, x => x.from);
+            }
+
+            List<Task<KeyValuePair<IImageIdentifier, ILicense>>> licenseTokenizationTasks = new();
+
+            foreach (var page in imageInfosResponse.query.pages)
+            {
+                var metaAttributes = page.Value?.imageinfo?.SingleOrDefault()?.extmetadata;
+
+                // Response is valid here. The metadata object is present. Attributes have non-empty keys and non-null values.
+
+                if (metaAttributes == null)
+                {
+                    _logger.LogError(nameof(GetImageLicensesAsync) + " cannot retrieve object title, null " + nameof(metaAttributes));
+                    throw new ArgumentNullException(nameof(metaAttributes));
+                }
+
+                var normalizedTitle = metaAttributes["ObjectName"].value;
+
+                var matchingIdentifier = identifiers.Single(x => (x.Title == normalizedTitle || x.Title == originalTitles[normalizedTitle]));
+
+                licenseTokenizationTasks.Add(Task.Run(async () =>
+                {
+                    return new KeyValuePair<IImageIdentifier, ILicense>(
+                        matchingIdentifier,
+                        await TokenizeLicenseMetadataWithValidationAsync(matchingIdentifier, metaAttributes));
+                }));
+            }
+
+            var licenseKeyValuePairs = await Task.WhenAll(licenseTokenizationTasks);
+
+            return licenseKeyValuePairs.ToImmutableDictionary();
+        }
+
+        public Task<ILicense> GetArticleLicenseAsync(IArticleIdentifier articleIdentifier)
         {
             throw new NotImplementedException();
         }
-
-
     }
 }

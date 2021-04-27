@@ -15,7 +15,7 @@ namespace Wikify.Common.MediaWikiModels
 
     public class Query
     {
-        //public Normalized?[] normalized { get; set; }
+        public Normalized[]? normalized { get; set; }
         public Dictionary<int, Page?>? pages { get; set; }
     }
 
@@ -46,8 +46,8 @@ namespace Wikify.Common.MediaWikiModels
 
     public class Normalized
     {
-        public string? from { get; set; }
-        public string? to { get; set; }
+        public string from { get; set; }
+        public string to { get; set; }
     }
 
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

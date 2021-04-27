@@ -14,12 +14,12 @@ namespace Wikify.Archive
 {
     public class MediaWikiDownloader : IArticleArchive, IImageArchive
     {
-        private readonly IImageLicenseProvider _licenseProvider;
+        private readonly ILicenseProvider _licenseProvider;
         private readonly ILogger _logger;
         private readonly IWikiMediaFactory _wikiMediaFactory;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiDownloader(ILogger logger, INetworkingProvider networkingProvider, IImageLicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
+        public MediaWikiDownloader(ILogger logger, INetworkingProvider networkingProvider, ILicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
         {
             _logger = logger;
             _licenseProvider = licenseProvider;
@@ -32,7 +32,7 @@ namespace Wikify.Archive
             try
             {
                 // Resolve license on a background task, retrieve after content has been parsed.
-                var licenseTask = _licenseProvider.GetLicenseAsync(articleIdentifier);
+                var licenseTask = _licenseProvider.GetArticleLicenseAsync(articleIdentifier);
 
                 var parseQuery = MediaWikiUtils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
                 var parseQueryUri = new Uri(parseQuery);

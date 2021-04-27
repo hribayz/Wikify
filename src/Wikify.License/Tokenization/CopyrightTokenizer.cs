@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Humanizer;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Wikify.Common.License;
 
@@ -8,10 +11,12 @@ namespace Wikify.License.Tokenization
 {
     public class CopyrightTokenizer : ICopyrightTokenizer
     {
-
+        private ILogger _logger;
         private IMediaWikiConstantsContainer _constants;
-        public CopyrightTokenizer(IMediaWikiConstantsContainer mediaWikiConstantsContainer)
+
+        public CopyrightTokenizer(ILogger logger, IMediaWikiConstantsContainer mediaWikiConstantsContainer)
         {
+            _logger = logger;
             _constants = mediaWikiConstantsContainer;
         }
 
@@ -51,6 +56,16 @@ namespace Wikify.License.Tokenization
                     return CopyrightLicenseEnum.Gfdl;
                 }
             }
+
+            // No attribute with known key had a value matching known copyright license pattern.
+
+            _logger.LogWarning(new StringBuilder()
+                .Append(nameof(CopyrightTokenizer))
+                .Append(" failed to tokenize copyright license. Attributes: ")
+                .Append(Environment.NewLine)
+                .Append(attributes.Humanize())
+                .ToString());
+                
             return CopyrightLicenseEnum.Unknown;
         }
     }

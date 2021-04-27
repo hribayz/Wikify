@@ -9,9 +9,10 @@ using Wikify.Common.License;
 
 namespace Wikify.License
 {
-    public interface IImageLicenseProvider
+    public interface ILicenseProvider
     {
-        public Task<ILicense> GetLicenseAsync(IImageIdentifier identifier);
-        public Task<IImmutableDictionary<IIdentifier, ILicense>> GetLicensesAsync(IEnumerable<IImageIdentifier> identifiers);
+        public Task<ILicense> GetImageLicenseAsync(IImageIdentifier imageIdentifier);
+        public Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers);
+        public Task<ILicense> GetArticleLicenseAsync(IArticleIdentifier articleIdentifier);
     }
 }
