@@ -26,3 +26,6 @@ File:-August_Kleinzahler_045549.JPG
 obscenity, child protection
 Restrictions:2257
 https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:02_Girls_Mud_Wrestling.JPG&format=json
+
+non free, fair usage. Attribute key: NonFree. License fair usage. Also interesting categories
+https://en.wikipedia.org/w/api.php?action=query&prop=imageinfo&iiprop=extmetadata&titles=File:Let_It_Bleed_single_cover.jpg&format=json
