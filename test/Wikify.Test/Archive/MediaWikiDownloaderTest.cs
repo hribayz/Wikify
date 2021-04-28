@@ -19,8 +19,8 @@ namespace Wikify.Test.Archive
     public class MediaWikiDownloaderTest
     {
         private static LoggerFactory _loggerFactory;
-        private static MediaWikiDownloader _articleDownloader;
-        private static ArticleIdentifierFactory _articleIdentifierFactory;
+        private static IArticleArchive _articleDownloader;
+        private static IArticleIdentifierFactory _articleIdentifierFactory;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -41,6 +41,5 @@ namespace Wikify.Test.Archive
             var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, language), contentModel);
             ;
         }
-
     }
 }

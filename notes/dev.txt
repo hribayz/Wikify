@@ -98,5 +98,11 @@ https://www.mediawiki.org/wiki/Manual:Deciding_whether_to_use_a_wiki_as_your_web
 
 Who knows about media or article whereabouts: ID provider or Archive. ID should be independent on archive implementation, archive should target its own resource. 
 
-Tokenization is not the same as data mining, rather a step in the pipeline, but keeping it as one module to prevent more scattering.	
+Tokenization is not the same as data mining, rather a step in the pipeline, but keeping it as one module to prevent more scattering.
+
+ID.parser will parse uri for images. 
+
+Api has endpoint for all data at once, which is desirable (saves requests). How to make use of it and not make a mess of the project structure? Licensing request, ID request (that is URL + infoUrl). Options:
+	Add interface methods to pass preloaded data. More code, will require some work to modularize. Will keep services independent. Can do license without full id parse and vice versa.
+	Add optional data memeber to Id interface for licensing preloaded data. What if it is the other way next time?
 	
