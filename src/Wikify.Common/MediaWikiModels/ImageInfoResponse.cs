@@ -32,6 +32,8 @@ namespace Wikify.Common.MediaWikiModels
 
     public class Imageinfo
     {
+        public string url { get; }
+        public string descriptionurl { get; }
         public Dictionary<string, Metadata> extmetadata { get; set; }
     }
 

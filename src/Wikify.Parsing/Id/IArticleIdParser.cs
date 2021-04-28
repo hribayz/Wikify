@@ -1,0 +1,12 @@
+﻿using System.Threading.Tasks;
+using Wikify.Common;
+using Wikify.Common.Id;
+
+namespace Wikify.Parsing.Id
+{
+    public interface IArticleIdParser
+    {
+        public Task<IArticleIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language);
+        public Task<IArticleIdentifier> GetIdentifierAsync(string articleUrl);
+    }
+}

@@ -8,7 +8,8 @@ namespace Wikify.Common.Network
 {
     public static class MediaWikiUtils
     {
-        private const string _mediaWikiApiUrl = "https://en.wikipedia.org/w/api.php";
+        // https://en.wikipedia.org/w/api.php works as well.
+        private const string _mediaWikiApiUrl = "https://www.mediawiki.org/w/api.php";
 
         private static readonly Dictionary<LanguageEnum, string> _mediaWikiEndpoints = new()
         {

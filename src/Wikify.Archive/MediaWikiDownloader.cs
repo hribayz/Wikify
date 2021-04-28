@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +15,12 @@ namespace Wikify.Archive
 {
     public class MediaWikiDownloader : IArticleArchive, IImageArchive
     {
-        private readonly ILicenseProvider _licenseProvider;
+        private readonly IImageLicenseProvider _licenseProvider;
         private readonly ILogger _logger;
         private readonly IWikiMediaFactory _wikiMediaFactory;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiDownloader(ILogger logger, INetworkingProvider networkingProvider, ILicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
+        public MediaWikiDownloader(ILogger logger, INetworkingProvider networkingProvider, IImageLicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
         {
             _logger = logger;
             _licenseProvider = licenseProvider;
@@ -69,7 +70,15 @@ namespace Wikify.Archive
             }
         }
 
-        public Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
+        public async Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
+        {
+            var licenseTask = _licenseProvider.GetImageLicenseAsync(imageIdentifier);
+
+            imageIdentifier.
+
+        }
+
+        public Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
         {
             throw new NotImplementedException();
         }

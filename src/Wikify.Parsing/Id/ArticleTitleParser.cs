@@ -9,12 +9,7 @@ using Wikify.Common.Id;
 
 namespace Wikify.Parsing.Id
 {
-    public interface IIdParser
-    {
-        public Task<IIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language);
-        public Task<IIdentifier> GetIdentifierAsync(string articleUrl);
-    }
-    public class ArticleTitleParser : IIdParser
+    public class ArticleTitleParser : IArticleIdParser
     {
         private IUserInputValidator _userInputValidator;
         private IArticleIdentifierFactory _articleIdentifierFactory;
@@ -24,12 +19,12 @@ namespace Wikify.Parsing.Id
             _articleIdentifierFactory = articleIdentifierFactory;
         }
         // https://en.wikipedia.org/w/api.php?action=parse&page=Early_life_of_Vladimir_Lenin&format=json
-        public async Task<IIdentifier> GetIdentifierAsync(string articleTitle)
+        public async Task<IArticleIdentifier> GetIdentifierAsync(string articleTitle)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language)
+        public async Task<IArticleIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language)
         {
             var validatedTitle = await _userInputValidator.ValidateArticleTitleAsync(articleTitle);
             var urlEncodedTitle = HttpUtility.UrlEncode(validatedTitle);

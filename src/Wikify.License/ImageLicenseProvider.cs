@@ -17,7 +17,10 @@ using Wikify.License.Tokenization;
 
 namespace Wikify.License
 {
-    public class LicenseProvider : ILicenseProvider
+    /// <summary>
+    /// Licensing resolving service.
+    /// </summary>
+    public class ImageLicenseProvider : IImageLicenseProvider
     {
         private ILogger _logger;
         private INetworkingProvider _networkingProvider;
@@ -26,7 +29,7 @@ namespace Wikify.License
         private ICopyrightTokenizer _copyrightTokenizer;
         private ILicenseRestrictionsTokenizer _licenseRestrictionsTokenizer;
 
-        public LicenseProvider(
+        public ImageLicenseProvider(
             ILogger logger,
             INetworkingProvider networkingProvider,
             ICopyrightFactory copyrightFactory,
@@ -60,7 +63,7 @@ namespace Wikify.License
             return JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
         }
 
-        private async Task<ILicense> TokenizeLicenseMetadataWithValidationAsync(IImageIdentifier identifier, Dictionary<string, Metadata>? metaAttributes)
+        private async Task<ILicense> TokenizeLicenseMetadataWithValidationAsync(IImageIdentifier identifier, IEnumerable<KeyValuePair<string, Metadata>>? metaAttributes)
         {
             if (metaAttributes is null)
             {
@@ -68,24 +71,30 @@ namespace Wikify.License
                 throw new ArgumentNullException(nameof(metaAttributes));
             }
 
-            // Valid metadata dictionary. Attributes have non-empty keys and non-null values.
+            // Metadata dictionary is valid here. Attributes have non-empty keys and non-null values.
 
-            var attributesKeyValuePairs =
-                metaAttributes.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value));
+            var attributesImmutableDictionary =
+                metaAttributes.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value)).ToImmutableDictionary();
+
+            return await TokenizeLicenseMetadata(identifier, attributesImmutableDictionary);
+        }
+
+        private async Task<ILicense> TokenizeLicenseMetadata(IImageIdentifier identifier, IImmutableDictionary<string, string> attributes)
+        {
 
             // Tokenize license on a background thread.
 
             var copyrightLicenseTask =
-                Task.Run(() => _copyrightTokenizer.GetCopyrightLicense(attributesKeyValuePairs));
+                Task.Run(() => _copyrightTokenizer.GetCopyrightLicense(attributes));
 
-            var artistName = metaAttributes.GetValueOrDefault("Artist")?.value;
+            var artistName = attributes.GetValueOrDefault("Artist");
 
             IAttribution attribution = string.IsNullOrWhiteSpace(artistName)
-                ? _copyrightFactory.CreateAttributionWithoutAuthor(identifier.Title, identifier.MetadataUri)
-                : _copyrightFactory.CreateAttribution(identifier.Title, artistName, identifier.MetadataUri);
+                ? _copyrightFactory.CreateAttributionWithoutAuthor(identifier.Title, identifier.CreditUri)
+                : _copyrightFactory.CreateAttribution(identifier.Title, artistName, identifier.CreditUri);
 
 
-            var licenseRestrictions = _licenseRestrictionsTokenizer.GetLicenseRestrictions(attributesKeyValuePairs);
+            var licenseRestrictions = _licenseRestrictionsTokenizer.GetLicenseRestrictions(attributes);
 
             var copyright = _copyrightFactory.CreateCopyright(await copyrightLicenseTask);
 
@@ -96,6 +105,11 @@ namespace Wikify.License
             return license;
         }
 
+        /// <summary>
+        /// Provides licensing information for an image.
+        /// </summary>
+        /// <param name="identifier">Id of the image to get license for.</param>
+        /// <returns>Licensing information.</returns>
         public async Task<ILicense> GetImageLicenseAsync(IImageIdentifier identifier)
         {
             var imageInfoResponse = await QueryLicensesAsync(new[] { identifier });
@@ -106,6 +120,11 @@ namespace Wikify.License
             return await TokenizeLicenseMetadataWithValidationAsync(identifier, metaAttributes);
         }
 
+        /// <summary>
+        /// Provides licensing information for a collection of images.
+        /// </summary>
+        /// <param name="identifiers">Ids of the images to get licenses for.</param>
+        /// <returns>Licensing information.</returns>
         public async Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
         {
             var imageInfosResponse = await QueryLicensesAsync(identifiers);
@@ -155,9 +174,30 @@ namespace Wikify.License
             return licenseKeyValuePairs.ToImmutableDictionary();
         }
 
-        public Task<ILicense> GetArticleLicenseAsync(IArticleIdentifier articleIdentifier)
+
+        public async Task<ILicense> GetImageLicenseAsync(IImageIdentifierWithMetadata imageIdentifier)
         {
-            throw new NotImplementedException();
+            return await TokenizeLicenseMetadata(imageIdentifier, imageIdentifier.ImageMetadata);
+        }
+
+        public async Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers)
+        {
+            List<Task<KeyValuePair<IImageIdentifier, ILicense>>> licenseTokenizationTasks = new();
+
+            foreach (var identifier in imageIdentifiers)
+            {
+                licenseTokenizationTasks.Add(Task.Run(async () =>
+                {
+                    return new KeyValuePair<IImageIdentifier, ILicense>(
+                        identifier,
+                        await TokenizeLicenseMetadata(identifier, identifier.ImageMetadata));
+                }));
+            }
+            
+            var licenseKeyValuePairs = await Task.WhenAll(licenseTokenizationTasks);
+
+            return licenseKeyValuePairs.ToImmutableDictionary();
+
         }
     }
 }

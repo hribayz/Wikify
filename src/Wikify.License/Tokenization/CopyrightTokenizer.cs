@@ -9,6 +9,9 @@ using Wikify.Common.License;
 
 namespace Wikify.License.Tokenization
 {
+    /// <summary>
+    /// Provides structured copyright information.
+    /// </summary>
     public class CopyrightTokenizer : ICopyrightTokenizer
     {
         private ILogger _logger;
@@ -19,7 +22,11 @@ namespace Wikify.License.Tokenization
             _logger = logger;
             _constants = mediaWikiConstantsContainer;
         }
-
+        /// <summary>
+        /// Extracts copyright insight from unstructured image metadata.
+        /// </summary>
+        /// <param name="attributes">Key-value pairs of image metadata attributes.</param>
+        /// <returns>Image copyright.</returns>
         public CopyrightLicenseEnum GetCopyrightLicense(IEnumerable<KeyValuePair<string, string>> attributes)
         {
             foreach (var attribute in attributes)
