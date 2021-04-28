@@ -2,10 +2,13 @@
 
 namespace Wikify.Common.Content
 {
+    /// <summary>
+    /// A container that provides data members for articles.
+    /// </summary>
     public interface IWikiArticle : IWikiMedia
     {
         public IArticleIdentifier Identifier { get; }
         public string ArticleData { get; }
-        public WikiContentModel ContentModel { get; }
+        public TextContentModel ContentModel { get; }
     }
 }

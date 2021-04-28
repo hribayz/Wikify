@@ -6,6 +6,7 @@ using Wikify.Common.License;
 
 namespace Wikify.Common.Content
 {
+    /// <inheritdoc cref="IWikiImage"/>
     public class WikiImage : IWikiImage
     {
         public Image Image { get; private set; }

@@ -28,7 +28,7 @@ namespace Wikify.Archive
             _networkingProvider = networkingProvider;
         }
 
-        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, WikiContentModel contentModel)
+        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, TextContentModel contentModel)
         {
             try
             {
@@ -44,8 +44,8 @@ namespace Wikify.Archive
 
                 string? content = contentModel switch
                 {
-                    WikiContentModel.Text => mwResponseObject?.parse?.text?["*"],
-                    WikiContentModel.WikiText => mwResponseObject?.parse?.wikitext?["*"],
+                    TextContentModel.Text => mwResponseObject?.parse?.text?["*"],
+                    TextContentModel.WikiText => mwResponseObject?.parse?.wikitext?["*"],
                     _ => throw new NotImplementedException()
                 };
 

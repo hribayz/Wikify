@@ -25,7 +25,7 @@ namespace Wikify.Parsing.Content
 
         public async Task LoadArticleAsync(IWikiArticle article)
         {
-            if (article.ContentModel != WikiContentModel.WikiText)
+            if (article.ContentModel != TextContentModel.WikiText)
             {
                 throw new NotImplementedException();
             }

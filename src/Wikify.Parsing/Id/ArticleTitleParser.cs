@@ -9,11 +9,11 @@ using Wikify.Common.Id;
 
 namespace Wikify.Parsing.Id
 {
-    public class ArticleTitleParser : IArticleIdParser
+    public class ArticleIdParser : IArticleIdParser
     {
         private IUserInputValidator _userInputValidator;
         private IArticleIdentifierFactory _articleIdentifierFactory;
-        public ArticleTitleParser(IUserInputValidator userInputValidator, IArticleIdentifierFactory articleIdentifierFactory)
+        public ArticleIdParser(IUserInputValidator userInputValidator, IArticleIdentifierFactory articleIdentifierFactory)
         {
             _userInputValidator = userInputValidator;
             _articleIdentifierFactory = articleIdentifierFactory;

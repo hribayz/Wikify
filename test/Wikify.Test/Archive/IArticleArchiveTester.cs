@@ -15,7 +15,7 @@ namespace Wikify.Test.Archive
         }
         public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier)
         {
-            return await _articleArchive.GetArticleAsync(articleIdentifier, WikiContentModel.Text);
+            return await _articleArchive.GetArticleAsync(articleIdentifier, TextContentModel.Text);
         }
     }
 }

@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Wikify.Common.Content
 {
-    public enum WikiContentModel
+    /// <summary>
+    /// Content format of text-based <see cref="IWikiMedia"/> like <see cref="IWikiArticle"/>.
+    /// </summary>
+    public enum TextContentModel
     {
         WikiText, Text
     }

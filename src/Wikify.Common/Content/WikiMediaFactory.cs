@@ -5,9 +5,10 @@ using Wikify.Common.License;
 
 namespace Wikify.Common.Content
 {
+    /// <inheritdoc cref="IWikiMediaFactory"/>
     public class WikiMediaFactory : IWikiMediaFactory
     {
-        public IWikiArticle CreateWikiArticle(IArticleIdentifier identifier, ILicense license, string content, WikiContentModel contentModel)
+        public IWikiArticle CreateWikiArticle(IArticleIdentifier identifier, ILicense license, string content, TextContentModel contentModel)
         {
             return new WikiArticle(identifier, license, content, contentModel);
         }

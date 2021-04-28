@@ -16,7 +16,7 @@ namespace Wikify.Common.Network
             [LanguageEnum.English] = _mediaWikiApiUrl + "?action=parse"
         };
 
-        public static string GetParseQuery(string articleTitle, LanguageEnum language, WikiContentModel contentModel)
+        public static string GetParseQuery(string articleTitle, LanguageEnum language, TextContentModel contentModel)
         {
             if (!_mediaWikiEndpoints.ContainsKey(language))
             {
@@ -27,8 +27,8 @@ namespace Wikify.Common.Network
 
             string prop = contentModel switch
             {
-                WikiContentModel.Text => "text",
-                WikiContentModel.WikiText => "wikitext",
+                TextContentModel.Text => "text",
+                TextContentModel.WikiText => "wikitext",
                 _ => throw new NotImplementedException()
             };
 

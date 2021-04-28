@@ -35,9 +35,10 @@ namespace Wikify.Test.Archive
         }
 
         [TestMethod]
-        [DataRow("Giorgio Moroder", LanguageEnum.English, WikiContentModel.WikiText)]
-        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, WikiContentModel contentModel)
+        [DataRow("Giorgio Moroder", LanguageEnum.English, TextContentModel.WikiText)]
+        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, TextContentModel contentModel)
         {
+            var wikimedia = new WikiMediaFactory();
             var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, language), contentModel);
             ;
         }

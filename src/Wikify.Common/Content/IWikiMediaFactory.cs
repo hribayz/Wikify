@@ -10,11 +10,12 @@ using Wikify.Common.License;
 namespace Wikify.Common.Content
 {
     /// <summary>
-    /// Provides the only way of creating instances of IWikiMedia descendants (e.g. WikiImages, WikiArticles). Enforces the golden rule that every instance have the identifier, the license and the content set at creation.
+    /// Provides methods for creating instances of <see cref="IWikiMedia"/> descendants (e.g. <see cref="IWikiImage"/>, <see cref="IWikiArticle"/>).
+    /// Ensures the <see cref="IIdentifier"/>, the <see cref="ILicense"/> and the content references are set at creation.
     /// </summary>
     public interface IWikiMediaFactory
     {
-        public IWikiArticle CreateWikiArticle(IArticleIdentifier identifier, ILicense license, string content, WikiContentModel contentModel);
+        public IWikiArticle CreateWikiArticle(IArticleIdentifier identifier, ILicense license, string content, TextContentModel contentModel);
         public IWikiImage CreateWikiImage(IImageIdentifier identifier, ILicense license, Image image);
     }
 }

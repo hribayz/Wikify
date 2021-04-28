@@ -7,7 +7,7 @@ namespace Wikify.Archive
 {
     public interface IArticleArchive
     {
-        public Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, WikiContentModel contentModel);
+        public Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, TextContentModel contentModel);
     }
     public interface IImageArchive
     {
