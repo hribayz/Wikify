@@ -1,5 +1,11 @@
 You can't edit embedded resources outside VS. They are baked into the binary.
+
 Strings are compared by value in C# and by reference in Java. The only time you can be sure in C# that two strings with the same value also point to the same instance is compile-time literals.
+
 You can create an instance by just new() in C# 8.0 if the type has been already resolved.
+
 Interfaces can have properties in C# and it is just a shorthand for the getter and/or setter methods lol.
+
 bool Dictionary<anything,string>.TryGetValue(anything, out string value) will trigger the "possible null in non nullable variable" warning even if the dictionary is compile-time defined and readonly.
+
+ManualResetEvent does not have a flag for signaling what state it is in. WaitOne with timeout 0 has to be used. Now that we have ManualResetEventSlim, there is the flag and is said to be faster than WaitOne(0)

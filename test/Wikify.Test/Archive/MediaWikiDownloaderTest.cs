@@ -28,7 +28,7 @@ namespace Wikify.Test.Archive
             _loggerFactory = new LoggerFactory();
             _articleIdentifierFactory = new ArticleIdentifierFactory();
             _articleDownloader = new MediaWikiDownloader(
-                _loggerFactory.CreateLogger<MediaWikiDownloader>(),
+                _loggerFactory.CreateLogger<MediaWikiArticleDownloader>(),
                 new Wikify.Common.Network.NetworkingProvider(),
                 new LicenseProvider(),
                 new WikiMediaFactory());
