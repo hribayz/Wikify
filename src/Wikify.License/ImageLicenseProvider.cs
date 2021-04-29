@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.Common.License;
@@ -15,6 +16,7 @@ using Wikify.Common.MediaWikiModels;
 using Wikify.Common.Network;
 using Wikify.License.Copyright;
 using Wikify.License.Tokenization;
+using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
 
 namespace Wikify.License
 {
@@ -46,11 +48,11 @@ namespace Wikify.License
             _licenseRestrictionsTokenizer = licenseRestrictionsTokenizer;
         }
 
-        private async Task<ImageInfoResponse?> QueryLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
+        private async Task<ImageInfoRootObject?> QueryLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
         {
             // Compose request
 
-            string licenseQuery = MediaWikiUtils.GetImageMetadataQuery(imageIdentifiers.Select(x => x.Title));
+            string licenseQuery = MediaWikiUtils.GetImageMetadataQuery(imageIdentifiers.Select(x => x.Title), new[] { "extmetadata" });
             var licenseQueryUri = new Uri(licenseQuery);
 
             _logger.LogInformation("Parse Query: " + licenseQuery);
@@ -61,7 +63,7 @@ namespace Wikify.License
 
             _logger.LogInformation("Parse Query response content: " + responseContent);
 
-            return JsonConvert.DeserializeObject<ImageInfoResponse>(responseContent);
+            return JsonConvert.DeserializeObject<ImageInfoRootObject>(responseContent);
         }
 
         private async Task<ILicense> TokenizeLicenseMetadataWithValidationAsync(IImageIdentifier identifier, IEnumerable<KeyValuePair<string, Metadata>>? metaAttributes)
@@ -114,7 +116,7 @@ namespace Wikify.License
         {
             var imageInfoResponse = await QueryLicensesAsync(new[] { identifier });
 
-            Dictionary<string, Metadata>? metaAttributes =
+            Dictionary<string, MediaWikiImageInfoResponse.Metadata>? metaAttributes =
                 imageInfoResponse?.query?.pages?.SingleOrDefault().Value?.imageinfo?.SingleOrDefault()?.extmetadata;
 
             return await TokenizeLicenseMetadataWithValidationAsync(identifier, metaAttributes);
@@ -127,35 +129,35 @@ namespace Wikify.License
         /// <returns>Licensing information.</returns>
         public async Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
         {
-            var imageInfosResponse = await QueryLicensesAsync(identifiers);
+            var imageInfo = await QueryLicensesAsync(identifiers);
 
             // Validate response.
 
-            if (imageInfosResponse?.query?.pages == null)
+            if (imageInfo?.query?.pages == null)
             {
                 throw new ApplicationException("Failed to retrieve image info. imageInfosResponse?.query?.pages is null.");
             }
 
             var originalTitles = new Dictionary<string, string>();
 
-            if (imageInfosResponse.query.normalized != null)
+            if (imageInfo.query.normalized != null)
             {
-                originalTitles = imageInfosResponse.query.normalized.ToDictionary(x => x.to, x => x.from);
+                originalTitles = imageInfo.query.normalized.ToDictionary(x => x.to, x => x.from);
             }
 
             List<Task<KeyValuePair<IImageIdentifier, ILicense>>> licenseTokenizationTasks = new();
 
-            foreach (var page in imageInfosResponse.query.pages)
+            foreach (var page in imageInfo.query.pages)
             {
                 var metaAttributes = page.Value?.imageinfo?.SingleOrDefault()?.extmetadata;
-
-                // Response is valid here. The metadata object is present. Attributes have non-empty keys and non-null values.
 
                 if (metaAttributes == null)
                 {
                     _logger.LogError(nameof(GetImageLicensesAsync) + " cannot retrieve object title, null " + nameof(metaAttributes));
                     throw new ArgumentNullException(nameof(metaAttributes));
                 }
+
+                // Response is valid here. The metadata object is present. Attributes have non-empty keys and non-null values.
 
                 var normalizedTitle = metaAttributes["ObjectName"].value;
 
@@ -193,7 +195,7 @@ namespace Wikify.License
                         await TokenizeLicenseMetadata(identifier, identifier.ImageMetadata));
                 }));
             }
-            
+
             var licenseKeyValuePairs = await Task.WhenAll(licenseTokenizationTasks);
 
             return new Dictionary<IImageIdentifier, ILicense>(licenseKeyValuePairs);

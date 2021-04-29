@@ -2,14 +2,18 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.Common.MediaWikiModels;
 using Wikify.Common.Network;
 using Wikify.License;
+using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
 
 namespace Wikify.Archive
 {
@@ -17,20 +21,44 @@ namespace Wikify.Archive
     {
         private readonly ILogger _logger;
         private readonly IWikiMediaFactory _wikiMediaFactory;
+        private readonly IImageIdentifierFactory _imageIdentifierFactory;
         private readonly IImageLicenseProvider _imageLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
+        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageIdentifierFactory imageIdentifierFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
         {
             _logger = logger;
             _wikiMediaFactory = wikiMediaFactory;
+            _imageIdentifierFactory = imageIdentifierFactory;
             _imageLicenseProvider = imageLicenseProvider;
             _networkingProvider = networkingProvider;
         }
 
-        public Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
+        public async Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
         {
-            throw new NotImplementedException();
+            var imageMetadataQuery = MediaWikiUtils.GetImageMetadataQuery(new[] { imageIdentifier.Title }, new[] { "extmetadata", "url" });
+            var imageMetadataQueryUri = new Uri(imageMetadataQuery);
+
+            var iiResponse = await _networkingProvider.GetResponseContentAsync(imageMetadataQueryUri);
+            _logger.LogDebug("iiResponse: " + iiResponse);
+
+            var iiResponseObject = JsonConvert.DeserializeObject<ImageInfoRootObject>(iiResponse) ?? throw new ApplicationException("iiResponse was deserialized into null. ");
+            Page imagePage = iiResponseObject.query.pages.Single().Value;
+            Imageinfo imageinfo = imagePage.imageinfo.Single();
+
+            var imageAddress = imageinfo.url;
+            var imageAddressUri = new Uri(imageAddress);
+
+            var imageTask = _networkingProvider.GetResponseContentStreamAsync(imageAddressUri);
+
+            var licenseTask = _imageLicenseProvider.GetImageLicenseAsync(
+                _imageIdentifierFactory.GetIdentifier(imageIdentifier, imageinfo.extmetadata.ToDictionary(x => x.Key, x => x.Value.value)));
+
+            var image = Image.FromStream(await imageTask);
+
+            var license = await licenseTask;
+
+            return _wikiMediaFactory.CreateWikiImage(imageIdentifier, license, image);
         }
 
         public Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
@@ -65,7 +93,7 @@ namespace Wikify.Archive
 
                 var mwResponse = await _networkingProvider.GetResponseContentAsync(parseQueryUri);
 
-                var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiResponse>(mwResponse);
+                var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiParserResponse.ParserRootObject>(mwResponse);
 
                 string? content = contentModel switch
                 {
@@ -90,7 +118,7 @@ namespace Wikify.Archive
 
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(e, "Failed to retrieve article.");
                 throw;
             }
         }

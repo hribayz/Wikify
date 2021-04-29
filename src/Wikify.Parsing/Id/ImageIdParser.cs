@@ -22,5 +22,10 @@ namespace Wikify.Parsing.Id
         {
             
         }
+
+        public Task<IImageIdentifierWithMetadata> GetIdentifierWithMetadataAsync(string imageTitle)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

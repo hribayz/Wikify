@@ -38,7 +38,7 @@ namespace Wikify.Common.Network
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                _logger.LogError(e, "Failed to retrieve http response.");
                 throw;
             }
         }
