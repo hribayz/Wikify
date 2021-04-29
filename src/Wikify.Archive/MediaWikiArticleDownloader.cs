@@ -13,17 +13,42 @@ using Wikify.License;
 
 namespace Wikify.Archive
 {
-    public class MediaWikiDownloader : IArticleArchive, IImageArchive
+    public class MediaWikiImageDownloader : IImageArchive
     {
-        private readonly IImageLicenseProvider _licenseProvider;
         private readonly ILogger _logger;
         private readonly IWikiMediaFactory _wikiMediaFactory;
+        private readonly IImageLicenseProvider _imageLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiDownloader(ILogger logger, INetworkingProvider networkingProvider, IImageLicenseProvider licenseProvider, IWikiMediaFactory wikiMediaFactory)
+        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
         {
             _logger = logger;
-            _licenseProvider = licenseProvider;
+            _wikiMediaFactory = wikiMediaFactory;
+            _imageLicenseProvider = imageLicenseProvider;
+            _networkingProvider = networkingProvider;
+        }
+
+        public Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class MediaWikiArticleDownloader : IArticleArchive
+    {
+        private readonly ILogger _logger;
+        private readonly IWikiMediaFactory _wikiMediaFactory;
+        private readonly IArticleLicenseProvider _articleLicenseProvider;
+        private readonly INetworkingProvider _networkingProvider;
+
+        public MediaWikiArticleDownloader(ILogger logger, INetworkingProvider networkingProvider, IArticleLicenseProvider articleLicenseProvider, IWikiMediaFactory wikiMediaFactory)
+        {
+            _logger = logger;
+            _articleLicenseProvider = articleLicenseProvider;
             _wikiMediaFactory = wikiMediaFactory;
             _networkingProvider = networkingProvider;
         }
@@ -33,7 +58,7 @@ namespace Wikify.Archive
             try
             {
                 // Resolve license on a background task, retrieve after content has been parsed.
-                var licenseTask = _licenseProvider.GetArticleLicenseAsync(articleIdentifier);
+                var licenseTask = _articleLicenseProvider.GetArticleLicenseAsync(articleIdentifier);
 
                 var parseQuery = MediaWikiUtils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
                 var parseQueryUri = new Uri(parseQuery);
@@ -68,19 +93,6 @@ namespace Wikify.Archive
                 _logger.LogError(e.ToString());
                 throw;
             }
-        }
-
-        public async Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
-        {
-            var licenseTask = _licenseProvider.GetImageLicenseAsync(imageIdentifier);
-
-            imageIdentifier.
-
-        }
-
-        public Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
-        {
-            throw new NotImplementedException();
         }
     }
 }

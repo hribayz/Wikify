@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -73,13 +74,12 @@ namespace Wikify.License
 
             // Metadata dictionary is valid here. Attributes have non-empty keys and non-null values.
 
-            var attributesImmutableDictionary =
-                metaAttributes.Select(x => new KeyValuePair<string, string>(x.Key, x.Value.value)).ToImmutableDictionary();
+            var attributesDictionary = metaAttributes.ToDictionary(x => x.Key, x => x.Value.value);
 
-            return await TokenizeLicenseMetadata(identifier, attributesImmutableDictionary);
+            return await TokenizeLicenseMetadata(identifier, attributesDictionary);
         }
 
-        private async Task<ILicense> TokenizeLicenseMetadata(IImageIdentifier identifier, IImmutableDictionary<string, string> attributes)
+        private async Task<ILicense> TokenizeLicenseMetadata(IImageIdentifier identifier, IReadOnlyDictionary<string, string> attributes)
         {
 
             // Tokenize license on a background thread.
@@ -125,7 +125,7 @@ namespace Wikify.License
         /// </summary>
         /// <param name="identifiers">Ids of the images to get licenses for.</param>
         /// <returns>Licensing information.</returns>
-        public async Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
+        public async Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> identifiers)
         {
             var imageInfosResponse = await QueryLicensesAsync(identifiers);
 
@@ -171,7 +171,7 @@ namespace Wikify.License
 
             var licenseKeyValuePairs = await Task.WhenAll(licenseTokenizationTasks);
 
-            return licenseKeyValuePairs.ToImmutableDictionary();
+            return new Dictionary<IImageIdentifier, ILicense>(licenseKeyValuePairs);
         }
 
 
@@ -180,7 +180,7 @@ namespace Wikify.License
             return await TokenizeLicenseMetadata(imageIdentifier, imageIdentifier.ImageMetadata);
         }
 
-        public async Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers)
+        public async Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers)
         {
             List<Task<KeyValuePair<IImageIdentifier, ILicense>>> licenseTokenizationTasks = new();
 
@@ -196,8 +196,7 @@ namespace Wikify.License
             
             var licenseKeyValuePairs = await Task.WhenAll(licenseTokenizationTasks);
 
-            return licenseKeyValuePairs.ToImmutableDictionary();
-
+            return new Dictionary<IImageIdentifier, ILicense>(licenseKeyValuePairs);
         }
     }
 }

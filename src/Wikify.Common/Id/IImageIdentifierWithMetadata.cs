@@ -1,9 +1,9 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 
 namespace Wikify.Common.Id
 {
     public interface IImageIdentifierWithMetadata : IImageIdentifier
     {
-        public IImmutableDictionary<string, string> ImageMetadata { get; }
+        public IReadOnlyDictionary<string, string> ImageMetadata { get; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Wikify.Common;
@@ -13,8 +12,8 @@ namespace Wikify.License
     {
         public Task<ILicense> GetImageLicenseAsync(IImageIdentifier imageIdentifier);
         public Task<ILicense> GetImageLicenseAsync(IImageIdentifierWithMetadata imageIdentifier);
-        public Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers);
-        public Task<IImmutableDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers);
+        public Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers);
+        public Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers);
     }
     public interface IArticleLicenseProvider
     {
