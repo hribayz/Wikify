@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
-using Wikify.Common;
-using Wikify.Common.Content;
-using Wikify.Common.Id;
+using Wikify.Common.UserInput;
 
-namespace Wikify.Parsing.Id
+namespace Wikify.Common.Id
 {
     public class ArticleIdParser : IArticleIdParser
     {

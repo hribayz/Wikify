@@ -21,49 +21,43 @@ namespace Wikify.Archive
     {
         private readonly ILogger _logger;
         private readonly IWikiMediaFactory _wikiMediaFactory;
-        private readonly IImageIdentifierFactory _imageIdentifierFactory;
         private readonly IImageLicenseProvider _imageLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageIdentifierFactory imageIdentifierFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
+        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
         {
             _logger = logger;
             _wikiMediaFactory = wikiMediaFactory;
-            _imageIdentifierFactory = imageIdentifierFactory;
             _imageLicenseProvider = imageLicenseProvider;
             _networkingProvider = networkingProvider;
         }
 
         public async Task<IWikiImage> GetImageAsync(IImageIdentifier imageIdentifier)
         {
-            var imageMetadataQuery = MediaWikiUtils.GetImageMetadataQuery(new[] { imageIdentifier.Title }, new[] { "extmetadata", "url" });
-            var imageMetadataQueryUri = new Uri(imageMetadataQuery);
-
-            var iiResponse = await _networkingProvider.GetResponseContentAsync(imageMetadataQueryUri);
-            _logger.LogDebug("iiResponse: " + iiResponse);
-
-            var iiResponseObject = JsonConvert.DeserializeObject<ImageInfoRootObject>(iiResponse) ?? throw new ApplicationException("iiResponse was deserialized into null. ");
-            Page imagePage = iiResponseObject.query.pages.Single().Value;
-            Imageinfo imageinfo = imagePage.imageinfo.Single();
-
-            var imageAddress = imageinfo.url;
+            var imageAddress = imageIdentifier.ImageUri;
             var imageAddressUri = new Uri(imageAddress);
 
+            // Image download task on the background.
             var imageTask = _networkingProvider.GetResponseContentStreamAsync(imageAddressUri);
 
-            var licenseTask = _imageLicenseProvider.GetImageLicenseAsync(
-                _imageIdentifierFactory.GetIdentifier(imageIdentifier, imageinfo.extmetadata.ToDictionary(x => x.Key, x => x.Value.value)));
+            // Tokenize license in the meantime.
+            var license = await _imageLicenseProvider.GetImageLicenseAsync(imageIdentifier);
 
             var image = Image.FromStream(await imageTask);
-
-            var license = await licenseTask;
 
             return _wikiMediaFactory.CreateWikiImage(imageIdentifier, license, image);
         }
 
-        public Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
+        public async Task<IReadOnlyCollection<IWikiImage>> GetImagesAsync(IEnumerable<IImageIdentifier> imageIdentifiers)
         {
-            throw new NotImplementedException();
+            List<Task<IWikiImage>> imageTasks = new();
+
+            foreach (var imageIdentifier in imageIdentifiers)
+            {
+                imageTasks.Add(GetImageAsync(imageIdentifier));
+            }
+
+            return await Task.WhenAll(imageTasks);
         }
     }
     public class MediaWikiArticleDownloader : IArticleArchive

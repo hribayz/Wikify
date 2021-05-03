@@ -2,7 +2,7 @@
 using Wikify.Common;
 using Wikify.Common.Id;
 
-namespace Wikify.Parsing.Id
+namespace Wikify.Common.Id
 {
     public interface IArticleIdParser
     {

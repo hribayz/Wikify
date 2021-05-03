@@ -11,9 +11,7 @@ namespace Wikify.License
     public interface IImageLicenseProvider
     {
         public Task<ILicense> GetImageLicenseAsync(IImageIdentifier imageIdentifier);
-        public Task<ILicense> GetImageLicenseAsync(IImageIdentifierWithMetadata imageIdentifier);
         public Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifier> imageIdentifiers);
-        public Task<IReadOnlyDictionary<IImageIdentifier, ILicense>> GetImageLicensesAsync(IEnumerable<IImageIdentifierWithMetadata> imageIdentifiers);
     }
     public interface IArticleLicenseProvider
     {

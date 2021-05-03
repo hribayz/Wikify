@@ -44,7 +44,7 @@ namespace Wikify.Common
                 .ToString();
         }
 
-        public static string GetImageMetadataQuery(IEnumerable<string> titles, IEnumerable<string> iiProps)
+        public static string GetImageMetadataQuery(IEnumerable<string> titles, MediaWikiImageInfoProps iiProps)
         {
             #region Argument validation
 
@@ -53,39 +53,38 @@ namespace Wikify.Common
                 throw new ArgumentNullException(nameof(titles));
             }
 
-            if (iiProps is null)
-            {
-                throw new ArgumentNullException(nameof(iiProps));
-            }
-
             if (!titles.Any())
             {
                 throw new ArgumentException("Cannot query metadata for empty ienumerable of titles");
             }
 
-            if (!iiProps.Any())
+            if (iiProps.HasFlag(MediaWikiImageInfoProps.None))
             {
-                throw new ArgumentException("Cannot query metadata for empty ienumerable of props");
+                throw new ArgumentException("Cannot query metadata with no props");
             }
+
             #endregion
 
-            // compose iiProps argument value
-
+            // compose iiProps argument value from raised flags
             var propsSb = new StringBuilder();
-            foreach (var iiProp in iiProps)
+            foreach (MediaWikiImageInfoProps flag in Enum.GetValues(typeof(MediaWikiImageInfoProps)))
             {
-                propsSb.Append(iiProp).Append("|");
+                if (iiProps.HasFlag(flag))
+                {
+                    propsSb.Append(flag.ToString().ToLower()).Append("|");
+                }
             }
+
             // remove the trailing "|" that is now the last char
             propsSb.Remove(propsSb.Length - 1, 1);
 
             // compose titles argument value
-
             var titleSb = new StringBuilder();
             foreach (var title in titles)
             {
                 titleSb.Append(title).Append("|");
             }
+
             // remove the trailing "|" that is now the last char
             titleSb.Remove(titleSb.Length - 1, 1);
 
@@ -116,7 +115,7 @@ namespace Wikify.Common
             /// Using Dictionary makes this implementation resilient to new enums being added to <see cref="MediaWikiImageInfoProps"/>.
             /// It will throw a KeyNotFoundException on an unknown flag rather than silently pass.
             /// Keep it this way if modifying.
-            Dictionary<MediaWikiImageInfoProps, Func<KeyValuePair<int, Page?>?, bool>> validator = new()
+            Dictionary<MediaWikiImageInfoProps, Func<KeyValuePair<int, Page>?, bool>> validator = new()
             {
                 [MediaWikiImageInfoProps.None] = page => true,
                 [MediaWikiImageInfoProps.ExtMetadata] = page => page?.Value?.imageinfo?.SingleOrDefault()?.extmetadata != null,

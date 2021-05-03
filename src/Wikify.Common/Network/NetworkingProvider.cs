@@ -68,7 +68,7 @@ namespace Wikify.Common.Network
             if (!response.IsSuccessStatusCode)
             {
                 logSb.Append("Request was not succesful.").Append(Environment.NewLine)
-                    .Append("Media Wiki response status: ").Append(response.StatusCode);
+                    .Append("Response status: ").Append(response.StatusCode);
 
                 throw new ApplicationException(logSb.ToString());
             }

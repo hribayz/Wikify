@@ -2,7 +2,7 @@
 
 namespace Wikify.Common.Id
 {
-    public class ImageIdentifier : IImageIdentifier, IImageIdentifierWithMetadata
+    public class ImageIdentifier : IImageIdentifier
     {
         private readonly IReadOnlyDictionary<string, string>? _imageMetadata;
         public string Title { get; }
