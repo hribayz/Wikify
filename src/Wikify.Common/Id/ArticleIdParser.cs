@@ -23,9 +23,8 @@ namespace Wikify.Common.Id
         public async Task<IArticleIdentifier> GetIdentifierAsync(string articleTitle, LanguageEnum language)
         {
             var validatedTitle = await _userInputValidator.ValidateArticleTitleAsync(articleTitle);
-            var urlEncodedTitle = HttpUtility.UrlEncode(validatedTitle);
 
-            return _articleIdentifierFactory.GetIdentifier(urlEncodedTitle, language);
+            return _articleIdentifierFactory.GetIdentifier(validatedTitle, language);
         }
     }
 }

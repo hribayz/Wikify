@@ -10,7 +10,9 @@ using Wikify.Archive;
 using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
+using Wikify.Common.Network;
 using Wikify.License;
+using Wikify.License.Copyright;
 using Wikify.Parsing.Content;
 
 namespace Wikify.Test.Archive
@@ -18,7 +20,7 @@ namespace Wikify.Test.Archive
     [TestClass]
     public class MediaWikiDownloaderTest
     {
-        private static LoggerFactory _loggerFactory;
+        private static ILoggerFactory _loggerFactory;
         private static IArticleArchive _articleDownloader;
         private static IArticleIdentifierFactory _articleIdentifierFactory;
 
@@ -27,15 +29,15 @@ namespace Wikify.Test.Archive
         {
             _loggerFactory = new LoggerFactory();
             _articleIdentifierFactory = new ArticleIdentifierFactory();
-            _articleDownloader = new MediaWikiDownloader(
+            _articleDownloader = new MediaWikiArticleDownloader(
                 _loggerFactory.CreateLogger<MediaWikiArticleDownloader>(),
-                new Wikify.Common.Network.NetworkingProvider(),
-                new LicenseProvider(),
+                new Wikify.Common.Network.NetworkingProvider(_loggerFactory.CreateLogger<NetworkingProvider>()),
+                new ArticleLicenseProvider(_loggerFactory.CreateLogger<ArticleLicenseProvider>(), new LicenseFactory(), new CopyrightFactory(new CopyrightResolver())),
                 new WikiMediaFactory());
         }
 
         [TestMethod]
-        [DataRow("Giorgio Moroder", LanguageEnum.English, TextContentModel.WikiText)]
+        [DataRow("Giorgio_Moroder", LanguageEnum.English, TextContentModel.WikiText)]
         public async Task TestDownloadArticleAsync(string title, LanguageEnum language, TextContentModel contentModel)
         {
             var wikimedia = new WikiMediaFactory();

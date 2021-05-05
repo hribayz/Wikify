@@ -14,4 +14,7 @@ namespace Wikify.Common.License
         Gfdl,
         Unknown
     }
+
+    /// --- WARNING ---
+    /// Changes to this enum will cause the <see cref="Wikify.License.Copyright.CopyrightResolver"/> current implementation throw not implemented exception.
 }

@@ -27,7 +27,7 @@ namespace Wikify.Parsing.Content
         {
             if (article.ContentModel != TextContentModel.WikiText)
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException($"This implementation of {nameof(ArticleParser)} can only load an instance of {nameof(IWikiArticle)} with {TextContentModel.WikiText} {nameof(TextContentModel)}");
             }
 
             var parser = new WikitextParser();

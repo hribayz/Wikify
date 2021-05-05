@@ -15,12 +15,13 @@ namespace Wikify.Common.MediaWikiModels
         Url = 4,
         DescriptionUrl = 8,
 
-        All = 16 - 1 - 1
+        All = 2 | 4 | 8
 
         /// --- WARNING ---
         /// 
-        /// Do not modify this enum unless you review and update <see cref="Wikify.Common.MediaWikiUtils.AssertImageInfoPropsNotNull"/>.
-        /// The assert will silently OK new enums even if they're invalid.
-        /// Also: the only acceptable variation from the actual mediawiki iiprops is case.
+        /// 1.  Do not modify this enum unless you review and update <see cref="MediaWikiUtils.AssertImageInfoPropsNotNull"/>.
+        ///     The assert may silently OK unknown enums even if they're invalid.
+        /// 2.  The only acceptable variation from the actual mediawiki iiprops is case.
+        ///     If you want to deviate from this, introduce a translation service and fix all .ToString().ToLower() usages
     }
 }

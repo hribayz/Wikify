@@ -15,5 +15,44 @@ namespace Wikify.License.Copyright
         public bool IsCompatible(CopyrightLicenseEnum copyrightLicense, CopyrightLicenseEnum withCopyrightLicense);
         public IEnumerable<CopyrightLicenseEnum> GetCompatibleWith(CopyrightLicenseEnum copyrightLicense);
     }
+    public class CopyrightResolver : ICopyrightResolver
+    {
+        public IEnumerable<CopyrightLicenseEnum> GetCompatibleWith(CopyrightLicenseEnum copyrightLicense)
+        {
+            throw new NotImplementedException();
+        }
 
+        public bool IsAttributionRequired(CopyrightLicenseEnum copyrightLicense)
+        {
+            return copyrightLicense switch
+            {
+                CopyrightLicenseEnum.CcBy => true,
+                CopyrightLicenseEnum.CcBySa => true,
+                CopyrightLicenseEnum.Gfdl => true,
+                CopyrightLicenseEnum.Unknown => true,
+
+                CopyrightLicenseEnum.PublicDomainEquivalent => false,
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        public bool IsCompatible(CopyrightLicenseEnum copyrightLicense, CopyrightLicenseEnum withCopyrightLicense)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsCopyrighted(CopyrightLicenseEnum copyrightLicense)
+        {
+            return copyrightLicense switch
+            {
+                CopyrightLicenseEnum.CcBy => true,
+                CopyrightLicenseEnum.CcBySa => true,
+                CopyrightLicenseEnum.Gfdl => true,
+                CopyrightLicenseEnum.Unknown => true,
+
+                CopyrightLicenseEnum.PublicDomainEquivalent => false,
+                _ => throw new NotImplementedException()
+            };
+        }
+    }
 }

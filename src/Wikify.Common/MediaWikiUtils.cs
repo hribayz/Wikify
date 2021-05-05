@@ -11,23 +11,22 @@ namespace Wikify.Common
 {
     public static class MediaWikiUtils
     {
-
-        // https://en.wikipedia.org/w/api.php works as well.
         private const string _mediaWikiApiUrl = "https://www.mediawiki.org/w/api.php";
+        private const string _wikipediaApiUrl = "https://LANG.wikipedia.org/w/api.php";
 
-        private static readonly Dictionary<LanguageEnum, string> _mediaWikiEndpoints = new()
+        private static readonly Dictionary<LanguageEnum, string> _wikipediaApiEndpoints = new()
         {
-            [LanguageEnum.English] = _mediaWikiApiUrl + "?action=parse"
+            [LanguageEnum.English] = _wikipediaApiUrl.Replace("LANG", "en") + "?action=parse"
         };
 
         public static string GetParseQuery(string articleTitle, LanguageEnum language, TextContentModel contentModel)
         {
-            if (!_mediaWikiEndpoints.ContainsKey(language))
+            if (!_wikipediaApiEndpoints.ContainsKey(language))
             {
                 throw new NotImplementedException(nameof(MediaWikiUtils) + " does not have an implementation for language: " + language.ToString());
             }
 
-            var endpoint = _mediaWikiEndpoints[language];
+            var endpoint = _wikipediaApiEndpoints[language];
 
             string prop = contentModel switch
             {
