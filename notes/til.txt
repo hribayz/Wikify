@@ -9,3 +9,5 @@ Interfaces can have properties in C# and it is just a shorthand for the getter a
 bool Dictionary<anything,string>.TryGetValue(anything, out string value) will trigger the "possible null in non nullable variable" warning even if the dictionary is compile-time defined and readonly.
 
 ManualResetEvent does not have a flag for signaling what state it is in. WaitOne with timeout 0 has to be used. Now that we have ManualResetEventSlim, there is the flag and is said to be faster than WaitOne(0)
+
+I don't like dotnet idisposable. So much boilerplate just to make sure it is called just once.
