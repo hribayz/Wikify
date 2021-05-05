@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
@@ -13,7 +8,6 @@ using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
 using Wikify.License.Copyright;
-using Wikify.Parsing.Content;
 
 namespace Wikify.Test.Archive
 {
@@ -37,12 +31,12 @@ namespace Wikify.Test.Archive
         }
 
         [TestMethod]
-        [DataRow("Giorgio_Moroder", LanguageEnum.English, TextContentModel.WikiText)]
-        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, TextContentModel contentModel)
+        [DataRow("Giorgio Moroder", LanguageEnum.English, TextContentModel.WikiText, "birth_name = Giovanni Giorgio Moroder")]
+        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, TextContentModel contentModel, string mustHaveSubstring)
         {
-            var wikimedia = new WikiMediaFactory();
             var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, language), contentModel);
-            ;
+
+            Assert.IsTrue(article.ArticleData.Contains(mustHaveSubstring));
         }
     }
 }
