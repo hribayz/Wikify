@@ -32,7 +32,7 @@ namespace Wikify.Common.MediaWikiModels
         public class Page
         {
             //public int? ns { get; set; }
-            //public string? title { get; set; }
+            public string title { get; set; }
             //public string? missing { get; set; }
             //public string? known { get; set; }
             //public string? imagerepository { get; set; }
@@ -42,8 +42,8 @@ namespace Wikify.Common.MediaWikiModels
 
         public class Imageinfo
         {
-            public string url { get; }
-            public string descriptionurl { get; }
+            public string url { get; set; }
+            public string descriptionurl { get; set; }
             public Dictionary<string, Metadata> extmetadata { get; set; }
         }
 

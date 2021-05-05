@@ -31,12 +31,12 @@ namespace Wikify.Archive
             var imageAddressUri = new Uri(imageAddress);
 
             // Image download task on the background.
-            var imageTask = _networkingProvider.GetResponseContentStreamAsync(imageAddressUri);
+            var imageTask = _networkingProvider.DownloadImageAsync(imageAddressUri);
 
             // Tokenize license in the meantime.
             var license = await _imageLicenseProvider.GetImageLicenseAsync(imageIdentifier);
 
-            var image = Image.FromStream(await imageTask);
+            var image = await imageTask;
 
             return _wikiMediaFactory.CreateWikiImage(imageIdentifier, license, image);
         }

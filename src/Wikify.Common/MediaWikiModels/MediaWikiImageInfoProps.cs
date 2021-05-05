@@ -13,9 +13,6 @@ namespace Wikify.Common.MediaWikiModels
         
         ExtMetadata = 2,
         Url = 4,
-        DescriptionUrl = 8,
-
-        All = 2 | 4 | 8
 
         /// --- WARNING ---
         /// 

@@ -4,6 +4,6 @@ namespace Wikify.Common.Id
 {
     public interface IImageIdentifierFactory
     {
-        public IImageIdentifier GetIdentifier(string title, string creditUri, string imageUri, IReadOnlyDictionary<string, string> ImageMetadata);
+        public IImageIdentifier CreateIdentifier(string title, string creditUri, string imageUri, IReadOnlyDictionary<string, string> ImageMetadata);
     }
 }

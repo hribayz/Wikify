@@ -39,11 +39,11 @@ namespace Wikify.Common.Id
 
         public async Task<IReadOnlyDictionary<string, IImageIdentifier>> GetIdentifiersAsync(IEnumerable<string> imageTitles)
         {
-            var imageQueryResult = await QueryImageMetadataAsync(imageTitles, MediaWikiImageInfoProps.All);
+            var props = MediaWikiImageInfoProps.ExtMetadata | MediaWikiImageInfoProps.Url;
+            var imageQueryResult = await QueryImageMetadataAsync(imageTitles, props);
 
             // Validate response.
-
-            if (!MediaWikiUtils.AssertImageInfoPropsNotNull(imageQueryResult, MediaWikiImageInfoProps.All))
+            if (!MediaWikiUtils.AssertImageInfoPropsNotNull(imageQueryResult, props))
             {
                 var errorMessage = nameof(GetIdentifiersAsync) + " cannot retrieve object image info, invalid image query result.";
                 _logger.LogError(errorMessage);
@@ -72,20 +72,21 @@ namespace Wikify.Common.Id
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Possible null reference argument.
 
+                // Null safety of the following dereferences has been asserted by AssertImageInfoPropsNotNull
                 var metaAttributes = imageInfo.extmetadata;
                 var url = page.Value.imageinfo.SingleOrDefault().url;
                 var descriptionUrl = page.Value.imageinfo.SingleOrDefault().descriptionurl;
+                var normalizedTitle = page.Value?.title;
 
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
 #pragma warning restore CS8604 // Possible null reference argument.
 
-                var normalizedTitle = metaAttributes["ObjectName"].value;
 
                 var matchingTitle = imageTitles.Single(x => (x == normalizedTitle || x == originalTitles[normalizedTitle]));
 
                 var attributesDictionary = metaAttributes.ToDictionary(x => x.Key, x => x.Value.value);
 
-                var imageIdentifier = _imageIdentifierFactory.GetIdentifier(matchingTitle, descriptionUrl, url, attributesDictionary);
+                var imageIdentifier = _imageIdentifierFactory.CreateIdentifier(matchingTitle, descriptionUrl, url, attributesDictionary);
 
                 imageIdentifiers.Add(matchingTitle, imageIdentifier);
             }
@@ -103,7 +104,7 @@ namespace Wikify.Common.Id
 
             // Query the API.
 
-            var responseContent = await _networkingProvider.GetResponseContentAsync(metadataQueryUri);
+            var responseContent = await _networkingProvider.DownloadContentAsync(metadataQueryUri);
 
             _logger.LogInformation("Parse Query response content: " + responseContent);
 

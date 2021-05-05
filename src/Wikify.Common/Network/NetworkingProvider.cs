@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -30,57 +31,55 @@ namespace Wikify.Common.Network
             _httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Properties.Resources.UserAgent);
         }
 
-        public async Task<HttpResponseMessage> GetResponseAsync(Uri requestUrl)
+        /// Encapsulate HttpResponse instantiation and disposal to avoid passing ownership of IDisposables.
+        private async Task<T> GetResponseAsAsync<T>(Uri requestUri, Func<HttpResponseMessage, Task<T>> projection)
         {
-            try
+            var logSb = new StringBuilder().Append("requestUrl: ").Append(requestUri.AbsoluteUri).Append(Environment.NewLine);
+
+            // Make sure the projection result is in-memory before disposing the response as that disposes all its resources as well
+            // so e.g. Content.ReadStreamAsync() will not be possible on that instance.
+            T projectionResult;
+
+            using (var response = await _httpClient.GetAsync(requestUri))
             {
-                return await _httpClient.GetAsync(requestUrl);
+                if (!response.IsSuccessStatusCode)
+                {
+                    logSb.Append("Request was not succesful.").Append(Environment.NewLine)
+                        .Append("Response status: ").Append(response.StatusCode);
+
+                    throw new ApplicationException(logSb.ToString());
+                }
+
+                projectionResult = await projection(response);
             }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to retrieve http response.");
-                throw;
-            }
+
+            return projectionResult;
         }
 
+        public async Task<string> DownloadContentAsync(Uri contentUri)
+        {
+            return await GetResponseAsAsync(
+                contentUri, 
+                async httpResponseMessage => await httpResponseMessage.Content.ReadAsStringAsync());
+        }
+
+        public async Task<Image> DownloadImageAsync(Uri imageUri)
+        {
+            return await GetResponseAsAsync(
+                imageUri,
+                async httpResponseMessage => Image.FromStream(await httpResponseMessage.Content.ReadAsStreamAsync()));
+        }
         public void Dispose()
         {
             if (_disposalRunning)
             {
-                // get out of the way if other thread is already running this.
                 return;
             }
 
-            // signal to other threads to get out of the way.
             _disposalRunning = true;
 
-            // dispose all global disposables
             _httpClient.Dispose();
-
         }
 
-        public async Task<string> GetResponseContentAsync(Uri requestUrl)
-        {
-            var logSb = new StringBuilder().Append("requestUrl: ").Append(requestUrl.AbsoluteUri).Append(Environment.NewLine);
-
-            using var response = await _httpClient.GetAsync(requestUrl);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                logSb.Append("Request was not succesful.").Append(Environment.NewLine)
-                    .Append("Response status: ").Append(response.StatusCode);
-
-                throw new ApplicationException(logSb.ToString());
-            }
-
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            return responseContent;
-        }
-
-        public async Task<Stream> GetResponseContentStreamAsync(Uri requestUrl)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

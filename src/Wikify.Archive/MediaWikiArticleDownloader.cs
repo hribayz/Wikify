@@ -40,7 +40,7 @@ namespace Wikify.Archive
                 var parseQuery = MediaWikiUtils.GetParseQuery(articleIdentifier.Title, articleIdentifier.Language, contentModel);
                 var parseQueryUri = new Uri(parseQuery);
 
-                var mwResponse = await _networkingProvider.GetResponseContentAsync(parseQueryUri);
+                var mwResponse = await _networkingProvider.DownloadContentAsync(parseQueryUri);
 
                 var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiParserResponse.ParserRootObject>(mwResponse);
 

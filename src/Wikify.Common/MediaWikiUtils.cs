@@ -111,6 +111,12 @@ namespace Wikify.Common
                 return false;
             }
 
+            // Every page has to have a title.
+            if (imageInfo.query.pages.Any(x => x.Value?.title == null))
+            {
+                return false;
+            }
+
             /// Using Dictionary makes this implementation resilient to new enums being added to <see cref="MediaWikiImageInfoProps"/>.
             /// It will throw a KeyNotFoundException on an unknown flag rather than silently pass.
             /// Keep it this way if modifying.
@@ -118,8 +124,7 @@ namespace Wikify.Common
             {
                 [MediaWikiImageInfoProps.None] = page => true,
                 [MediaWikiImageInfoProps.ExtMetadata] = page => page?.Value?.imageinfo?.SingleOrDefault()?.extmetadata != null,
-                [MediaWikiImageInfoProps.Url] = page => page?.Value?.imageinfo?.SingleOrDefault()?.url != null,
-                [MediaWikiImageInfoProps.DescriptionUrl] = page => page?.Value?.imageinfo?.SingleOrDefault()?.descriptionurl != null,
+                [MediaWikiImageInfoProps.Url] = page => page?.Value?.imageinfo?.SingleOrDefault()?.url != null && page?.Value?.imageinfo?.SingleOrDefault()?.descriptionurl != null,
             };
 
             // Early exit if any of the enum flags don't pass its validator.
