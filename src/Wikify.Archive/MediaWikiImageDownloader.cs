@@ -30,7 +30,7 @@ namespace Wikify.Archive
             var imageAddress = imageIdentifier.ImageUri;
             var imageAddressUri = new Uri(imageAddress);
 
-            // Image download task on the background.
+            // Download image in the background.
             var imageTask = _networkingProvider.DownloadImageAsync(imageAddressUri);
 
             // Tokenize license in the meantime.

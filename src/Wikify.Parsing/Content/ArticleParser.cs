@@ -1,45 +1,36 @@
-﻿using AngleSharp;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using MwParserFromScratch;
 using MwParserFromScratch.Nodes;
+using Microsoft.Extensions.Logging;
 
 namespace Wikify.Parsing.Content
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ArticleParser : IArticleParser
+    public class ArticleParser : IWikiArticleParser
     {
-        public async Task<DirectoryInfo> CreateHtmlAsync()
+        private ILogger _logger;
+
+        public ArticleParser(ILogger logger)
         {
-            throw new NotImplementedException();
+            _logger = logger;
         }
 
-        public async Task<IWikiContainer<IWikiArticle>> GetArticleAsync()
+        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task LoadArticleAsync(IWikiArticle article)
-        {
-            if (article.ContentModel != TextContentModel.WikiText)
+            if (wikiArticle.ContentModel != TextContentModel.WikiText)
             {
                 throw new NotSupportedException($"This implementation of {nameof(ArticleParser)} can only load an instance of {nameof(IWikiArticle)} with {TextContentModel.WikiText} {nameof(TextContentModel)}");
             }
 
             var parser = new WikitextParser();
-            var ast = parser.Parse(article.ArticleData);
+            var ast = parser.Parse(wikiArticle.ArticleData);
 
-            throw new NotImplementedException();
-
-        }
-
-        public async Task LoadBuildOptionsAsync(BuildOptions buildOptions)
-        {
-            throw new NotImplementedException();
+            
         }
     }
 }

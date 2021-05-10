@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
 {
-    public class ArticleContainer : IWikiContainer<IWikiArticle>
+
+    public class ArticleContainer : WikiComponent, IWikiContainer<IWikiArticle>
     {
         public IWikiArticle Content { get; private set; }
-        public IEnumerable<IWikiComponent> Children => throw new System.NotImplementedException();
-        public WikiComponentType ComponentType => throw new System.NotImplementedException();
-
-        public ArticleContainer(IWikiArticle content)
+        public ArticleContainer(IWikiArticle wikiArticle, IReadOnlyCollection<IWikiComponent> children) : base(WikiComponentType.Article, children)
         {
-            Content = content;
+            Content = wikiArticle;
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Wikify.Common.Network
         {
             var logSb = new StringBuilder().Append("requestUrl: ").Append(requestUri.AbsoluteUri).Append(Environment.NewLine);
 
-            // Make sure the projection result is in-memory before disposing the response as that disposes all its resources as well
+            // Make sure the projection result is in memory before disposing the response as that disposes all its resources as well
             // so e.g. Content.ReadStreamAsync() will not be possible on that instance.
             T projectionResult;
 

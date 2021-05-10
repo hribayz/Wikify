@@ -1,9 +1,7 @@
-﻿using System.Drawing;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
-using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.Common.Network;

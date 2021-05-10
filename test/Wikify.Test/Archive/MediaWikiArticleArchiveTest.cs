@@ -12,7 +12,7 @@ using Wikify.License.Copyright;
 namespace Wikify.Test.Archive
 {
     [TestClass]
-    public class MediaWikiDownloaderTest
+    public class MediaWikiArticleArchiveTest
     {
         private static ILoggerFactory _loggerFactory;
         private static IArticleArchive _articleDownloader;

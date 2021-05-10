@@ -3,12 +3,13 @@ using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
 {
-    public class ImageContainer : IWikiContainer<IWikiImage>
+    public class ImageContainer : WikiComponent, IWikiContainer<IWikiImage>
     {
-        public IWikiImage Content => throw new System.NotImplementedException();
+        public IWikiImage Content { get; private set; }
 
-        public IEnumerable<IWikiComponent> Children => throw new System.NotImplementedException();
-
-        public WikiComponentType ComponentType => throw new System.NotImplementedException();
+        public ImageContainer(IWikiImage wikiImage, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children) : base(componentType, children)
+        {
+            Content = wikiImage;
+        }
     }
 }
