@@ -106,3 +106,7 @@ Api has endpoint for all data at once, which is desirable (saves requests). How 
 	Add interface methods to pass preloaded data. More code, will require some work to modularize. Will keep services independent. Can do license without full id parse and vice versa.
 	Add optional data memeber to Id interface for licensing preloaded data. What if it is the other way next time?
 	
+AST parsing into WikiComponents
+	if a subnode is a part of a component, all its descendants are as well. Therefore it's sufficient only to hold the array of the subroots.
+	Pattern matching: use naive algorithm. It's O(nm) but the sofisticated algorithms in reality are not that much better. Also it's not that bad, early exits usually very early so the nm plays out only in case of actual matches, and there are only few per article.
+	
