@@ -7,17 +7,16 @@ using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
 {
-    // TODO : enforce functional implementation as in ILicenseProvider by returning parsed container with accessors
+    /// <summary>
+    /// Analyzes the content of an <see cref="IWikiArticle"/> and provides methods to interact with its structure.
+    /// </summary>
     public interface IWikiArticleParser
     {
+        /// <summary>
+        /// Provides the composition of an analyzed article as a reference to the root of its tree.
+        /// </summary>
+        /// <param name="wikiArticle">Component with content to parse.</param>
+        /// <returns>Root component of the article composition.</returns>
         public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle);
-    }
-    public interface IWikiComponentParser
-    {
-        public Task<DirectoryInfo> GetArticleHtmlAndSaveAsync(IWikiContainer<IWikiArticle> articleContainer, IArticleParseOptions articleParseOptions);
-    }
-    public interface IArticleParseOptions
-    {
-
     }
 }

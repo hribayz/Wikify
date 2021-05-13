@@ -7,17 +7,14 @@ using Wikify.Common.License;
 namespace Wikify.Common.Content
 {
     /// <inheritdoc cref="IWikiImage"/>
-    public class WikiImage : IWikiImage
+    public class WikiImage : WikiMediaBase, IWikiImage
     {
         public Image Image { get; private set; }
         public IImageIdentifier Identifier { get; private set; }
-        public ILicense License { get; private set; }
 
-
-        public WikiImage(IImageIdentifier identifier, ILicense license, Image image)
+        public WikiImage(IImageIdentifier identifier, ILicense license, Image image) : base(license)
         {
             Identifier = identifier;
-            License = license;
             Image = image;
         }
     }

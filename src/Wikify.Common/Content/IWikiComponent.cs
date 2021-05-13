@@ -10,7 +10,7 @@ namespace Wikify.Common.Content
     public interface IWikiComponent
     {
         public WikiComponentType ComponentType { get; }
-        public IEnumerable<IWikiComponent> GetChildren(Func<IWikiComponent, bool> filter);
+        public IEnumerable<IWikiComponent> GetChildren(Predicate<IWikiComponent> filter);
 
     }
 }
