@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MwParserFromScratch.Nodes;
+using System.Collections.Generic;
 using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
@@ -7,7 +8,7 @@ namespace Wikify.Parsing.Content
     {
         public IWikiImage Content { get; private set; }
 
-        public ImageContainer(IWikiImage wikiImage, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children) : base(componentType, children)
+        public ImageContainer(IWikiImage wikiImage, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children , Node startNode, Node endNode) : base(componentType, children, startNode, endNode)
         {
             Content = wikiImage;
         }

@@ -57,8 +57,8 @@ namespace Wikify.Test.Parsing
                 _articleLicenseProvider,
                 _wikiMediaFactory);
 
-            _astTranslator = new PatternMatchingProvider(
-                _loggerFactory.CreateLogger<PatternMatchingProvider>());
+            _astTranslator = new MwAstParser(
+                _loggerFactory.CreateLogger<MwAstParser>());
 
             _articleParser = new ArticleParser(
                 _loggerFactory.CreateLogger<ArticleParser>(),

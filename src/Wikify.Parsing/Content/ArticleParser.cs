@@ -48,7 +48,7 @@ namespace Wikify.Parsing.Content
                 throw new ApplicationException(errorMessage);
             }
 
-            var baseComponents = await _astTranslator.TranslateNodeAsync(astRoot);
+            var baseComponents = await _astTranslator.TranslateNodesAsync(astRoot);
             var articleContainer = baseComponents.SingleOrDefault(x => x.ComponentType == WikiComponentType.Article);
 
             // Make sure that there is a single article component in the composition.

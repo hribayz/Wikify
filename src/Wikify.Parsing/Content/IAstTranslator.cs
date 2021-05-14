@@ -17,7 +17,7 @@ namespace Wikify.Parsing.Content
         /// </summary>
         /// <param name="root">Root of an AST subtree to get matching <see cref="IWikiComponent"/> structure for.</param>
         /// <returns>Matching Wiki composition components.</returns>
-        public Task<IEnumerable<IWikiComponent>> TranslateNodeAsync(Wikitext root);
+        //public Task<IEnumerable<IWikiComponent>> TranslateRootNodeAsync(Wikitext root);
 
 
         /// <summary>
@@ -34,6 +34,6 @@ namespace Wikify.Parsing.Content
         /// <param name="startNode">Head of linked list of descendants.</param>
         /// <param name="endNode">Last node of the same linked list of descendants to include in the matching.</param>
         /// <returns></returns>
-        public Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode, Node endNode);
+        //public Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode, Node endNode);
     }
 }
