@@ -18,3 +18,7 @@ https://en.wikipedia.org/wiki/Wikipedia:Contents/Portals
 
 table as dominant element / main content
 https://en.wikipedia.org/wiki/Comparison_of_BitTorrent_sites#Site_comparison
+
+band lineup
+
+what is Wide Image template and why does not the reference have the file: prefix?
