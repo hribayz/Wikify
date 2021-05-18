@@ -30,6 +30,7 @@ namespace Wikify.Test.Parsing
         private static ICopyrightFactory _copyrightFactory;
         private static IWikiMediaFactory _wikiMediaFactory;
         private static IAstTranslator _astTranslator;
+        private static IWikiContentFactory _wikiContentFactory;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -57,12 +58,16 @@ namespace Wikify.Test.Parsing
                 _articleLicenseProvider,
                 _wikiMediaFactory);
 
+            _wikiContentFactory = new WikiContentFactory();
+
             _astTranslator = new MwAstParser(
-                _loggerFactory.CreateLogger<MwAstParser>());
+                _loggerFactory.CreateLogger<MwAstParser>(),
+                _wikiContentFactory);
 
             _articleParser = new ArticleParser(
                 _loggerFactory.CreateLogger<ArticleParser>(),
-                _astTranslator);
+                _astTranslator,
+                _wikiContentFactory);
         }
 
 

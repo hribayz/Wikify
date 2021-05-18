@@ -16,12 +16,16 @@ namespace Wikify.Parsing.Content
     {
         private ILogger _logger;
         private IAstTranslator _astTranslator;
+        private IWikiContentFactory _wikiContentFactory;
+
         private WikitextParser _parser;
 
-        public ArticleParser(ILogger logger, IAstTranslator astTranslator)
+        public ArticleParser(ILogger logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
             _astTranslator = astTranslator;
+            _wikiContentFactory = wikiContentFactory;
+
             _parser = new WikitextParser();
         }
 
@@ -48,18 +52,18 @@ namespace Wikify.Parsing.Content
                 throw new ApplicationException(errorMessage);
             }
 
+            // Create the root of WikiComponent tree.
+            var articleContainer = _wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);
+
+            // Compose WikiComponent tree.
             var baseComponents = await _astTranslator.TranslateNodesAsync(astRoot);
-            var articleContainer = baseComponents.SingleOrDefault(x => x.ComponentType == WikiComponentType.Article);
+
+            articleContainer.AddChildren(baseComponents.First ??
+                throw new ApplicationException($"{nameof(_astTranslator)} returned empty tree. No match at all?"));
 
             // Make sure that there is a single article component in the composition.
-            if (articleContainer == null)
-            {
-                var errorMessage = $"{nameof(GetContainerAsync)} encountered an {nameof(IWikiArticle)} with no or more than one base component of type {WikiComponentType.Article}";
-                _logger.LogError(errorMessage);
-                throw new ApplicationException(errorMessage);
-            }
 
-            return (IWikiContainer<IWikiArticle>)articleContainer;
+            return articleContainer;
         }
     }
 }

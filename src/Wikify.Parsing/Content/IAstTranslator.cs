@@ -25,7 +25,7 @@ namespace Wikify.Parsing.Content
         /// </summary>
         /// <param name="startNode">Head of linked list of descendants.</param>
         /// <returns>Matching Wiki composition components.</returns>
-        public Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode);
+        public Task<LinkedList<IWikiComponent>> TranslateNodesAsync(Node startNode);
 
 
         /// <summary>

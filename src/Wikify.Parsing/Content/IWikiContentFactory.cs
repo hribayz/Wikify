@@ -8,27 +8,13 @@ using Wikify.Common.Content;
 
 namespace Wikify.Parsing.Content
 {
-    internal interface IWikiContentFactory
+    /// <summary>
+    /// Contains methods for creating <see cref="WikiComponent"/> descendants from <see cref="MwParserFromScratch"/> AST nodes.
+    /// </summary>
+    public interface IWikiContentFactory
     {
-        public IWikiComponent CreateComponent(WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode);
-        public IWikiContainer<IWikiArticle> CreateArticle(IWikiArticle article, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode);
-        public IWikiContainer<IWikiImage> CreateImage(IWikiImage image, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode);
-    }
-    public class WikiContentFactory : IWikiContentFactory
-    {
-        public IWikiContainer<IWikiArticle> CreateArticle(IWikiArticle article, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode)
-        {
-            return new ArticleContainer(article, children, startNode, endNode);
-        }
-
-        public IWikiComponent CreateComponent(WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode)
-        {
-            return new WikiComponent(componentType, children, startNode, endNode);
-        }
-
-        public IWikiContainer<IWikiImage> CreateImage(IWikiImage image, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children, Node startNode, Node endNode)
-        {
-            return new ImageContainer(image, componentType, children, startNode, endNode);
-        }
+        public WikiComponent CreateComponent(WikiComponentType componentType, Node startNode, Node endNode);
+        public ArticleContainer CreateArticle(IWikiArticle article, Node startNode, Node endNode);
+        public ImageContainer CreateImage(IWikiImage image, WikiComponentType componentType, Node startNode, Node endNode);
     }
 }

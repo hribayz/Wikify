@@ -27,19 +27,21 @@ namespace Wikify.Parsing.Content
 
         #region Fields
         private ILogger _logger;
+        private IWikiContentFactory _wikiContentFactory;
         #endregion
 
         #region Constructor
-        public MwAstParser(ILogger logger)
+        public MwAstParser(ILogger logger, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
+            _wikiContentFactory = wikiContentFactory;
         }
         #endregion
 
         #region Implementations
 
         /// <inheritdoc />
-        public async Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode)
+        public async Task<LinkedList<IWikiComponent>> TranslateNodesAsync(Node startNode)
         {
             return await Task.Run(() => ParseNodes(startNode));
         }
@@ -71,7 +73,7 @@ namespace Wikify.Parsing.Content
         }
 
         // Will be called to parse children of node.
-        private LinkedList<WikiComponent> ParseNodes(Node startNode)
+        private LinkedList<IWikiComponent> ParseNodes(Node startNode)
         {
             // Keep a pointer to currently examined node.
             var node = startNode;
@@ -80,7 +82,7 @@ namespace Wikify.Parsing.Content
             var children = node.EnumChildren();
 
             // Store all components found in this line.
-            var components = new LinkedList<WikiComponent>();
+            var components = new LinkedList<IWikiComponent>();
 
             // Traverse the linked list of nodes by one at a time (if no match) or by more (may happen if match found).
             // Advance the pointer to the first unexamined node at every cycle.
@@ -131,6 +133,9 @@ namespace Wikify.Parsing.Content
                             node = node.NextNode;
                         }
                     }
+
+                    // "node" now pointing to the last node of the pattern match.
+
                 }
 
                 // No match at this node.
@@ -145,7 +150,7 @@ namespace Wikify.Parsing.Content
                         var childComponents = ParseNodes(children.First());
 
                         // Adding the childComponents directly to the container at this level will flatten the structure so that every component has children.
-                        // Children from different levels can end up in the same list.
+                        // Children from different levels that are not directly descendant can end up in the same line.
                         components.AddLast(childComponents.First ??
                             throw new ApplicationException($"Components linked list can't contain null element."));
                     }

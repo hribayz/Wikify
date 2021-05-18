@@ -8,7 +8,7 @@ namespace Wikify.Parsing.Content
     {
         public IWikiImage Content { get; private set; }
 
-        public ImageContainer(IWikiImage wikiImage, WikiComponentType componentType, IReadOnlyCollection<IWikiComponent> children , Node startNode, Node endNode) : base(componentType, children, startNode, endNode)
+        public ImageContainer(IWikiImage wikiImage, WikiComponentType componentType, Node startNode, Node endNode) : base(componentType, startNode, endNode)
         {
             Content = wikiImage;
         }
