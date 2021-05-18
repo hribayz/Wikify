@@ -15,13 +15,12 @@ namespace Wikify.Parsing.Content
         #region Patterns
 
         // Write the patterns with early exit if no match as highest priority.
-        // Write the patterns with early exit if no match as highest priority.
 
-        private List<Func<Node, PatternMatch>> _patterns = new()
+        private List<Func<Node, PatternMatch?>> _patterns = new()
         {
             {
-                node =>
-                }
+                node => throw new NotImplementedException()
+            }
         };
 
         #endregion
@@ -40,22 +39,21 @@ namespace Wikify.Parsing.Content
         #region Implementations
 
         /// <inheritdoc />
-        public Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode)
+        public async Task<IEnumerable<IWikiComponent>> TranslateNodesAsync(Node startNode)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => ParseNodes(startNode));
         }
 
         // RULE: One component has one node or multiple nodes that are in line, one node belongs to zero or one component.
-
-        private PatternMatch ParseNode(Node startNode)
+        private bool ParseNode(Node startNode, out PatternMatch? outMatch)
         {
             foreach (var pattern in _patterns)
             {
                 // Try to find a pattern match.
-                var match = pattern(startNode);
+                var patternMatch = pattern(startNode);
 
                 // If no match found, go to next pattern as early as possible.
-                if (!match.IsMatch)
+                if (patternMatch == null)
                 {
                     continue;
                 }
@@ -63,113 +61,123 @@ namespace Wikify.Parsing.Content
                 // Matching pattern was found.
                 else
                 {
-                    return match;
+                    outMatch = patternMatch;
+                    return true;
                 }
             }
 
-            return new PatternMatch
-            {
-                // Last node that has been examined is this one.
-                EndNode = startNode,
-                IsMatch = false,
-                WikiComponent = null
-            };
+            outMatch = null;
+            return false;
         }
 
         // Will be called to parse children of node.
-        private List<WikiComponent> ParseNodes(Node startNode)
+        private LinkedList<WikiComponent> ParseNodes(Node startNode)
         {
             // Keep a pointer to currently examined node.
             var node = startNode;
 
+            // Keep the enumerable of children, evaluate every time the node advances.
+            var children = node.EnumChildren();
+
             // Store all components found in this line.
-            var components = new List<WikiComponent>();
+            var components = new LinkedList<WikiComponent>();
 
             // Traverse the linked list of nodes by one at a time (if no match) or by more (may happen if match found).
-            while (true)
+            // Advance the pointer to the first unexamined node at every cycle.
+            while (node != null)
             {
                 /// The <see cref="node"/> points to a fresh node here.
 
-                if (node == null)
-                {
-                    // Reached the end of the linked list of nodes.
-                    break;
-                }
+                bool isMatch = ParseNode(node, out PatternMatch? patternMatch);
 
-                var match = ParseNode(node);
-                if (match.IsMatch && match.WikiComponent == null)
+                // Pattern match at this node.
+                if (isMatch)
                 {
-                    throw new ApplicationException($"WikiComponent can't be null here, it was a match.");
-                }
+                    // Add all children as belonging to this component.
+                    var component = patternMatch?.WikiComponent ??
+                        throw new ApplicationException($"Pattern match should not be null here! It was a match!");
+                    components.AddLast(component);
 
-                var children = node.EnumChildren();
-
-                if (!children.Any())
-                {
-                    if (match.IsMatch)
+                    // This pattern match can span multiple nodes at the current level.
+                    // Examine their children, then advance past the last one.
+                    while (true)
                     {
-                        // match.WikiComponent is not null here. Surpress later.
-                        components.Add(match.WikiComponent);
+                        var hasChildren = children.Any();
 
-                        // TODO: this is a bug. If some of the nodes past the first one (which has no children) have children, these will go skipped unexamined.
+                        if (hasChildren)
+                        {
+                            // Go one level deeper in recursion, parse whole line of descendants.
+                            var childComponents = ParseNodes(children.First());
 
-                        node = match.EndNode.NextNode;
+                            // Add child components to the current component
+                            component.AddChildren(childComponents.First ??
+                                throw new ApplicationException($"Components linked list can't contain null element."));
+                        }
+
+                        else
+                        {
+                            // No children, safe to advance to next node within the match.
+                        }
+
+                        // We've just examined the last node contained in the match pattern.
+                        if (node == patternMatch.EndNode)
+                        {
+                            break;
+                        }
+
+                        // The match pattern spans further in this line of nodes.
+                        else
+                        {
+                            node = node.NextNode;
+                        }
                     }
-                    else
-                    {
-                        node = node.NextNode;
-                    }
-
-                    // It is safe to early advance to next unexamined node. This node has no children.
-                    continue;
                 }
 
-                var firstChild = children.First();
-
-                // Node has children. Go one level deeper in recursion and parse all children.
-                var childComponents = ParseNodes(firstChild);
-
-                if (match.IsMatch)
-                {
-                    var component = match.WikiComponent;
-
-                    // match.WikiComponent is not null here. Surpress later.
-                    component.AddChild(component);
-                }
-
-
-                // Advance to next node, if any
-
-                if (node.NextNode == null)
-                {
-                    break;
-                }
+                // No match at this node.
                 else
                 {
+                    var hasChildren = children.Any();
+
+                    // No match but has children.
+                    // Go deeper in recursion, try to find a match.
+                    if (hasChildren)
+                    {
+                        var childComponents = ParseNodes(children.First());
+
+                        // Adding the childComponents directly to the container at this level will flatten the structure so that every component has children.
+                        // Children from different levels can end up in the same list.
+                        components.AddLast(childComponents.First ??
+                            throw new ApplicationException($"Components linked list can't contain null element."));
+                    }
+
+                    else
+                    {
+                        // No match, no children, safe to advance to next node on this level.
+                    }
+
                     node = node.NextNode;
                 }
+
+                // Advance to next node. No need to null check, it's in the while loop condition.
+                node = node.NextNode;
             }
 
             return components;
         }
-        private struct PatternMatch
+        private class PatternMatch
         {
-            public bool IsMatch;
-
             // Last node that belongs to the component
             public Node EndNode;
 
             // The wiki component matched to the line of nodes
-            public WikiComponent? WikiComponent;
+            public WikiComponent WikiComponent;
+
+            public PatternMatch(WikiComponent component, Node endNode)
+            {
+                EndNode = endNode;
+                WikiComponent = component;
+            }
         }
-        private struct ParserEndState
-        {
-            // Last node that belongs to the component
-            public Node EndNode;
-
-            // The wiki component matched to the line of nodes
-            public WikiComponent? WikiComponent;
-        };
         #endregion
     }
 }
