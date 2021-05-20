@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Authors>Tomas Krupka</Authors>
+    <Description>Implementations of parsing logic for the Wikify project. Closely dependent on the MWParserFromScratch.</Description>
   </PropertyGroup>
 
   <ItemGroup>

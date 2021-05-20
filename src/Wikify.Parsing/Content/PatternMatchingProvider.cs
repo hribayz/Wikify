@@ -18,9 +18,9 @@ namespace Wikify.Parsing.Content
 
         private List<Func<Node, PatternMatch?>> _patterns = new()
         {
-            {
-                node => throw new NotImplementedException()
-            }
+            //{
+            //    node => throw new NotImplementedException()
+            //}
         };
 
         #endregion
@@ -86,7 +86,7 @@ namespace Wikify.Parsing.Content
 
             // Traverse the linked list of nodes by one at a time (if no match) or by more (may happen if match found).
             // Advance the pointer to the first unexamined node at every cycle.
-            while (node != null)
+            while (true)
             {
                 /// The <see cref="node"/> points to a fresh node here.
 
@@ -151,8 +151,11 @@ namespace Wikify.Parsing.Content
 
                         // Adding the childComponents directly to the container at this level will flatten the structure so that every component has children.
                         // Children from different levels that are not directly descendant can end up in the same line.
-                        components.AddLast(childComponents.First ??
-                            throw new ApplicationException($"Components linked list can't contain null element."));
+                        if (childComponents.Any())
+                        {
+                            components.AddLast(childComponents.First ??
+                                throw new ApplicationException($"Components linked list can't contain null element."));
+                        }
                     }
 
                     else
@@ -160,15 +163,18 @@ namespace Wikify.Parsing.Content
                         // No match, no children, safe to advance to next node on this level.
                     }
 
-                    node = node.NextNode;
+                }
+
+                if (node.NextNode == null)
+                {
+                    return components;
                 }
 
                 // Advance to next node. No need to null check, it's in the while loop condition.
                 node = node.NextNode;
             }
-
-            return components;
         }
+
         private class PatternMatch
         {
             // Last node that belongs to the component

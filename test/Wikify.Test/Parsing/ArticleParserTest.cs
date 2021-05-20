@@ -22,7 +22,6 @@ namespace Wikify.Test.Parsing
         private static ILoggerFactory _loggerFactory;
         private static IArticleIdentifierFactory _articleIdentifierFactory;
         private static IArticleArchive _articleDownloader;
-        private static IWikiArticleParser _articleParser;
         private static INetworkingProvider _networkingProvider;
         private static IArticleLicenseProvider _articleLicenseProvider;
         private static ILicenseFactory _licenseFactory;
@@ -31,6 +30,9 @@ namespace Wikify.Test.Parsing
         private static IWikiMediaFactory _wikiMediaFactory;
         private static IAstTranslator _astTranslator;
         private static IWikiContentFactory _wikiContentFactory;
+
+
+        private static ArticleParser _articleParser;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -71,17 +73,25 @@ namespace Wikify.Test.Parsing
         }
 
 
+        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainer(string title)
+        {
+            var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            return await _articleParser.GetContainerAsync(articleArchive);
+        }
+
 
         [TestMethod]
         [DataRow("Edinburgh")]
         public async Task TestParseArticle(string title)
         {
-            var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            var articleContainer = await GetArticleContainer(title);
 
-            await _articleParser.GetContainerAsync(article);
+
 
             ;
         }
+
+
 
         //private WikiArticle CreateWikiArticle(string )
     }
