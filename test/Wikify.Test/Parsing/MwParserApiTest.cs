@@ -26,7 +26,7 @@ namespace Wikify.Test.Parsing
         }
 
         [TestMethod]
-        public async Task TestGetArticleContainer()
+        public void TestGetArticleContainer()
         {
 
         }

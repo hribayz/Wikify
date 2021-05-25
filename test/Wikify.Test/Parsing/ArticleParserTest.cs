@@ -73,7 +73,7 @@ namespace Wikify.Test.Parsing
         }
 
 
-        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainer(string title)
+        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
         {
             var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
             return await _articleParser.GetContainerAsync(articleArchive);
@@ -82,17 +82,27 @@ namespace Wikify.Test.Parsing
 
         [TestMethod]
         [DataRow("Edinburgh")]
-        public async Task TestParseArticle(string title)
+        public async Task TestArticleHasSingleLeadSectionAsync(string title)
         {
-            var articleContainer = await GetArticleContainer(title);
-
-
-
-            ;
+            var articleContainer = await GetArticleContainerAsync(title);
+            Assert.IsTrue(articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.LeadSection).SingleOrDefault() != null);
         }
 
+        [TestMethod]
+        [DataRow("List of Iron Maiden band members")]
+        public async Task TestBandLineupHasSingleTimelineAsync(string title)
+        {
+            var articleContainer = await GetArticleContainerAsync(title);
+            Assert.IsTrue(articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.BandLineupTimeline).SingleOrDefault() != null);
+        }
 
+        [TestMethod]
+        [DataRow("Morgan Mason")]
+        public async Task TestArticleHasSingleInfoPanelAsync(string title)
+        {
+            var articleContainer = await GetArticleContainerAsync(title);
+            Assert.IsTrue(articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.InfoPanel).SingleOrDefault() != null);
+        }
 
-        //private WikiArticle CreateWikiArticle(string )
     }
 }

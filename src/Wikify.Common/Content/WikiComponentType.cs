@@ -11,6 +11,6 @@ namespace Wikify.Common.Content
     /// </summary>
     public enum WikiComponentType
     {
-        Article, ShortDescription, InfoPanel, Section, SubSection, Paragraph, Gallery, Image, 
+        Article, ShortDescription, InfoPanel, Section, SubSection, Paragraph, Gallery, Image, LeadSection, BandLineupTimeline
     }
 }
