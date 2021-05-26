@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parsing.MwParser
 {
     /// <summary>
     /// Maps MediaWiki AST elements onto and provides methods to interact with a tree structure of <see cref="IWikiComponent"/>s.

@@ -58,8 +58,10 @@ namespace Wikify.Parsing.MwParser
             // Create the root of WikiComponent tree.
             var articleContainer = wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);
 
+            var firstChild = astRoot.Lines.FirstNode;
+
             // Compose WikiComponent tree.
-            var baseComponents = await astTranslator.TranslateNodesAsync(astRoot);
+            var baseComponents = await astTranslator.TranslateNodesAsync(firstChild);
 
             if (baseComponents.Any())
             {

@@ -13,6 +13,7 @@ using Wikify.Common.Network;
 using Wikify.License;
 using Wikify.License.Copyright;
 using Wikify.Parsing.Content;
+using Wikify.Parsing.MwParser;
 
 namespace Wikify.Test.Parsing
 {
@@ -62,8 +63,8 @@ namespace Wikify.Test.Parsing
 
             _wikiContentFactory = new WikiContentFactory();
 
-            _astTranslator = new MwAstParser(
-                _loggerFactory.CreateLogger<MwAstParser>(),
+            _astTranslator = new MwAstTranslator(
+                _loggerFactory.CreateLogger<MwAstTranslator>(),
                 _wikiContentFactory);
 
             _articleParser = new ArticleParser(
