@@ -2,14 +2,14 @@
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Microsoft.Extensions.Logging;
-using Wikify.Parsing.MwParser;
+using Wikify.Parsing.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parsing.MwParser
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ArticleParser : IWikiArticleParser
+    internal class ArticleParser : IWikiArticleParser
     {
         private ILogger _logger;
         private IAstTranslator _astTranslator;
@@ -17,7 +17,7 @@ namespace Wikify.Parsing.Content
 
         private MwParserApi _mwParserApi;
 
-        public ArticleParser(ILogger logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
+        internal ArticleParser(ILogger logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
             _astTranslator = astTranslator;

@@ -11,13 +11,13 @@ using Wikify.Parsing.Content;
 namespace Wikify.Parsing.MwParser
 {
     /// <inheritdoc cref="IAstTranslator"/>
-    public class MwAstTranslator : IAstTranslator
+    internal class MwAstTranslator : IAstTranslator
     {
 
         private ILogger _logger;
 
         private PatternMatchingService _patternMatchingService;
-        public MwAstTranslator(ILogger logger, IWikiContentFactory wikiContentFactory, PatternMatchingService patternMatchingService)
+        internal MwAstTranslator(ILogger logger, IWikiContentFactory wikiContentFactory, PatternMatchingService patternMatchingService)
         {
             _logger = logger;
 
@@ -133,5 +133,6 @@ namespace Wikify.Parsing.MwParser
                 node = node.NextNode;
             }
         }
+
     }
 }

@@ -10,7 +10,7 @@ using Wikify.Parsing.Content;
 
 namespace Wikify.Parsing.MwParser
 {
-    public class PatternMatchingService
+    internal class PatternMatchingService
     {
         private IWikiContentFactory _wikiContentFactory;
         private ILogger _logger;
