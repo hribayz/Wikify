@@ -9,7 +9,7 @@ namespace Wikify.Parsing.MwParser
     /// <summary>
     /// 
     /// </summary>
-    internal class ArticleParser : IWikiArticleParser
+    public class ArticleParser : IWikiArticleParser
     {
         private ILogger _logger;
         private IAstTranslator _astTranslator;
