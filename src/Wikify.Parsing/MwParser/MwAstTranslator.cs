@@ -17,20 +17,20 @@ namespace Wikify.Parsing.MwParser
         private ILogger _logger;
 
         private PatternMatchingService _patternMatchingService;
-        public MwAstTranslator(ILogger logger, IWikiContentFactory wikiContentFactory)
+        public MwAstTranslator(ILogger logger, IWikiContentFactory wikiContentFactory, PatternMatchingService patternMatchingService)
         {
             _logger = logger;
 
-            _patternMatchingService = new PatternMatchingService(wikiContentFactory);
+            _patternMatchingService = patternMatchingService;
         }
         /// <inheritdoc />
-        public async Task<LinkedList<IWikiComponent>> TranslateNodesAsync(Node startNode)
+        public async Task<List<IWikiComponent>> TranslateNodesAsync(Node startNode)
         {
             return await Task.Run(() => ParseNodes(startNode));
         }
 
         // Will be called to parse children of node.
-        private LinkedList<IWikiComponent> ParseNodes(Node startNode)
+        private List<IWikiComponent> ParseNodes(Node startNode)
         {
             // Keep a pointer to currently examined node.
             var node = startNode;
@@ -39,7 +39,7 @@ namespace Wikify.Parsing.MwParser
             var children = node.EnumChildren();
 
             // Store all components found in this line.
-            var components = new LinkedList<IWikiComponent>();
+            var components = new List<IWikiComponent>();
 
             // Traverse the linked list of nodes by one at a time (if no match) or by more (if match spans multiple sibling nodes in a row).
             // Advance the pointer to the first unexamined node at every cycle.
@@ -56,7 +56,7 @@ namespace Wikify.Parsing.MwParser
                     var component = patternMatchComponent?.WikiComponent ??
                         throw new ApplicationException($"Pattern match should not be null here! It was a match!");
 
-                    components.AddLast(component);
+                    components.Add(component);
 
                     // This pattern match can span multiple nodes at the current level.
                     // Examine their children, then advance past the last one.
@@ -70,9 +70,10 @@ namespace Wikify.Parsing.MwParser
                             var childComponents = ParseNodes(children.First());
 
                             // Add child components to the current component
-                            if (childComponents.First != null)
+                            if (childComponents.Any())
                             {
-                                component.AddChildren(childComponents.First);
+                                _logger.LogDebug($"Adding children: {childComponents.Count}.");
+                                component.AddChildren(childComponents);
                             }
                         }
 
@@ -112,9 +113,7 @@ namespace Wikify.Parsing.MwParser
                         // Children from different levels that are not directly descendant can end up in the same line.
                         if (childComponents.Any())
                         {
-                            components.AddLast()
-                            components.AddLast(childComponents.First ??
-                                throw new ApplicationException($"Components linked list can't contain null element."));
+                            components.AddRange(childComponents);
                         }
                     }
 

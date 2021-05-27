@@ -65,8 +65,11 @@ namespace Wikify.Parsing.MwParser
 
             if (baseComponents.Any())
             {
-                articleContainer.AddChildren(baseComponents.First ??
-                    throw new ApplicationException($"{nameof(astTranslator)} returned null node."));
+                articleContainer.AddChildren(baseComponents);
+            }
+            else
+            {
+                _logger.LogWarning("AST translator returned empty list of article descendants.");
             }
 
             return articleContainer;

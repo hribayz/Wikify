@@ -32,6 +32,8 @@ namespace Wikify.Test.Parsing
         private static IAstTranslator _astTranslator;
         private static IWikiContentFactory _wikiContentFactory;
 
+        private static PatternMatchingService _patternMatchingService;
+
 
         private static ArticleParser _articleParser;
 
@@ -63,9 +65,14 @@ namespace Wikify.Test.Parsing
 
             _wikiContentFactory = new WikiContentFactory();
 
+            _patternMatchingService = new PatternMatchingService(
+                _loggerFactory.CreateLogger<PatternMatchingService>(),
+                _wikiContentFactory);
+
             _astTranslator = new MwAstTranslator(
                 _loggerFactory.CreateLogger<MwAstTranslator>(),
-                _wikiContentFactory);
+                _wikiContentFactory,
+                _patternMatchingService);
 
             _articleParser = new ArticleParser(
                 _loggerFactory.CreateLogger<ArticleParser>(),
@@ -102,7 +109,9 @@ namespace Wikify.Test.Parsing
         public async Task TestArticleHasSingleInfoPanelAsync(string title)
         {
             var articleContainer = await GetArticleContainerAsync(title);
-            Assert.IsTrue(articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.InfoPanel).SingleOrDefault() != null);
+            var children = articleContainer.GetChildren();
+            var infoPanels = articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.InfoPanel);
+            Assert.IsTrue(infoPanels.SingleOrDefault() != null);
         }
 
     }

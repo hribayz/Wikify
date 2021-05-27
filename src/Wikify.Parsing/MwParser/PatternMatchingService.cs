@@ -1,4 +1,5 @@
-﻿using MwParserFromScratch.Nodes;
+﻿using Microsoft.Extensions.Logging;
+using MwParserFromScratch.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Wikify.Parsing.MwParser
 {
     public class PatternMatchingService
     {
-        internal IWikiContentFactory _wikiContentFactory;
+        private IWikiContentFactory _wikiContentFactory;
+        private ILogger _logger;
 
         // Write the patterns with early exit if no match as highest priority.
         #region Patterns
@@ -35,8 +37,9 @@ namespace Wikify.Parsing.MwParser
 
         };
 
-        public PatternMatchingService(IWikiContentFactory wikiContentFactory)
+        public PatternMatchingService(ILogger logger, IWikiContentFactory wikiContentFactory)
         {
+            _logger = logger;
             _wikiContentFactory = wikiContentFactory;
         }
         #endregion
@@ -81,6 +84,8 @@ namespace Wikify.Parsing.MwParser
             }
 
             outMatchComponent = new PatternMatchComponent(match, _wikiContentFactory.CreateComponent(match.WikiComponentType, startNode, match.EndNode));
+
+            _logger.LogDebug($"Pattern match: {startNode} is {match.WikiComponentType}");
 
             return true;
         }
