@@ -10,7 +10,7 @@ using Wikify.Parsing.Content;
 
 namespace Wikify.Parsing.MwParser
 {
-    internal class PatternMatchingService
+    internal class PatternMatchingService : IPatternMatchingService
     {
         private IWikiContentFactory _wikiContentFactory;
         private ILogger _logger;
@@ -47,7 +47,7 @@ namespace Wikify.Parsing.MwParser
 
 
         // RULE: One component has one node or multiple nodes that are adjacent siblings, one node belongs to zero or one component.
-        internal bool ParseNode(Node startNode, out PatternMatchComponent? outMatchComponent)
+        public bool ParseNode(Node startNode, out PatternMatchComponent? outMatchComponent)
         {
             PatternMatch? match;
 

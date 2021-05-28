@@ -1,6 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using Microsoft.Extensions.Logging;
+//using Serilog;
 using System;
+using Wikify.Archive;
+using Wikify.Common.Id;
+using Wikify.Parsing.Content;
+using Wikify.Test;
 
 namespace Wikify.Integration
 {
@@ -8,20 +13,28 @@ namespace Wikify.Integration
     {
         static void Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File($"Logs/{nameof(Main)}Log.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-
-            var serviceProvider = new ServiceCollection()
-                .AddLogging(x => x.AddSerilog(dispose: true))
-                .BuildServiceProvider();
+            MwParserClient client = new MwParserClient();
+            client.TestLogging();
         }
     }
 
-    public class MwParserClient
+    public class MwParserClient : WikifyTestBase
     {
+        private IArticleIdentifierFactory _articleIdentifierFactory;
+        private IArticleArchive _articleDownloader;
+        private IArticleParser _articleParser;
 
+        public MwParserClient()
+        {
+            _articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
+            _articleDownloader = GetService<IArticleArchive>();
+            _articleParser = GetService<IArticleParser>();
+        }
+
+        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
+        {
+            var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            return await _articleParser.GetContainerAsync(articleArchive);
+        }
     }
 }

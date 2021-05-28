@@ -18,66 +18,18 @@ using Wikify.Parsing.MwParser;
 namespace Wikify.Test.Parsing
 {
     [TestClass]
-    public class ArticleParserTest
+    public class ArticleParserTest : WikifyTestBase
     {
-        private static ILoggerFactory _loggerFactory;
         private static IArticleIdentifierFactory _articleIdentifierFactory;
         private static IArticleArchive _articleDownloader;
-        private static INetworkingProvider _networkingProvider;
-        private static IArticleLicenseProvider _articleLicenseProvider;
-        private static ILicenseFactory _licenseFactory;
-        private static ICopyrightResolver _copyrightResolver;
-        private static ICopyrightFactory _copyrightFactory;
-        private static IWikiMediaFactory _wikiMediaFactory;
-        private static IAstTranslator _astTranslator;
-        private static IWikiContentFactory _wikiContentFactory;
-
-        private static PatternMatchingService _patternMatchingService;
-
-
-        private static ArticleParser _articleParser;
+        private static IArticleParser _articleParser;
 
         [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
+        public void ClassInitialize()
         {
-            _loggerFactory = new LoggerFactory();
-            _articleIdentifierFactory = new ArticleIdentifierFactory();
-            _licenseFactory = new LicenseFactory();
-            _copyrightResolver = new CopyrightResolver();
-            _wikiMediaFactory = new WikiMediaFactory();
-
-            _networkingProvider = new NetworkingProvider(
-                _loggerFactory.CreateLogger<NetworkingProvider>());
-
-            _copyrightFactory = new CopyrightFactory(
-                _copyrightResolver);
-
-            _articleLicenseProvider = new ArticleLicenseProvider(
-                _loggerFactory.CreateLogger<ArticleLicenseProvider>(),
-                _licenseFactory,
-                _copyrightFactory);
-
-            _articleDownloader = new MediaWikiArticleDownloader(
-                _loggerFactory.CreateLogger<MediaWikiArticleDownloader>(),
-                _networkingProvider,
-                _articleLicenseProvider,
-                _wikiMediaFactory);
-
-            _wikiContentFactory = new WikiContentFactory();
-
-            _patternMatchingService = new PatternMatchingService(
-                _loggerFactory.CreateLogger<PatternMatchingService>(),
-                _wikiContentFactory);
-
-            _astTranslator = new MwAstTranslator(
-                _loggerFactory.CreateLogger<MwAstTranslator>(),
-                _wikiContentFactory,
-                _patternMatchingService);
-
-            _articleParser = new ArticleParser(
-                _loggerFactory.CreateLogger<ArticleParser>(),
-                _astTranslator,
-                _wikiContentFactory);
+            _articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
+            _articleDownloader = GetService<IArticleArchive>();
+            _articleParser = GetService<IArticleParser>();
         }
 
 

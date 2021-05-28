@@ -16,8 +16,8 @@ namespace Wikify.Parsing.MwParser
 
         private ILogger _logger;
 
-        private PatternMatchingService _patternMatchingService;
-        internal MwAstTranslator(ILogger logger, IWikiContentFactory wikiContentFactory, PatternMatchingService patternMatchingService)
+        private IPatternMatchingService _patternMatchingService;
+        internal MwAstTranslator(ILogger logger, IPatternMatchingService patternMatchingService)
         {
             _logger = logger;
 
@@ -30,7 +30,7 @@ namespace Wikify.Parsing.MwParser
         }
 
         // Will be called to parse children of node.
-        private List<IWikiComponent> ParseNodes(Node startNode)
+        public List<IWikiComponent> ParseNodes(Node startNode)
         {
             // Keep a pointer to currently examined node.
             var node = startNode;

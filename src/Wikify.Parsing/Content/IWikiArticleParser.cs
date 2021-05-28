@@ -10,7 +10,7 @@ namespace Wikify.Parsing.Content
     /// <summary>
     /// Analyzes the content of an <see cref="IWikiArticle"/> and provides methods to interact with its structure.
     /// </summary>
-    public interface IWikiArticleParser
+    public interface IArticleParser
     {
         /// <summary>
         /// Provides the composition of an analyzed article as a reference to the root of its tree.
