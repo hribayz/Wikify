@@ -14,7 +14,7 @@ namespace Wikify.License
         private ILicenseFactory _licenseFactory;
         private ICopyrightFactory _copyrightFactory;
 
-        public ArticleLicenseProvider(ILogger logger, ILicenseFactory licenseFactory, ICopyrightFactory copyrightFactory)
+        public ArticleLicenseProvider(ILogger<ArticleLicenseProvider> logger, ILicenseFactory licenseFactory, ICopyrightFactory copyrightFactory)
         {
             _logger = logger;
             _licenseFactory = licenseFactory;

@@ -17,7 +17,7 @@ namespace Wikify.Archive
         private readonly IImageLicenseProvider _imageLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiImageDownloader(ILogger logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
+        public MediaWikiImageDownloader(ILogger<MediaWikiImageDownloader> logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
         {
             _logger = logger;
             _wikiMediaFactory = wikiMediaFactory;

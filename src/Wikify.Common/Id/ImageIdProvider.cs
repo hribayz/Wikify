@@ -19,7 +19,7 @@ namespace Wikify.Common.Id
         private ILogger _logger;
         private INetworkingProvider _networkingProvider;
 
-        public ImageIdProvider(IImageIdentifierFactory imageIdentifierFactory, ILogger logger, INetworkingProvider networkingProvider)
+        public ImageIdProvider(ILogger<ImageIdProvider> logger, IImageIdentifierFactory imageIdentifierFactory, INetworkingProvider networkingProvider)
         {
             _imageIdentifierFactory = imageIdentifierFactory;
             _logger = logger;

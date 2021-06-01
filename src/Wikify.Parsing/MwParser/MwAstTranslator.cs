@@ -13,11 +13,10 @@ namespace Wikify.Parsing.MwParser
     /// <inheritdoc cref="IAstTranslator"/>
     internal class MwAstTranslator : IAstTranslator
     {
-
         private ILogger _logger;
-
         private IPatternMatchingService _patternMatchingService;
-        internal MwAstTranslator(ILogger logger, IPatternMatchingService patternMatchingService)
+
+        internal MwAstTranslator(ILogger<MwAstTranslator> logger, IPatternMatchingService patternMatchingService)
         {
             _logger = logger;
 

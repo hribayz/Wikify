@@ -22,7 +22,7 @@ namespace Wikify.Archive
         private readonly IArticleLicenseProvider _articleLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiArticleDownloader(ILogger logger, INetworkingProvider networkingProvider, IArticleLicenseProvider articleLicenseProvider, IWikiMediaFactory wikiMediaFactory)
+        public MediaWikiArticleDownloader(ILogger<MediaWikiArticleDownloader> logger, INetworkingProvider networkingProvider, IArticleLicenseProvider articleLicenseProvider, IWikiMediaFactory wikiMediaFactory)
         {
             _logger = logger;
             _articleLicenseProvider = articleLicenseProvider;

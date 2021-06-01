@@ -39,8 +39,8 @@ namespace Wikify.Test.Archive
                     _networkingProvider
                 );
             _imageIdProvider = new ImageIdProvider(
-                _imageIdentifierFactory,
                 _loggerFactory.CreateLogger<ImageIdProvider>(),
+                _imageIdentifierFactory,
                 _networkingProvider);
         }
 

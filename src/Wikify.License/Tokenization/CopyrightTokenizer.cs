@@ -17,7 +17,7 @@ namespace Wikify.License.Tokenization
         private ILogger _logger;
         private IMediaWikiConstantsContainer _constants;
 
-        public CopyrightTokenizer(ILogger logger, IMediaWikiConstantsContainer mediaWikiConstantsContainer)
+        public CopyrightTokenizer(ILogger<CopyrightTokenizer> logger, IMediaWikiConstantsContainer mediaWikiConstantsContainer)
         {
             _logger = logger;
             _constants = mediaWikiConstantsContainer;

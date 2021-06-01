@@ -43,7 +43,7 @@ namespace Wikify.Test
             services.AddSingleton<IWikiMediaFactory, WikiMediaFactory>();
             services.AddSingleton<IAstTranslator, MwAstTranslator>();
             services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
-            services.AddLogging();
+            services.AddLogging(x => x.AddSerilog(dispose: true));
 
             _serviceProvider = services.BuildServiceProvider();
             ;

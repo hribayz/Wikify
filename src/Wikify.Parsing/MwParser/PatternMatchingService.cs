@@ -37,7 +37,7 @@ namespace Wikify.Parsing.MwParser
 
         };
 
-        public PatternMatchingService(ILogger logger, IWikiContentFactory wikiContentFactory)
+        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
             _wikiContentFactory = wikiContentFactory;

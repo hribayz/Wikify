@@ -14,7 +14,7 @@ namespace Wikify.Common.Network
         private bool _disposalRunning;
         private ILogger _logger;
 
-        public NetworkingProvider(ILogger logger)
+        public NetworkingProvider(ILogger<NetworkingProvider> logger)
         {
             _logger = logger;
             _disposalRunning = false;

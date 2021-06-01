@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-//using Serilog;
+using Microsoft.Extensions.Logging.Console;
 using System;
+using System.Threading.Tasks;
 using Wikify.Archive;
+using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.Parsing.Content;
 using Wikify.Test;
@@ -13,8 +15,10 @@ namespace Wikify.Integration
     {
         static void Main(string[] args)
         {
-            MwParserClient client = new MwParserClient();
-            client.TestLogging();
+            var client = new MwParserClient();
+            var container = client.get
+
+            ;
         }
     }
 
@@ -35,6 +39,11 @@ namespace Wikify.Integration
         {
             var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
             return await _articleParser.GetContainerAsync(articleArchive);
+        }
+
+        public async Task<>()
+        {
+
         }
     }
 }
