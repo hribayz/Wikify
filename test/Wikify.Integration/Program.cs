@@ -13,10 +13,10 @@ namespace Wikify.Integration
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var client = new MwParserClient();
-            var container = client.get
+            await client.TestArticleHasSingleInfoPanelAsync("Morgan Mason");
 
             ;
         }
@@ -41,9 +41,16 @@ namespace Wikify.Integration
             return await _articleParser.GetContainerAsync(articleArchive);
         }
 
-        public async Task<>()
+        public async Task TestArticleHasSingleInfoPanelAsync(string title)
         {
+            var articleContainer = await GetArticleContainerAsync(title);
+            var children = articleContainer.GetChildren();
+            var infoPanels = articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.InfoPanel);
 
+            // Let background logger finish its job before hitting breakpoint.
+            await Task.Delay(1000);
+
+            ;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Wikify.Parsing.MwParser
 {
-    internal class PatternMatchComponent
+    public class PatternMatchComponent
     {
         internal PatternMatch PatternMatch;
         internal WikiComponent WikiComponent;

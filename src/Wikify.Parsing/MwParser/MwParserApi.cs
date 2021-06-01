@@ -26,7 +26,12 @@ namespace Wikify.Parsing.MwParser
 
         internal async Task<Wikitext> GetArticleMwRoot(IWikiArticle wikiArticle)
         {
-            _logger.LogDebug($"{nameof(GetArticleMwRoot)} parsing content:{Environment.NewLine}{wikiArticle.ArticleData}");
+            #region Log article
+
+            var articleDataString = wikiArticle.ArticleData.Substring(0, Math.Min(wikiArticle.ArticleData.Length, 50));
+            _logger.LogInformation($"{nameof(GetArticleMwRoot)} parsing content:{Environment.NewLine}{articleDataString}");
+
+            #endregion
 
             if (wikiArticle.ContentModel != TextContentModel.WikiText)
             {
@@ -36,12 +41,12 @@ namespace Wikify.Parsing.MwParser
             }
 
             // Build article AST
-            _logger.LogInformation("Building article AST...");
+            _logger.LogDebug("Building article AST...");
 
             var astRoot = await Task.Run(
                 () => _parser.Parse(wikiArticle.ArticleData));
 
-            _logger.LogInformation("Done.");
+            _logger.LogDebug("Done.");
 
             if (astRoot == null)
             {
@@ -61,11 +66,11 @@ namespace Wikify.Parsing.MwParser
             var firstChild = astRoot.Lines.FirstNode;
 
             // Compose WikiComponent tree.
-            var baseComponents = await astTranslator.TranslateNodesAsync(firstChild);
+            var rootChildren = await astTranslator.TranslateNodesAsync(firstChild);
 
-            if (baseComponents.Any())
+            if (rootChildren.Any())
             {
-                articleContainer.AddChildren(baseComponents);
+                articleContainer.AddChildren(rootChildren);
             }
             else
             {

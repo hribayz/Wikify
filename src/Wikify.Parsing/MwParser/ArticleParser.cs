@@ -17,7 +17,7 @@ namespace Wikify.Parsing.MwParser
 
         private MwParserApi _mwParserApi;
 
-        internal ArticleParser(ILogger<ArticleParser> logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
+        public ArticleParser(ILogger<ArticleParser> logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
             _astTranslator = astTranslator;

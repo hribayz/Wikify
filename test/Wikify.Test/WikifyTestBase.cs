@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,12 +26,6 @@ namespace Wikify.Test
         {
             var services = new ServiceCollection();
 
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File($"Logs/TestLog.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-
             services.AddSingleton<INetworkingProvider, NetworkingProvider>();
             services.AddSingleton<IArticleIdentifierFactory, ArticleIdentifierFactory>();
             services.AddSingleton<IArticleArchive, MediaWikiArticleDownloader>();
@@ -43,7 +36,11 @@ namespace Wikify.Test
             services.AddSingleton<IWikiMediaFactory, WikiMediaFactory>();
             services.AddSingleton<IAstTranslator, MwAstTranslator>();
             services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
-            services.AddLogging(x => x.AddSerilog(dispose: true));
+            services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
+
+            services.AddScoped<IArticleParser, ArticleParser>();
+
+            services.AddLogging(config => config.SetMinimumLevel(LogLevel.Debug).AddConsole());
 
             _serviceProvider = services.BuildServiceProvider();
             ;

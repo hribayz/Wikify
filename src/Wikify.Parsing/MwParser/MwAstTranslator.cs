@@ -11,12 +11,12 @@ using Wikify.Parsing.Content;
 namespace Wikify.Parsing.MwParser
 {
     /// <inheritdoc cref="IAstTranslator"/>
-    internal class MwAstTranslator : IAstTranslator
+    public class MwAstTranslator : IAstTranslator
     {
         private ILogger _logger;
         private IPatternMatchingService _patternMatchingService;
 
-        internal MwAstTranslator(ILogger<MwAstTranslator> logger, IPatternMatchingService patternMatchingService)
+        public MwAstTranslator(ILogger<MwAstTranslator> logger, IPatternMatchingService patternMatchingService)
         {
             _logger = logger;
 
@@ -51,6 +51,8 @@ namespace Wikify.Parsing.MwParser
                 // Pattern match at this node.
                 if (isMatch)
                 {
+                    _logger.LogDebug("Parsing match children...");
+
                     // Add all children as belonging to this component.
                     var component = patternMatchComponent?.WikiComponent ??
                         throw new ApplicationException($"Pattern match should not be null here! It was a match!");
@@ -84,6 +86,7 @@ namespace Wikify.Parsing.MwParser
                         // We've just examined the last node contained in the match pattern.
                         if (node == patternMatchComponent.PatternMatch.EndNode)
                         {
+                            _logger.LogDebug("Done parsing match children.");
                             break;
                         }
 
@@ -112,6 +115,7 @@ namespace Wikify.Parsing.MwParser
                         // Children from different levels that are not directly descendant can end up in the same line.
                         if (childComponents.Any())
                         {
+                            _logger.LogDebug($"{nameof(ParseNodes)} returned {childComponents.Count} children. Adding to current level components list.");
                             components.AddRange(childComponents);
                         }
                     }

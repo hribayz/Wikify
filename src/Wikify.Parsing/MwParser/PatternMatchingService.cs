@@ -44,8 +44,6 @@ namespace Wikify.Parsing.MwParser
         }
         #endregion
 
-
-
         // RULE: One component has one node or multiple nodes that are adjacent siblings, one node belongs to zero or one component.
         public bool ParseNode(Node startNode, out PatternMatchComponent? outMatchComponent)
         {
@@ -85,7 +83,16 @@ namespace Wikify.Parsing.MwParser
 
             outMatchComponent = new PatternMatchComponent(match, _wikiContentFactory.CreateComponent(match.WikiComponentType, startNode, match.EndNode));
 
-            _logger.LogDebug($"Pattern match: {startNode} is {match.WikiComponentType}");
+            #region Log match
+
+            var startNodeString = startNode.ToString() ?? "";
+            var startNodeSubstring = startNodeString.Substring(0, Math.Min(50, startNodeString.Length));
+            _logger.LogDebug($"Found {match.WikiComponentType}.{Environment.NewLine}" +
+                $"Starts with: {startNodeSubstring}.{Environment.NewLine}" +
+                $"Has length of: {startNodeString.Length}.{Environment.NewLine}" +
+                $"Has hash: {startNodeString.GetHashCode()}");
+
+            #endregion
 
             return true;
         }
