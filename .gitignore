@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Properties files
 src/Wikify.Common/Properties
+
+# Editor configuration
+.editorconfig
