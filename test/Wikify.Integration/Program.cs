@@ -16,7 +16,7 @@ namespace Wikify.Integration
         static async Task Main(string[] args)
         {
             var client = new MwParserClient();
-            await client.TestArticleHasSingleInfoPanelAsync("Morgan Mason");
+            await client.TestArticleHasInfoPanelAsync("Hawaiian Organic Act");
 
             ;
         }
@@ -41,7 +41,7 @@ namespace Wikify.Integration
             return await _articleParser.GetContainerAsync(articleArchive);
         }
 
-        public async Task TestArticleHasSingleInfoPanelAsync(string title)
+        public async Task TestArticleHasInfoPanelAsync(string title)
         {
             var articleContainer = await GetArticleContainerAsync(title);
             var children = articleContainer.GetChildren();

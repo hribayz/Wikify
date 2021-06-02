@@ -21,7 +21,7 @@ namespace Wikify.Parsing.MwParser
         {
             template =>
             {
-                if (template.Name.Inlines.Any(x => x is PlainText templateName && templateName.Content.StartsWith("Infobox")))
+                if (template.Name.Inlines.Any(x => x is PlainText templateName && templateName.Content.ToLower().StartsWith("infobox")))
                 {
                     return new PatternMatch(WikiComponentType.InfoPanel, template);
                 }

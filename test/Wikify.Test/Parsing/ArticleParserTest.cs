@@ -20,23 +20,14 @@ namespace Wikify.Test.Parsing
     [TestClass]
     public class ArticleParserTest : WikifyTestBase
     {
-        private static IArticleIdentifierFactory _articleIdentifierFactory;
-        private static IArticleArchive _articleDownloader;
-        private static IArticleParser _articleParser;
-
-        [ClassInitialize]
-        public void ClassInitialize()
-        {
-            _articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
-            _articleDownloader = GetService<IArticleArchive>();
-            _articleParser = GetService<IArticleParser>();
-        }
-
-
         private async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
         {
-            var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
-            return await _articleParser.GetContainerAsync(articleArchive);
+            var articleDownloader = GetService<IArticleArchive>();
+            var articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
+            var articleParser = GetService<IArticleParser>();
+
+            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            return await articleParser.GetContainerAsync(articleArchive);
         }
 
 
@@ -56,14 +47,31 @@ namespace Wikify.Test.Parsing
             Assert.IsTrue(articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.BandLineupTimeline).SingleOrDefault() != null);
         }
 
+
         [TestMethod]
+        #region Data rows
+
         [DataRow("Morgan Mason")]
-        public async Task TestArticleHasSingleInfoPanelAsync(string title)
+        [DataRow("Edinburgh")]
+        [DataRow("National Library of Scotland")]
+        [DataRow("House of Lords")]
+        [DataRow("USS Oriskany (CV-34)")]
+        [DataRow("Midway Atoll")]
+        [DataRow("Tsunami")]
+        [DataRow("Delphi")]
+        [DataRow("2011 Tōhoku earthquake and tsunami")]
+        [DataRow("Academia Sinica")]
+        [DataRow("Chinese Academy of Sciences")]
+        [DataRow("Olympia, Greece")]
+        [DataRow("History of the Peloponnesian War")]
+
+        #endregion
+        public async Task TestArticleHasInfoPanelAsync(string title)
         {
             var articleContainer = await GetArticleContainerAsync(title);
             var children = articleContainer.GetChildren();
             var infoPanels = articleContainer.GetChildren(x => x.ComponentType == WikiComponentType.InfoPanel);
-            Assert.IsTrue(infoPanels.SingleOrDefault() != null);
+            Assert.IsTrue(infoPanels.Any());
         }
 
     }
