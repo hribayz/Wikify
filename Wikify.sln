@@ -3,28 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9A3415C5-CD65-492F-BB43-B804A646E905}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{9A3415C5-CD65-492F-BB43-B804A646E905}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Archive", "src\Wikify.Archive\Wikify.Archive.csproj", "{6581561E-0B5E-4983-96A9-88F46D2A24D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Archive", "src\Services\Wikify.Archive\Wikify.Archive.csproj", "{6581561E-0B5E-4983-96A9-88F46D2A24D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Common", "src\Wikify.Common\Wikify.Common.csproj", "{819BE9CF-F3C8-4ECA-86BE-33DBFE304FD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Common", "src\Services\Wikify.Common\Wikify.Common.csproj", "{819BE9CF-F3C8-4ECA-86BE-33DBFE304FD2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Display", "src\Wikify.Display\Wikify.Display.csproj", "{D2A4D155-86D2-4445-8DEE-50D2B84EF81C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Display", "src\Services\Wikify.Display\Wikify.Display.csproj", "{D2A4D155-86D2-4445-8DEE-50D2B84EF81C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.License", "src\Wikify.License\Wikify.License.csproj", "{59125946-01F4-45DA-8CD2-D2CBC1EAE139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.License", "src\Services\Wikify.License\Wikify.License.csproj", "{59125946-01F4-45DA-8CD2-D2CBC1EAE139}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{93AA739C-73A7-484C-A4F8-FAEC1C9CD7F5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{93AA739C-73A7-484C-A4F8-FAEC1C9CD7F5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Parsing", "src\Wikify.Parsing\Wikify.Parsing.csproj", "{BAA52C6C-E655-4A64-9B3D-4B98D9E49E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Parsing", "src\Services\Wikify.Parsing\Wikify.Parsing.csproj", "{BAA52C6C-E655-4A64-9B3D-4B98D9E49E63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Test", "test\Wikify.Test\Wikify.Test.csproj", "{0B41D057-3EFB-430F-B3C6-47AAFBD1DF28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Test", "src\Test\Wikify.Test\Wikify.Test.csproj", "{0B41D057-3EFB-430F-B3C6-47AAFBD1DF28}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{70C21014-CC07-4B0E-90B1-D9968FADCB65}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Integration", "test\Wikify.Integration\Wikify.Integration.csproj", "{E35889AD-D8F0-4883-AEA9-9456C705F88F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wikify.Integration", "src\Test\Wikify.Integration\Wikify.Integration.csproj", "{E35889AD-D8F0-4883-AEA9-9456C705F88F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{4950A4A5-C420-4987-9812-4722E0CF2385}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikify.Generators", "src\Generators\Wikify.Generators\Wikify.Generators.csproj", "{A2318BD5-A022-4394-AF86-6D24149ED8FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,10 @@ Global
 		{E35889AD-D8F0-4883-AEA9-9456C705F88F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E35889AD-D8F0-4883-AEA9-9456C705F88F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E35889AD-D8F0-4883-AEA9-9456C705F88F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2318BD5-A022-4394-AF86-6D24149ED8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2318BD5-A022-4394-AF86-6D24149ED8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2318BD5-A022-4394-AF86-6D24149ED8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2318BD5-A022-4394-AF86-6D24149ED8FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +80,7 @@ Global
 		{BAA52C6C-E655-4A64-9B3D-4B98D9E49E63} = {9A3415C5-CD65-492F-BB43-B804A646E905}
 		{0B41D057-3EFB-430F-B3C6-47AAFBD1DF28} = {93AA739C-73A7-484C-A4F8-FAEC1C9CD7F5}
 		{E35889AD-D8F0-4883-AEA9-9456C705F88F} = {93AA739C-73A7-484C-A4F8-FAEC1C9CD7F5}
+		{A2318BD5-A022-4394-AF86-6D24149ED8FE} = {4950A4A5-C420-4987-9812-4722E0CF2385}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C57652F9-3FE1-4343-BBD4-8570FF838A22}

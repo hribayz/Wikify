@@ -110,3 +110,13 @@ AST parsing into WikiComponents
 	if a subnode is a part of a component, all its descendants are as well. Therefore it's sufficient only to hold the array of the subroots.
 	Pattern matching: use naive algorithm. It's O(nm) but the sofisticated algorithms in reality are not that much better. Also it's not that bad, early exits usually very early so the nm plays out only in case of actual matches, and there are only few per article.
 	
+No such host is known exception?
+
+
+Templates
+
+	List of all template categories. The headers link directly to pages with all of them.
+	https://en.wikipedia.org/wiki/Wikipedia:Template_index
+
+	This is also useful
+	https://en.wikipedia.org/wiki/Category:Wikipedia_template_administration

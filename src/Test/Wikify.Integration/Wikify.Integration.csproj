@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Generators\Wikify.Generators\Wikify.Generators.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Archive\Wikify.Archive.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Common\Wikify.Common.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Display\Wikify.Display.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.License\Wikify.License.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Parsing\Wikify.Parsing.csproj" />
     <ProjectReference Include="..\Wikify.Test\Wikify.Test.csproj" />
   </ItemGroup>
 

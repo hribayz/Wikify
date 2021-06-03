@@ -75,4 +75,14 @@ namespace Wikify.Test.Parsing
         }
 
     }
+
+    [TestClass]
+    public class PatternMatchingServiceTests : WikifyTestBase
+    {
+        public async Task TestTemplateHasNameAsync(string title)
+        {
+            var patternMatchingService = GetService<IPatternMatchingService>();
+
+        }
+    }
 }

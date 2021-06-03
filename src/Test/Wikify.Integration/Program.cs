@@ -16,7 +16,7 @@ namespace Wikify.Integration
         static async Task Main(string[] args)
         {
             var client = new MwParserClient();
-            await client.TestArticleHasInfoPanelAsync("Hawaiian Organic Act");
+            await client.TestArticleHasInfoPanelAsync("Edinburgh");
 
             ;
         }
