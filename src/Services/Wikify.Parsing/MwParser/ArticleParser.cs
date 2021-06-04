@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Microsoft.Extensions.Logging;
 using Wikify.Parsing.Content;
+using MwParserFromScratch;
 
 namespace Wikify.Parsing.MwParser
 {
@@ -15,20 +16,19 @@ namespace Wikify.Parsing.MwParser
         private IAstTranslator _astTranslator;
         private IWikiContentFactory _wikiContentFactory;
 
-        private MwParserApi _mwParserApi;
+        private IMwParserApi _mwParserApi;
 
-        public ArticleParser(ILogger<ArticleParser> logger, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
+        public ArticleParser(ILogger<ArticleParser> logger, IMwParserApi mwParserApi, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
         {
             _logger = logger;
+            _mwParserApi = mwParserApi;
             _astTranslator = astTranslator;
             _wikiContentFactory = wikiContentFactory;
-
-            _mwParserApi = new MwParserApi(logger);
         }
 
         public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle)
         {
-            var articleRoot = await _mwParserApi.GetArticleMwRoot(wikiArticle);
+            var articleRoot = await _mwParserApi.GetArticleMwRootAsync(wikiArticle);
             return await _mwParserApi.GetContainerAsync(wikiArticle, articleRoot, _astTranslator, _wikiContentFactory);
         }
     }

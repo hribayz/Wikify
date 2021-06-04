@@ -37,6 +37,7 @@ namespace Wikify.Test
             services.AddSingleton<IAstTranslator, MwAstTranslator>();
             services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
             services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
+            services.AddSingleton<IMwParserApi, MwParserApi>();
 
             services.AddScoped<IArticleParser, ArticleParser>();
 
@@ -44,6 +45,16 @@ namespace Wikify.Test
 
             _serviceProvider = services.BuildServiceProvider();
             ;
+        }
+
+        public async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
+        {
+            var articleDownloader = GetService<IArticleArchive>();
+            var articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
+            var articleParser = GetService<IArticleParser>();
+
+            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            return await articleParser.GetContainerAsync(articleArchive);
         }
 
         public T GetService<T>()

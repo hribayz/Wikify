@@ -10,6 +10,7 @@ using Wikify.Parsing.Content;
 
 namespace Wikify.Parsing.MwParser
 {
+
     internal class PatternMatchingService : IPatternMatchingService
     {
         private IWikiContentFactory _wikiContentFactory;
@@ -105,9 +106,9 @@ namespace Wikify.Parsing.MwParser
             return true;
         }
 
-        private PatternMatch? RunPatternEnumeration(IEnumerable<PatternMatch?> patternDelegates)
+        private PatternMatch? RunPatternEnumeration(IEnumerable<PatternMatch?> matchResults)
         {
-            foreach (var patternMatch in patternDelegates)
+            foreach (var patternMatch in matchResults)
             {
 
                 // If no match found, go to next pattern as early as possible.

@@ -11,25 +11,26 @@ using Wikify.Parsing.Content;
 [assembly: InternalsVisibleTo("Wikify.Test")]
 namespace Wikify.Parsing.MwParser
 {
-    internal class MwParserApi
+
+    public class MwParserApi : IMwParserApi
     {
         private ILogger _logger;
 
         private WikitextParser _parser;
 
-        public MwParserApi(ILogger logger)
+        public MwParserApi(ILogger<MwParserApi> logger)
         {
             _logger = logger;
 
             _parser = new WikitextParser();
         }
 
-        internal async Task<Wikitext> GetArticleMwRoot(IWikiArticle wikiArticle)
+        public async Task<Wikitext> GetArticleMwRootAsync(IWikiArticle wikiArticle)
         {
             #region Log article
 
             var articleDataString = wikiArticle.ArticleData.Substring(0, Math.Min(wikiArticle.ArticleData.Length, 50));
-            _logger.LogInformation($"{nameof(GetArticleMwRoot)} parsing content:{Environment.NewLine}{articleDataString}");
+            _logger.LogInformation($"{nameof(GetArticleMwRootAsync)} parsing content:{Environment.NewLine}{articleDataString}");
 
             #endregion
 
@@ -58,7 +59,7 @@ namespace Wikify.Parsing.MwParser
             return astRoot;
         }
 
-        internal async Task<ArticleContainer> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
+        public async Task<ArticleContainer> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
         {
             // Create the root of WikiComponent tree.
             var articleContainer = wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);
@@ -78,6 +79,11 @@ namespace Wikify.Parsing.MwParser
             }
 
             return articleContainer;
+        }
+
+        public WikitextParser GetWikitextParser()
+        {
+            return _parser;
         }
     }
 }

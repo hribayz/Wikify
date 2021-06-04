@@ -13,22 +13,12 @@ using Wikify.Common.Network;
 using Wikify.License;
 using Wikify.License.Copyright;
 using Wikify.Parsing.Content;
-using Wikify.Parsing.MwParser;
 
 namespace Wikify.Test.Parsing
 {
     [TestClass]
     public class ArticleParserTest : WikifyTestBase
     {
-        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
-        {
-            var articleDownloader = GetService<IArticleArchive>();
-            var articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
-            var articleParser = GetService<IArticleParser>();
-
-            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
-            return await articleParser.GetContainerAsync(articleArchive);
-        }
 
 
         [TestMethod]
@@ -74,15 +64,5 @@ namespace Wikify.Test.Parsing
             Assert.IsTrue(infoPanels.Any());
         }
 
-    }
-
-    [TestClass]
-    public class PatternMatchingServiceTests : WikifyTestBase
-    {
-        public async Task TestTemplateHasNameAsync(string title)
-        {
-            var patternMatchingService = GetService<IPatternMatchingService>();
-
-        }
     }
 }
