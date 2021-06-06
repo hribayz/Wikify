@@ -10,20 +10,16 @@ using Wikify.Parsing.Content;
 
 namespace Wikify.Parsing.MwParser
 {
-    /// <inheritdoc cref="IAstTranslator"/>
-    public class MwAstTranslator : IAstTranslator
+    /// <inheritdoc cref="IAstParser"/>
+    public class AstParser : IAstParser
     {
-        #region Private members and helper methods
-
         private ILogger _logger;
         private IPatternMatchingService _patternMatchingService;
 
         // Extract node advance and children extraction to make sure they are being performed together.
         private (Node node, IEnumerable<Node> children) MoveNext((Node node, IEnumerable<Node> _) nodeTuple) => (node: nodeTuple.node.NextNode, children: nodeTuple.node.NextNode.EnumChildren());
 
-        #endregion
-
-        public MwAstTranslator(ILogger<MwAstTranslator> logger, IPatternMatchingService patternMatchingService)
+        public AstParser(ILogger<AstParser> logger, IPatternMatchingService patternMatchingService)
         {
             _logger = logger;
 

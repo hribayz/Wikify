@@ -34,7 +34,7 @@ namespace Wikify.Test
             services.AddSingleton<ICopyrightResolver, CopyrightResolver>();
             services.AddSingleton<ICopyrightFactory, CopyrightFactory>();
             services.AddSingleton<IWikiMediaFactory, WikiMediaFactory>();
-            services.AddSingleton<IAstTranslator, MwAstTranslator>();
+            services.AddSingleton<IAstParser, AstParser>();
             services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
             services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
             services.AddSingleton<IMwParserApi, MwParserApi>();

@@ -15,14 +15,21 @@ namespace Wikify.Parsing.MwParser
     public class MwParserApi : IMwParserApi
     {
         private ILogger _logger;
+        private IAstParser _astTranslator;
 
         private WikitextParser _parser;
 
-        public MwParserApi(ILogger<MwParserApi> logger)
+        public MwParserApi(ILogger<MwParserApi> logger, IAstParser astTranslator)
         {
             _logger = logger;
+            _astTranslator = astTranslator;
 
             _parser = new WikitextParser();
+        }
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, IWikiContentFactory wikiContentFactory)
+        {
+            var articleRoot = await GetArticleMwRootAsync(wikiArticle);
+            return await GetContainerAsync(wikiArticle, articleRoot, wikiContentFactory);
         }
 
         public async Task<Wikitext> GetArticleMwRootAsync(IWikiArticle wikiArticle)
@@ -59,7 +66,7 @@ namespace Wikify.Parsing.MwParser
             return astRoot;
         }
 
-        public async Task<ArticleContainer> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IAstTranslator astTranslator, IWikiContentFactory wikiContentFactory)
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IWikiContentFactory wikiContentFactory)
         {
             // Create the root of WikiComponent tree.
             var articleContainer = wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);
@@ -67,7 +74,7 @@ namespace Wikify.Parsing.MwParser
             var firstChild = astRoot.Lines.FirstNode;
 
             // Compose WikiComponent tree.
-            var rootChildren = await astTranslator.TranslateNodesAsync(firstChild);
+            var rootChildren = await _astTranslator.TranslateNodesAsync(firstChild);
 
             if (rootChildren.Any())
             {
@@ -80,6 +87,7 @@ namespace Wikify.Parsing.MwParser
 
             return articleContainer;
         }
+
 
         public WikitextParser GetWikitextParser()
         {

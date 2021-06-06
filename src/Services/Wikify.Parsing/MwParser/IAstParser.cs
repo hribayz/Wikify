@@ -8,9 +8,9 @@ using Wikify.Common.Content;
 namespace Wikify.Parsing.MwParser
 {
     /// <summary>
-    /// Maps MediaWiki AST elements onto and provides methods to interact with a tree structure of <see cref="IWikiComponent"/>s.
+    /// Maps MediaWiki AST onto a tree of <see cref="IWikiComponent"/>s elements. Provides methods for interaction with the resulting <see cref="IWikiComponent"/>s tree.
     /// </summary>
-    public interface IAstTranslator
+    public interface IAstParser
     {
         /// <summary>
         /// Maps a root of an AST subtree onto an array of same level <see cref="IWikiComponent"/>s.

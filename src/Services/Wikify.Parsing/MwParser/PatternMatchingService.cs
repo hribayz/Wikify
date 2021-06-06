@@ -15,7 +15,6 @@ namespace Wikify.Parsing.MwParser
     {
         private IWikiContentFactory _wikiContentFactory;
         private ILogger _logger;
-        private HashSet<string> _messageBoxTemplateNames;
 
         // Write the patterns with early exit if no match as highest priority.
         #region Patterns
@@ -24,11 +23,14 @@ namespace Wikify.Parsing.MwParser
             // Infobox
             template =>
             {
-                if (template.Name.Inlines.Any(x => x is PlainText templateName && templateName.Content.ToLower().StartsWith("infobox")))
+                if (template.GetTemplateName().ToLower().StartsWith("infobox"))
                 {
                     return new PatternMatch(WikiComponentType.InfoPanel, template);
                 }
-                return null;
+                else
+                {
+                    return null;
+                }
             },
             //template =>
             //{
