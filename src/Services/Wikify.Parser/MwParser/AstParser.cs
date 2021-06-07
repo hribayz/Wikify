@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
-using Wikify.Parsing.Content;
+using Wikify.Parser.Content;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     /// <inheritdoc cref="IAstParser"/>
     public class AstParser : IAstParser

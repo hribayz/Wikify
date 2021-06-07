@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -21,7 +21,7 @@
     <ProjectReference Include="..\..\Services\Wikify.Common\Wikify.Common.csproj" />
     <ProjectReference Include="..\..\Services\Wikify.Display\Wikify.Display.csproj" />
     <ProjectReference Include="..\..\Services\Wikify.License\Wikify.License.csproj" />
-    <ProjectReference Include="..\..\Services\Wikify.Parsing\Wikify.Parsing.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Parser\Wikify.Parser.csproj" />
     <ProjectReference Include="..\Wikify.Test\Wikify.Test.csproj" />
   </ItemGroup>
 

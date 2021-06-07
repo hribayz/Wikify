@@ -6,10 +6,10 @@ using MwParserFromScratch.Nodes;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Wikify.Parsing.Content;
+using Wikify.Parser.Content;
 
 [assembly: InternalsVisibleTo("Wikify.Test")]
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
 
     public class MwParserApi : IMwParserApi

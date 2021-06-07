@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Generators;
-using Wikify.Parsing.MwParser;
-using static Wikify.Parsing.MwParser.NodeExtensions;
+using Wikify.Parser.MwParser;
+using static Wikify.Parser.MwParser.NodeExtensions;
 
 namespace Wikify.Test.Parsing
 {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
-using Wikify.Parsing.Content;
+using Wikify.Parser.Content;
 using Wikify.Test;
 
 namespace Wikify.Integration
@@ -35,11 +35,6 @@ namespace Wikify.Integration
             _articleParser = GetService<IArticleParser>();
         }
 
-        private async Task<IWikiContainer<IWikiArticle>> GetArticleContainerAsync(string title)
-        {
-            var articleArchive = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
-            return await _articleParser.GetContainerAsync(articleArchive);
-        }
 
         public async Task TestArticleHasInfoPanelAsync(string title)
         {

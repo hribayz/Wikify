@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parser.Content
 {
     public class ImageContainer : WikiComponent, IWikiContainer<IWikiImage>
     {

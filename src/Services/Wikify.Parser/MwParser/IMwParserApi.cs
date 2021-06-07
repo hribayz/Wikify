@@ -2,11 +2,11 @@
 using Wikify.Common.Content;
 using MwParserFromScratch.Nodes;
 using System.Runtime.CompilerServices;
-using Wikify.Parsing.Content;
+using Wikify.Parser.Content;
 using MwParserFromScratch;
 
 [assembly: InternalsVisibleTo("Wikify.Test")]
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     /// <summary>
     /// A facade over the MwParserFromScratch library. Encapsulates the <see cref="WikitextParser"/> instance and provides methods reducing its interface. 

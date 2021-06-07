@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parser.Content
 {
     /// <summary>
     /// Contains methods for creating <see cref="WikiComponent"/> descendants from <see cref="MwParserFromScratch"/> AST nodes.

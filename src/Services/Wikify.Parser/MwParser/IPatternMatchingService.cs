@@ -1,6 +1,6 @@
 ﻿using MwParserFromScratch.Nodes;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     /// <summary>
     /// Provides methods for identification of wikify composition components.

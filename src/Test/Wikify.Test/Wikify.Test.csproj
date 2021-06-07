@@ -22,7 +22,7 @@
     <ProjectReference Include="..\..\Services\Wikify.Common\Wikify.Common.csproj" />
     <ProjectReference Include="..\..\Services\Wikify.Display\Wikify.Display.csproj" />
     <ProjectReference Include="..\..\Services\Wikify.License\Wikify.License.csproj" />
-    <ProjectReference Include="..\..\Services\Wikify.Parsing\Wikify.Parsing.csproj" />
+    <ProjectReference Include="..\..\Services\Wikify.Parser\Wikify.Parser.csproj" />
   </ItemGroup>
 
 </Project>

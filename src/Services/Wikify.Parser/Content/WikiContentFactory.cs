@@ -1,7 +1,7 @@
 ﻿using MwParserFromScratch.Nodes;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parser.Content
 {
     public class WikiContentFactory : IWikiContentFactory
     {

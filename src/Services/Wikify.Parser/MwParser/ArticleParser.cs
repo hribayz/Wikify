@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Microsoft.Extensions.Logging;
-using Wikify.Parsing.Content;
+using Wikify.Parser.Content;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     /// <summary>
     /// Implements the <see cref="IArticleParser"/> using the <see cref="IMwParserApi"/> service.

@@ -1,6 +1,6 @@
 ﻿using MwParserFromScratch.Nodes;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     internal static class NodeExtensions
     {

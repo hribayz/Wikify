@@ -13,8 +13,8 @@ using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
 using Wikify.License.Copyright;
-using Wikify.Parsing.Content;
-using Wikify.Parsing.MwParser;
+using Wikify.Parser.Content;
+using Wikify.Parser.MwParser;
 
 namespace Wikify.Test
 {

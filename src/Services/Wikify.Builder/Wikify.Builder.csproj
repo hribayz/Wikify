@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Tomáš Krupka</Authors>
+    <Description>Composition building service for the Wikify project.</Description>
+  </PropertyGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 ﻿using MwParserFromScratch.Nodes;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     internal class PatternMatch
     {

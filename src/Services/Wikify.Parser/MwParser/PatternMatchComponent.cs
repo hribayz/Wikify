@@ -1,6 +1,6 @@
-﻿using Wikify.Parsing.Content;
+﻿using Wikify.Parser.Content;
 
-namespace Wikify.Parsing.MwParser
+namespace Wikify.Parser.MwParser
 {
     public class PatternMatchComponent
     {

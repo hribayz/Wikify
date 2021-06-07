@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parser.Content
 {
     public class WikiComponent : IWikiComponent
     {

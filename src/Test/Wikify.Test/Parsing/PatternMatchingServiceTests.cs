@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
-using Wikify.Parsing.MwParser;
+using Wikify.Parser.MwParser;
 
 namespace Wikify.Test.Parsing
 {

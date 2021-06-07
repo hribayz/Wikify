@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 
-namespace Wikify.Parsing.Content
+namespace Wikify.Parser.Content
 {
     /// <summary>
     /// Analyzes the content of an <see cref="IWikiArticle"/> and provides methods to interact with its structure.
