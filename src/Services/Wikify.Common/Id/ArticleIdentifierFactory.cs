@@ -1,4 +1,5 @@
 ﻿using System;
+using Wikify.Common.Domain;
 
 namespace Wikify.Common.Id
 {

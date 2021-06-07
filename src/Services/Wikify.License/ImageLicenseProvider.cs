@@ -12,11 +12,10 @@ using Wikify.Common;
 using Wikify.Common.Content;
 using Wikify.Common.Id;
 using Wikify.Common.License;
-using Wikify.Common.MediaWikiModels;
 using Wikify.Common.Network;
 using Wikify.License.Copyright;
 using Wikify.License.Tokenization;
-using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
+using static Wikify.Common.Domain.Models.MediaWiki.ImageInfoResponse;
 
 namespace Wikify.License
 {

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common.MediaWikiModels
+namespace Wikify.Common.Domain.Models.MediaWiki
 {
     [Flags]
-    public enum MediaWikiImageInfoProps
+    public enum ImageInfoProps
     {
         None = 1,
-        
+
         ExtMetadata = 2,
         Url = 4,
 

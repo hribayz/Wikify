@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common.MediaWikiModels
+namespace Wikify.Common.Domain.Models.MediaWiki
 {
-    public static class MediaWikiParserResponse
+    public static class ParserResponse
     {
         public class ParserRootObject
         {

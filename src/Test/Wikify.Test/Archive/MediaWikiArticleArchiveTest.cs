@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
-using Wikify.Common;
 using Wikify.Common.Content;
+using Wikify.Common.Domain;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;

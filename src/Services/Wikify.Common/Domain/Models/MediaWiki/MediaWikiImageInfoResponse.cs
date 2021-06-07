@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common.MediaWikiModels
+namespace Wikify.Common.Domain.Models.MediaWiki
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public static class MediaWikiImageInfoResponse
+    public static class ImageInfoResponse
     {
-        static MediaWikiImageInfoResponse()
+        static ImageInfoResponse()
         {
             JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
             {

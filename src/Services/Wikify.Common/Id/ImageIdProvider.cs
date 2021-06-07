@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Wikify.Common.MediaWikiModels;
+using Wikify.Common.Domain.Models.MediaWiki;
 using Wikify.Common.Network;
-using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
+using static Wikify.Common.Domain.Models.MediaWiki.ImageInfoResponse;
 
 namespace Wikify.Common.Id
 {
@@ -39,7 +39,7 @@ namespace Wikify.Common.Id
 
         public async Task<IReadOnlyDictionary<string, IImageIdentifier>> GetIdentifiersAsync(IEnumerable<string> imageTitles)
         {
-            var props = MediaWikiImageInfoProps.ExtMetadata | MediaWikiImageInfoProps.Url;
+            var props = ImageInfoProps.ExtMetadata | ImageInfoProps.Url;
             var imageQueryResult = await QueryImageMetadataAsync(imageTitles, props);
 
             // Validate response.
@@ -93,7 +93,7 @@ namespace Wikify.Common.Id
 
             return imageIdentifiers;
         }
-        private async Task<ImageInfoRootObject?> QueryImageMetadataAsync(IEnumerable<string> imageTitles, MediaWikiImageInfoProps iiProps)
+        private async Task<ImageInfoRootObject?> QueryImageMetadataAsync(IEnumerable<string> imageTitles, ImageInfoProps iiProps)
         {
             // Compose request
 

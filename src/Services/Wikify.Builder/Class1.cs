@@ -2,7 +2,8 @@
 
 namespace Wikify.Builder
 {
-    public class Class1
+    public interface IBuilder
     {
+        public void Build();
     }
 }

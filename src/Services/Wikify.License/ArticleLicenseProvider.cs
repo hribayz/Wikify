@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Wikify.Common.Domain;
 using Wikify.Common.Id;
 using Wikify.Common.License;
 using Wikify.License.Copyright;

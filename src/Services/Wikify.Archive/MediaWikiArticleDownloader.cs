@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common;
 using Wikify.Common.Content;
+using Wikify.Common.Domain.Models.MediaWiki;
 using Wikify.Common.Id;
-using Wikify.Common.MediaWikiModels;
 using Wikify.Common.Network;
 using Wikify.License;
-using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
+using static Wikify.Common.Domain.Models.MediaWiki.ImageInfoResponse;
 
 namespace Wikify.Archive
 {
@@ -42,7 +42,7 @@ namespace Wikify.Archive
 
                 var mwResponse = await _networkingProvider.DownloadContentAsync(parseQueryUri);
 
-                var mwResponseObject = JsonConvert.DeserializeObject<MediaWikiParserResponse.ParserRootObject>(mwResponse);
+                var mwResponseObject = JsonConvert.DeserializeObject<ParserResponse.ParserRootObject>(mwResponse);
 
                 string? content = contentModel switch
                 {

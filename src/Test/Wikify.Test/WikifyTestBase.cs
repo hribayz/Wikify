@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Common.Content;
+using Wikify.Common.Domain;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
@@ -53,7 +54,7 @@ namespace Wikify.Test
             var articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
             var articleParser = GetService<IArticleParser>();
 
-            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, Common.LanguageEnum.English), TextContentModel.WikiText);
+            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, LanguageEnum.English), TextContentModel.WikiText);
             return await articleParser.GetContainerAsync(articleArchive);
         }
 

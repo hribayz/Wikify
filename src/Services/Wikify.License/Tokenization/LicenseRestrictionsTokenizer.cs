@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Wikify.Common.License;
+using Wikify.Common.Domain;
 
 namespace Wikify.License.Tokenization
 {

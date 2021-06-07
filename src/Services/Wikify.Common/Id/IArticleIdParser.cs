@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Wikify.Common;
+using Wikify.Common.Domain;
 using Wikify.Common.Id;
 
 namespace Wikify.Common.Id

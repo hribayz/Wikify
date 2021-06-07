@@ -1,4 +1,5 @@
-﻿using Wikify.Common.License;
+﻿using Wikify.Common.Domain;
+using Wikify.Common.License;
 
 namespace Wikify.License
 {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Wikify.Common.Content;
+using Wikify.Common.Domain;
 
 namespace Wikify.Common.Id
 {

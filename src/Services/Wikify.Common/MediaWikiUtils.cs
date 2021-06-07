@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wikify.Common;
 using Wikify.Common.Content;
-using Wikify.Common.MediaWikiModels;
-using static Wikify.Common.MediaWikiModels.MediaWikiImageInfoResponse;
+using Wikify.Common.Domain;
+using Wikify.Common.Domain.Models.MediaWiki;
+using static Wikify.Common.Domain.Models.MediaWiki.ImageInfoResponse;
 
 namespace Wikify.Common
 {
@@ -43,7 +43,7 @@ namespace Wikify.Common
                 .ToString();
         }
 
-        public static string GetImageMetadataQuery(IEnumerable<string> titles, MediaWikiImageInfoProps iiProps)
+        public static string GetImageMetadataQuery(IEnumerable<string> titles, ImageInfoProps iiProps)
         {
             #region Argument validation
 
@@ -57,7 +57,7 @@ namespace Wikify.Common
                 throw new ArgumentException("Cannot query metadata for empty ienumerable of titles");
             }
 
-            if (iiProps.HasFlag(MediaWikiImageInfoProps.None))
+            if (iiProps.HasFlag(ImageInfoProps.None))
             {
                 throw new ArgumentException("Cannot query metadata with no props");
             }
@@ -66,7 +66,7 @@ namespace Wikify.Common
 
             // compose iiProps argument value from raised flags
             var propsSb = new StringBuilder();
-            foreach (MediaWikiImageInfoProps flag in Enum.GetValues(typeof(MediaWikiImageInfoProps)))
+            foreach (ImageInfoProps flag in Enum.GetValues(typeof(ImageInfoProps)))
             {
                 if (iiProps.HasFlag(flag))
                 {
@@ -103,7 +103,7 @@ namespace Wikify.Common
         /// </summary>
         /// <param name="props"></param>
         /// <returns></returns>
-        public static bool AssertImageInfoPropsNotNull(ImageInfoRootObject? imageInfo, MediaWikiImageInfoProps props)
+        public static bool AssertImageInfoPropsNotNull(ImageInfoRootObject? imageInfo, ImageInfoProps props)
         {
             // Assert imageInfo has the "pages" child.
             if (imageInfo?.query?.pages == null)
@@ -117,18 +117,18 @@ namespace Wikify.Common
                 return false;
             }
 
-            /// Using Dictionary makes this implementation resilient to new enums being added to <see cref="MediaWikiImageInfoProps"/>.
+            /// Using Dictionary makes this implementation resilient to new enums being added to <see cref="ImageInfoProps"/>.
             /// It will throw a KeyNotFoundException on an unknown flag rather than silently pass.
             /// Keep it this way if modifying.
-            Dictionary<MediaWikiImageInfoProps, Func<KeyValuePair<int, Page>?, bool>> validator = new()
+            Dictionary<ImageInfoProps, Func<KeyValuePair<int, Page>?, bool>> validator = new()
             {
-                [MediaWikiImageInfoProps.None] = page => true,
-                [MediaWikiImageInfoProps.ExtMetadata] = page => page?.Value?.imageinfo?.SingleOrDefault()?.extmetadata != null,
-                [MediaWikiImageInfoProps.Url] = page => page?.Value?.imageinfo?.SingleOrDefault()?.url != null && page?.Value?.imageinfo?.SingleOrDefault()?.descriptionurl != null,
+                [ImageInfoProps.None] = page => true,
+                [ImageInfoProps.ExtMetadata] = page => page?.Value?.imageinfo?.SingleOrDefault()?.extmetadata != null,
+                [ImageInfoProps.Url] = page => page?.Value?.imageinfo?.SingleOrDefault()?.url != null && page?.Value?.imageinfo?.SingleOrDefault()?.descriptionurl != null,
             };
 
             // Early exit if any of the enum flags don't pass its validator.
-            foreach (MediaWikiImageInfoProps flag in Enum.GetValues(typeof(MediaWikiImageInfoProps)))
+            foreach (ImageInfoProps flag in Enum.GetValues(typeof(ImageInfoProps)))
             {
                 if (props.HasFlag(flag) && imageInfo.query.pages.Any(page => !validator[flag](page)))
                 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wikify.Common.License
+namespace Wikify.Common.Domain
 {
     [Flags]
     public enum LicenseRestrictionsEnum

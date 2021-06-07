@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Wikify.Archive;
 using Wikify.Common.Content;
@@ -15,12 +16,14 @@ namespace Wikify.Integration
     {
         static async Task Main(string[] args)
         {
-            var client = new MwParserClient();
-            await client.TestArticleHasInfoPanelAsync("Edinburgh");
+            var client = new ClientMock();
+            var articleContainer = await client.GetArticleContainerAsync("Edinburgh");
 
-            ;
+            //Expression
         }
     }
+
+    public class ClientMock : WikifyTestBase { }
 
     public class MwParserClient : WikifyTestBase
     {
