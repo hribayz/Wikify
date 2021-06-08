@@ -16,6 +16,7 @@ using Wikify.License;
 using Wikify.License.Copyright;
 using Wikify.Parser.Content;
 using Wikify.Parser.MwParser;
+using Wikify.Parser.MwParser.Specifications;
 
 namespace Wikify.Test
 {
@@ -39,6 +40,7 @@ namespace Wikify.Test
             services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
             services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
             services.AddSingleton<IMwParserApi, MwParserApi>();
+            services.AddSingleton<ISpecificationProvider, SpecificationProvider>();
 
             services.AddScoped<IArticleParser, ArticleParser>();
 

@@ -12,6 +12,5 @@ namespace Wikify.Common.Content
         public WikiComponentType ComponentType { get; }
         public IEnumerable<IWikiComponent> GetChildren();
         public IEnumerable<IWikiComponent> GetChildren(Predicate<IWikiComponent> filter);
-
     }
 }

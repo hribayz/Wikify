@@ -10,7 +10,7 @@ using Wikify.Common.Domain;
 
 namespace Wikify.Parser.MwParser.Specifications
 {
-    internal class InfoboxSpecification : PatternSpecification<Template>
+    public class InfoboxSpecification : Pattern<Template>
     {
         private Func<Template, PatternMatch> _expression = 
             template =>
@@ -21,10 +21,10 @@ namespace Wikify.Parser.MwParser.Specifications
                 }
                 else
                 {
-                    return null;
+                    return PatternMatch.None;
                 }
             };
 
-        internal override Func<Template, PatternMatch> Expression => _expression;
+        public override Func<Template, PatternMatch> Expression => _expression;
     }
 }

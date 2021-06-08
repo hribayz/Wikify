@@ -7,77 +7,50 @@ using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content;
 using Wikify.Parser.Content;
+using Wikify.Parser.MwParser.Specifications;
 
 namespace Wikify.Parser.MwParser
 {
 
     internal class PatternMatchingService : IPatternMatchingService
     {
-        private IWikiContentFactory _wikiContentFactory;
         private ILogger _logger;
+        private IWikiContentFactory _wikiContentFactory;
 
-        // Write the patterns with early exit if no match as highest priority.
-        #region Patterns
-        private List<Func<Template, PatternMatch?>> _templatePatterns = new()
-        {
-            // Infobox
-            template =>
-            {
-                if (template.GetTemplateName().ToLower().StartsWith("infobox"))
-                {
-                    return new PatternMatch(WikiComponentType.InfoPanel, template);
-                }
-                else
-                {
-                    return null;
-                }
-            },
-            //template =>
-            //{
+        private IReadOnlyCollection<Pattern<Template>> _templateSpecifications;
 
-            //}
-        
-        };
-
-        private List<Func<InlineNode, PatternMatch?>> _inlinePatterns = new()
-        {
-
-        };
-        private List<Func<Node, PatternMatch?>> _patterns = new()
-        {
-
-        };
-
-        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiContentFactory wikiContentFactory)
+        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiContentFactory wikiContentFactory, ISpecificationProvider specificationProvider)
         {
             _logger = logger;
             _wikiContentFactory = wikiContentFactory;
+
+            _templateSpecifications = specificationProvider.GetTemplateSpecifications();
         }
-        #endregion
 
         // RULE: One component has one node or multiple nodes that are adjacent siblings, one node belongs to zero or one component.
         public bool ParseNode(Node startNode, out PatternMatchComponent? outMatchComponent)
         {
-            PatternMatch? match;
+            PatternMatch? match = null;
 
             if (startNode is Template template)
             {
                 match = RunPatternEnumeration(
-                    _templatePatterns.Select(
-                        pattern => pattern(template)));
+                    _templateSpecifications.Select(
+                        pattern => pattern.GetPatternMatch(template)));
             }
-            else if (startNode is InlineNode inlineNode)
-            {
-                match = RunPatternEnumeration(
-                    _inlinePatterns.Select(
-                        pattern => pattern(inlineNode)));
-            }
-            else
-            {
-                match = RunPatternEnumeration(
-                    _patterns.Select(
-                        pattern => pattern(startNode)));
-            }
+
+            //else if (startNode is InlineNode inlineNode)
+            //{
+            //    match = RunPatternEnumeration(
+            //        _inlinePatterns.Select(
+            //            pattern => pattern(inlineNode)));
+            //}
+            //else
+            //{
+            //    match = RunPatternEnumeration(
+            //        _patterns.Select(
+            //            pattern => pattern(startNode)));
+            //}
 
             if (match == null)
             {
@@ -112,9 +85,8 @@ namespace Wikify.Parser.MwParser
         {
             foreach (var patternMatch in matchResults)
             {
-
                 // If no match found, go to next pattern as early as possible.
-                if (patternMatch == null)
+                if (patternMatch == PatternMatch.None)
                 {
                     continue;
                 }
