@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Id;
 
 namespace Wikify.Archive

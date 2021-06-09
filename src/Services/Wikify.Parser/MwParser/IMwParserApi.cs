@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Wikify.Common.Content;
 using MwParserFromScratch.Nodes;
 using System.Runtime.CompilerServices;
 using Wikify.Parser.Content;
 using MwParserFromScratch;
+using Wikify.Common.Content.Raw;
+using Wikify.Common.Content.Parsed;
 
 [assembly: InternalsVisibleTo("Wikify.Test")]
 namespace Wikify.Parser.MwParser
@@ -19,7 +20,7 @@ namespace Wikify.Parser.MwParser
         /// <returns>Wikitext parser singleton instance.</returns>
         public WikitextParser GetWikitextParser();
         public Task<Wikitext> GetArticleMwRootAsync(IWikiArticle wikiArticle);
-        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, IWikiContentFactory wikiContentFactory);
-        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IWikiContentFactory wikiContentFactory);
+        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Content.IWikiComponentFactory wikiContentFactory);
+        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, Content.IWikiComponentFactory wikiContentFactory);
     }
 }

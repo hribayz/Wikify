@@ -5,7 +5,7 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
 using Wikify.Common.Id;
 using Wikify.Parser.Content;
 using Wikify.Test;

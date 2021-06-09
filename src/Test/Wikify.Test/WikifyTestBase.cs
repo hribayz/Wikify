@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Domain;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
@@ -35,9 +36,9 @@ namespace Wikify.Test
             services.AddSingleton<ILicenseFactory, LicenseFactory>();
             services.AddSingleton<ICopyrightResolver, CopyrightResolver>();
             services.AddSingleton<ICopyrightFactory, CopyrightFactory>();
-            services.AddSingleton<IWikiMediaFactory, WikiMediaFactory>();
+            services.AddSingleton<Common.Content.Raw.IWikiContentFactory, Common.Content.Raw.WikiContentFactory>();
             services.AddSingleton<IAstParser, AstParser>();
-            services.AddSingleton<IWikiContentFactory, WikiContentFactory>();
+            services.AddSingleton<Parser.Content.IWikiComponentFactory, Parser.Content.WikiComponentFactory>();
             services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
             services.AddSingleton<IMwParserApi, MwParserApi>();
             services.AddSingleton<ISpecificationProvider, SpecificationProvider>();
@@ -56,7 +57,7 @@ namespace Wikify.Test
             var articleIdentifierFactory = GetService<IArticleIdentifierFactory>();
             var articleParser = GetService<IArticleParser>();
 
-            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, LanguageEnum.English), TextContentModel.WikiText);
+            var articleArchive = await articleDownloader.GetArticleAsync(articleIdentifierFactory.GetIdentifier(title, LanguageEnum.English), ContentModel.WikiText);
             return await articleParser.GetContainerAsync(articleArchive);
         }
 

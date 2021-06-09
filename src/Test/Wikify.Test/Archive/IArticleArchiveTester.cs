@@ -1,7 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Wikify.Archive;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Id;
 
 namespace Wikify.Test.Archive
@@ -15,7 +15,7 @@ namespace Wikify.Test.Archive
         }
         public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier)
         {
-            return await _articleArchive.GetArticleAsync(articleIdentifier, TextContentModel.Text);
+            return await _articleArchive.GetArticleAsync(articleIdentifier, ContentModel.Html);
         }
     }
 }

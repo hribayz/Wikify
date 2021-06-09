@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Domain.Models.MediaWiki;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
@@ -18,11 +18,11 @@ namespace Wikify.Archive
     public class MediaWikiArticleDownloader : IArticleArchive
     {
         private readonly ILogger _logger;
-        private readonly IWikiMediaFactory _wikiMediaFactory;
+        private readonly IWikiContentFactory _wikiMediaFactory;
         private readonly IArticleLicenseProvider _articleLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiArticleDownloader(ILogger<MediaWikiArticleDownloader> logger, INetworkingProvider networkingProvider, IArticleLicenseProvider articleLicenseProvider, IWikiMediaFactory wikiMediaFactory)
+        public MediaWikiArticleDownloader(ILogger<MediaWikiArticleDownloader> logger, INetworkingProvider networkingProvider, IArticleLicenseProvider articleLicenseProvider, IWikiContentFactory wikiMediaFactory)
         {
             _logger = logger;
             _articleLicenseProvider = articleLicenseProvider;
@@ -30,7 +30,7 @@ namespace Wikify.Archive
             _networkingProvider = networkingProvider;
         }
 
-        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, TextContentModel contentModel)
+        public async Task<IWikiArticle> GetArticleAsync(IArticleIdentifier articleIdentifier, ContentModel contentModel)
         {
             try
             {
@@ -46,8 +46,8 @@ namespace Wikify.Archive
 
                 string? content = contentModel switch
                 {
-                    TextContentModel.Text => mwResponseObject?.parse?.text?["*"],
-                    TextContentModel.WikiText => mwResponseObject?.parse?.wikitext?["*"],
+                    ContentModel.Html => mwResponseObject?.parse?.text?["*"],
+                    ContentModel.WikiText => mwResponseObject?.parse?.wikitext?["*"],
                     _ => throw new NotImplementedException()
                 };
 

@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
+using Wikify.Common.Content.Raw;
 
 namespace Wikify.Parser.Content
 {

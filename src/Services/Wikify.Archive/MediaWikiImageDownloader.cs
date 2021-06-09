@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
@@ -13,11 +13,11 @@ namespace Wikify.Archive
     public class MediaWikiImageDownloader : IImageArchive
     {
         private readonly ILogger _logger;
-        private readonly IWikiMediaFactory _wikiMediaFactory;
+        private readonly IWikiContentFactory _wikiMediaFactory;
         private readonly IImageLicenseProvider _imageLicenseProvider;
         private readonly INetworkingProvider _networkingProvider;
 
-        public MediaWikiImageDownloader(ILogger<MediaWikiImageDownloader> logger, IWikiMediaFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
+        public MediaWikiImageDownloader(ILogger<MediaWikiImageDownloader> logger, IWikiContentFactory wikiMediaFactory, IImageLicenseProvider imageLicenseProvider, INetworkingProvider networkingProvider)
         {
             _logger = logger;
             _wikiMediaFactory = wikiMediaFactory;

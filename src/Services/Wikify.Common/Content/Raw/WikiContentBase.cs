@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
 using Wikify.Common.License;
 
-namespace Wikify.Common.Content
+namespace Wikify.Common.Content.Raw
 {
     /// <summary>
-    /// Provides common abstractions for types derived from <see cref="IWikiMedia", mainly pretty-printing./>
+    /// Provides common abstractions for types derived from <see cref="IWikiContent", mainly pretty-printing./>
     /// </summary>
-    public abstract class WikiMediaBase : IWikiMedia
+    public abstract class WikiContentBase : IWikiContent
     {
         public ILicense License { get; private set; }
-        public WikiMediaBase(ILicense license)
+        public WikiContentBase(ILicense license)
         {
             License = license;
         }

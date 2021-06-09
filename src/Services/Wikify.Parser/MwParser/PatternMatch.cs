@@ -1,6 +1,6 @@
 ﻿using MwParserFromScratch.Nodes;
 using System;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
 
 namespace Wikify.Parser.MwParser
 {

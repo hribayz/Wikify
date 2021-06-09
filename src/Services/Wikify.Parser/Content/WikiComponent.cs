@@ -2,7 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
+using Wikify.Common.Content.Raw;
 
 namespace Wikify.Parser.Content
 {
@@ -16,6 +17,8 @@ namespace Wikify.Parser.Content
         internal Node EndNode { get; private set; }
         public WikiComponentType ComponentType { get; private set; }
 
+        public IWikiData RawData { get; private set; }
+
         internal void AddChild(WikiComponent wikiComponent)
         {
             _children.Add(wikiComponent);
@@ -25,8 +28,9 @@ namespace Wikify.Parser.Content
             _children.AddRange(wikiComponents);
         }
 
-        public WikiComponent(WikiComponentType componentType, Node startNode, Node endNode)
+        public WikiComponent(IWikiData rawData, WikiComponentType componentType, Node startNode, Node endNode)
         {
+            RawData = rawData;
             ComponentType = componentType;
             StartNode = startNode;
             EndNode = endNode;

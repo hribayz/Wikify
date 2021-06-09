@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Domain;
 using Wikify.Common.Domain.Models.MediaWiki;
 using static Wikify.Common.Domain.Models.MediaWiki.ImageInfoResponse;
@@ -19,7 +19,7 @@ namespace Wikify.Common
             [LanguageEnum.English] = _wikipediaApiUrl.Replace("LANG", "en") + "?action=parse"
         };
 
-        public static string GetParseQuery(string articleTitle, LanguageEnum language, TextContentModel contentModel)
+        public static string GetParseQuery(string articleTitle, LanguageEnum language, ContentModel contentModel)
         {
             if (!_wikipediaApiEndpoints.ContainsKey(language))
             {
@@ -30,8 +30,8 @@ namespace Wikify.Common
 
             string prop = contentModel switch
             {
-                TextContentModel.Text => "text",
-                TextContentModel.WikiText => "wikitext",
+                ContentModel.Html => "text",
+                ContentModel.WikiText => "wikitext",
                 _ => throw new NotImplementedException()
             };
 

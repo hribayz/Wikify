@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
 using MwParserFromScratch;
 using MwParserFromScratch.Nodes;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Wikify.Parser.Content;
+using Wikify.Common.Content.Raw;
+using Wikify.Common.Content.Parsed;
 
 [assembly: InternalsVisibleTo("Wikify.Test")]
 namespace Wikify.Parser.MwParser
@@ -26,7 +27,7 @@ namespace Wikify.Parser.MwParser
 
             _parser = new WikitextParser();
         }
-        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, IWikiContentFactory wikiContentFactory)
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Content.IWikiComponentFactory wikiContentFactory)
         {
             var articleRoot = await GetArticleMwRootAsync(wikiArticle);
             return await GetContainerAsync(wikiArticle, articleRoot, wikiContentFactory);
@@ -41,9 +42,9 @@ namespace Wikify.Parser.MwParser
 
             #endregion
 
-            if (wikiArticle.ContentModel != TextContentModel.WikiText)
+            if (wikiArticle.ContentModel != ContentModel.WikiText)
             {
-                var errorMessage = $"This implementation of {nameof(MwParserApi)} can only load an instance of {nameof(IWikiArticle)} with {TextContentModel.WikiText} {nameof(TextContentModel)}";
+                var errorMessage = $"This implementation of {nameof(MwParserApi)} can only load an instance of {nameof(IWikiArticle)} with {ContentModel.WikiText} {nameof(ContentModel)}";
                 _logger.LogError(errorMessage);
                 throw new NotSupportedException(errorMessage);
             }
@@ -66,7 +67,7 @@ namespace Wikify.Parser.MwParser
             return astRoot;
         }
 
-        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, IWikiContentFactory wikiContentFactory)
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, Content.IWikiComponentFactory wikiContentFactory)
         {
             // Create the root of WikiComponent tree.
             var articleContainer = wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);

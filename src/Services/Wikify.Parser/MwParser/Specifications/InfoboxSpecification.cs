@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
 using Wikify.Common.Domain;
 
 namespace Wikify.Parser.MwParser.Specifications

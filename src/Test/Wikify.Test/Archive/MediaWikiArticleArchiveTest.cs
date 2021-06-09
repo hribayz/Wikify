@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Domain;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
@@ -27,12 +27,12 @@ namespace Wikify.Test.Archive
                 _loggerFactory.CreateLogger<MediaWikiArticleDownloader>(),
                 new Wikify.Common.Network.NetworkingProvider(_loggerFactory.CreateLogger<NetworkingProvider>()),
                 new ArticleLicenseProvider(_loggerFactory.CreateLogger<ArticleLicenseProvider>(), new LicenseFactory(), new CopyrightFactory(new CopyrightResolver())),
-                new WikiMediaFactory());
+                new WikiContentFactory());
         }
 
         [TestMethod]
-        [DataRow("Giorgio Moroder", LanguageEnum.English, TextContentModel.WikiText, "birth_name = Giovanni Giorgio Moroder")]
-        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, TextContentModel contentModel, string mustHaveSubstring)
+        [DataRow("Giorgio Moroder", LanguageEnum.English, ContentModel.WikiText, "birth_name = Giovanni Giorgio Moroder")]
+        public async Task TestDownloadArticleAsync(string title, LanguageEnum language, ContentModel contentModel, string mustHaveSubstring)
         {
             var article = await _articleDownloader.GetArticleAsync(_articleIdentifierFactory.GetIdentifier(title, language), contentModel);
 

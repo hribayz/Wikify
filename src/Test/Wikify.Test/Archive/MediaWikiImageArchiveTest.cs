@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Wikify.Archive;
 using Wikify.Common.Content;
+using Wikify.Common.Content.Raw;
 using Wikify.Common.Id;
 using Wikify.Common.Network;
 using Wikify.License;
@@ -29,7 +30,7 @@ namespace Wikify.Test.Archive
             _networkingProvider = new NetworkingProvider(_loggerFactory.CreateLogger<NetworkingProvider>());
             _imageArchive = new MediaWikiImageDownloader(
                 _loggerFactory.CreateLogger<MediaWikiImageDownloader>(),
-                new WikiMediaFactory(),
+                new WikiContentFactory(),
                 new ImageLicenseProvider(
                     _loggerFactory.CreateLogger<MediaWikiImageDownloader>(),
                     new CopyrightFactory(new CopyrightResolver()),

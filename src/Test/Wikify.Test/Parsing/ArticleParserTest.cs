@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
 
 namespace Wikify.Test.Parsing
 {

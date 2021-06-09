@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Wikify.Common.Content;
 using Microsoft.Extensions.Logging;
 using Wikify.Parser.Content;
+using Wikify.Common.Content.Raw;
+using Wikify.Common.Content.Parsed;
 
 namespace Wikify.Parser.MwParser
 {
@@ -11,11 +12,11 @@ namespace Wikify.Parser.MwParser
     public class ArticleParser : IArticleParser
     {
         private ILogger _logger;
-        private IWikiContentFactory _wikiContentFactory;
+        private Content.IWikiComponentFactory _wikiContentFactory;
 
         private IMwParserApi _mwParserApi;
 
-        public ArticleParser(ILogger<ArticleParser> logger, IMwParserApi mwParserApi, IWikiContentFactory wikiContentFactory)
+        public ArticleParser(ILogger<ArticleParser> logger, IMwParserApi mwParserApi, Content.IWikiComponentFactory wikiContentFactory)
         {
             _logger = logger;
             _mwParserApi = mwParserApi;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Wikify.Common.Content
+﻿namespace Wikify.Common.Content.Parsed
 {
     /// <summary>
     /// A type of the Wikify composition part as defined in <see cref="IWikiComponent"/>.

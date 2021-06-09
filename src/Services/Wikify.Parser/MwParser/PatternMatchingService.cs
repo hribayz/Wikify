@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wikify.Common.Content;
+using Wikify.Common.Content.Parsed;
 using Wikify.Parser.Content;
 using Wikify.Parser.MwParser.Specifications;
 
@@ -15,14 +15,14 @@ namespace Wikify.Parser.MwParser
     internal class PatternMatchingService : IPatternMatchingService
     {
         private ILogger _logger;
-        private IWikiContentFactory _wikiContentFactory;
+        private IWikiComponentFactory _wikiComponentFactory;
 
         private IReadOnlyCollection<Pattern<Template>> _templateSpecifications;
 
-        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiContentFactory wikiContentFactory, ISpecificationProvider specificationProvider)
+        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiComponentFactory wikiContentFactory, ISpecificationProvider specificationProvider)
         {
             _logger = logger;
-            _wikiContentFactory = wikiContentFactory;
+            _wikiComponentFactory = wikiContentFactory;
 
             _templateSpecifications = specificationProvider.GetTemplateSpecifications();
         }
@@ -58,14 +58,23 @@ namespace Wikify.Parser.MwParser
                 return false;
             }
 
-            // Match is not null here, create component.
+            // We have a match here, create component.
 
             if (match.WikiComponentType == WikiComponentType.Image)
             {
+                // TODO: Must figure out lazy loading of data like images here.
+                // Probably change the T IWikiContainer.Content member to something like T LoadContentAsync().
+                // Then the container will load the content itself when asked to, which means it will need an instance of IArchive and IIdProvider.
+                // So maybe create a service to wrap all that and pass it to the IWikiContainerFactory?
+
                 throw new NotImplementedException();
             }
 
-            outMatchComponent = new PatternMatchComponent(match, _wikiContentFactory.CreateComponent(match.WikiComponentType, startNode, match.EndNode));
+            // TODO: go through matched nodes, join their ToStrings().
+            // Write good tests for this.
+
+
+            outMatchComponent = new PatternMatchComponent(match, _wikiComponentFactory.CreateComponent(match.WikiComponentType, startNode, match.EndNode));
 
             #region Log match
 
