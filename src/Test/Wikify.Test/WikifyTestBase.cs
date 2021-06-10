@@ -41,7 +41,7 @@ namespace Wikify.Test
             services.AddSingleton<Parser.Content.IWikiComponentFactory, Parser.Content.WikiComponentFactory>();
             services.AddSingleton<IPatternMatchingService, PatternMatchingService>();
             services.AddSingleton<IMwParserApi, MwParserApi>();
-            services.AddSingleton<ISpecificationProvider, SpecificationProvider>();
+            services.AddSingleton<IMatchSpecificationProvider, MatchSpecificationProvider>();
 
             services.AddScoped<IArticleParser, ArticleParser>();
 

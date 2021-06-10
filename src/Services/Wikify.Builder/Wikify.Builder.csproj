@@ -6,4 +6,8 @@
     <Description>Composition building service for the Wikify project.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wikify.Common\Wikify.Common.csproj" />
+  </ItemGroup>
+
 </Project>

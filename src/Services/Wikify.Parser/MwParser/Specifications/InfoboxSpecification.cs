@@ -10,9 +10,9 @@ using Wikify.Common.Domain;
 
 namespace Wikify.Parser.MwParser.Specifications
 {
-    public class InfoboxSpecification : Pattern<Template>
+    public class InfoboxSpecification : PatternSpecification<Template>
     {
-        private Func<Template, PatternMatch> _expression = 
+        private Func<Template, PatternMatch> _expression =
             template =>
             {
                 if (template.GetTemplateName().ToLower().StartsWith("infobox"))

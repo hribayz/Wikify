@@ -6,7 +6,7 @@ namespace Wikify.Parser.Content
 {
     public class WikiComponentFactory : IWikiComponentFactory
     {
-        public ArticleContainer CreateArticle(IWikiData rawData, IWikiArticle article, Node startNode, Node endNode)
+        public ArticleContainer CreateArticleContainer(IWikiData rawData, IWikiArticle article, Node startNode, Node endNode)
         {
             return new ArticleContainer(rawData, article, startNode, endNode);
         }
@@ -16,7 +16,7 @@ namespace Wikify.Parser.Content
             return new WikiComponent(rawData, componentType, startNode, endNode);
         }
 
-        public ImageContainer CreateImage(IWikiData rawData, IWikiImage image, WikiComponentType componentType, Node startNode, Node endNode)
+        public ImageContainer CreateImageContainer(IWikiData rawData, IWikiImage image, WikiComponentType componentType, Node startNode, Node endNode)
         {
             return new ImageContainer(rawData, image, componentType, startNode, endNode);
         }

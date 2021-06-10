@@ -12,25 +12,28 @@ using Wikify.Common.Content.Parsed;
 [assembly: InternalsVisibleTo("Wikify.Test")]
 namespace Wikify.Parser.MwParser
 {
-
     public class MwParserApi : IMwParserApi
     {
         private ILogger _logger;
         private IAstParser _astTranslator;
+        private IWikiContentFactory _wikiContentFactory;
+        private IWikiComponentFactory _wikiComponentFactory;
 
         private WikitextParser _parser;
 
-        public MwParserApi(ILogger<MwParserApi> logger, IAstParser astTranslator)
+        public MwParserApi(ILogger<MwParserApi> logger, IAstParser astTranslator, IWikiContentFactory wikiContentFactory, IWikiComponentFactory wikiComponentFactory)
         {
             _logger = logger;
             _astTranslator = astTranslator;
+            _wikiContentFactory = wikiContentFactory;
+            _wikiComponentFactory = wikiComponentFactory;
 
             _parser = new WikitextParser();
         }
-        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Content.IWikiComponentFactory wikiContentFactory)
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle)
         {
             var articleRoot = await GetArticleMwRootAsync(wikiArticle);
-            return await GetContainerAsync(wikiArticle, articleRoot, wikiContentFactory);
+            return await GetContainerAsync(wikiArticle, articleRoot);
         }
 
         public async Task<Wikitext> GetArticleMwRootAsync(IWikiArticle wikiArticle)
@@ -67,10 +70,12 @@ namespace Wikify.Parser.MwParser
             return astRoot;
         }
 
-        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, Content.IWikiComponentFactory wikiContentFactory)
+        public async Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot)
         {
+            var wikiData = _wikiContentFactory.CreateWikiData(astRoot.ToPlainText(), ContentModel.WikiText);
+
             // Create the root of WikiComponent tree.
-            var articleContainer = wikiContentFactory.CreateArticle(wikiArticle, astRoot, astRoot);
+            var articleContainer = _wikiComponentFactory.CreateArticleContainer(wikiData, wikiArticle, astRoot, astRoot);
 
             var firstChild = astRoot.Lines.FirstNode;
 

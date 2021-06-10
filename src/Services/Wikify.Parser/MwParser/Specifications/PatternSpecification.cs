@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace Wikify.Parser.MwParser.Specifications
 {
-    public abstract class Pattern<T> where T : Node
+    public abstract class PatternSpecification<T> where T : Node
     {
         public abstract Func<T, PatternMatch> Expression { get; }
-
-        public PatternMatch GetPatternMatch(T node)
-        {
-            return Expression(node);
-        }
     }
 }

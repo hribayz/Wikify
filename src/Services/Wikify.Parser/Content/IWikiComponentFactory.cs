@@ -15,7 +15,7 @@ namespace Wikify.Parser.Content
     public interface IWikiComponentFactory
     {
         public WikiComponent CreateComponent(IWikiData rawData, WikiComponentType componentType, Node startNode, Node endNode);
-        public ArticleContainer CreateArticle(IWikiData rawData, IWikiArticle article, Node startNode, Node endNode);
-        public ImageContainer CreateImage(IWikiData rawData, IWikiImage image, WikiComponentType componentType, Node startNode, Node endNode);
+        public ArticleContainer CreateArticleContainer(IWikiData rawData, IWikiArticle article, Node startNode, Node endNode);
+        public ImageContainer CreateImageContainer(IWikiData rawData, IWikiImage image, WikiComponentType componentType, Node startNode, Node endNode);
     }
 }

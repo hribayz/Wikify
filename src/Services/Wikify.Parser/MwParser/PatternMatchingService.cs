@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wikify.Common.Content.Parsed;
+using Wikify.Common.Content.Raw;
 using Wikify.Parser.Content;
 using Wikify.Parser.MwParser.Specifications;
 
@@ -15,16 +16,18 @@ namespace Wikify.Parser.MwParser
     internal class PatternMatchingService : IPatternMatchingService
     {
         private ILogger _logger;
+        private IWikiContentFactory _wikiContentFactory;
         private IWikiComponentFactory _wikiComponentFactory;
 
-        private IReadOnlyCollection<Pattern<Template>> _templateSpecifications;
+        private IReadOnlyCollection<PatternSpecification<Template>> _templateSpecifications;
 
-        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiComponentFactory wikiContentFactory, ISpecificationProvider specificationProvider)
+        public PatternMatchingService(ILogger<PatternMatchingService> logger, IWikiContentFactory wikiContentFactory, IWikiComponentFactory wikiComponentFactory, IMatchSpecificationProvider matchSpecificationProvider)
         {
             _logger = logger;
-            _wikiComponentFactory = wikiContentFactory;
+            _wikiContentFactory = wikiContentFactory;
+            _wikiComponentFactory = wikiComponentFactory;
 
-            _templateSpecifications = specificationProvider.GetTemplateSpecifications();
+            _templateSpecifications = matchSpecificationProvider.GetTemplateSpecifications();
         }
 
         // RULE: One component has one node or multiple nodes that are adjacent siblings, one node belongs to zero or one component.
@@ -36,7 +39,7 @@ namespace Wikify.Parser.MwParser
             {
                 match = RunPatternEnumeration(
                     _templateSpecifications.Select(
-                        pattern => pattern.GetPatternMatch(template)));
+                        pattern => pattern.Expression(template)));
             }
 
             //else if (startNode is InlineNode inlineNode)
@@ -73,8 +76,31 @@ namespace Wikify.Parser.MwParser
             // TODO: go through matched nodes, join their ToStrings().
             // Write good tests for this.
 
+            string componentText;
 
-            outMatchComponent = new PatternMatchComponent(match, _wikiComponentFactory.CreateComponent(match.WikiComponentType, startNode, match.EndNode));
+            if (startNode == match.EndNode)
+            {
+                componentText = startNode.ToPlainText();
+            }
+            else
+            {
+                var rawDataSb = new StringBuilder().Append(startNode.ToPlainText());
+
+                Node exportNode = startNode;
+
+                do
+                {
+                    exportNode = exportNode.NextNode;
+                    rawDataSb.Append(exportNode.ToPlainText());
+
+                } while (exportNode != match.EndNode);
+
+                componentText = rawDataSb.ToString();
+            }
+
+            var rawData = _wikiContentFactory.CreateWikiData(componentText, ContentModel.WikiText);
+
+            outMatchComponent = new PatternMatchComponent(match, _wikiComponentFactory.CreateComponent(rawData, match.WikiComponentType, startNode, match.EndNode));
 
             #region Log match
 

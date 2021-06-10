@@ -20,7 +20,7 @@ namespace Wikify.Parser.MwParser
         /// <returns>Wikitext parser singleton instance.</returns>
         public WikitextParser GetWikitextParser();
         public Task<Wikitext> GetArticleMwRootAsync(IWikiArticle wikiArticle);
-        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Content.IWikiComponentFactory wikiContentFactory);
-        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot, Content.IWikiComponentFactory wikiContentFactory);
+        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle);
+        public Task<IWikiContainer<IWikiArticle>> GetContainerAsync(IWikiArticle wikiArticle, Wikitext astRoot);
     }
 }
