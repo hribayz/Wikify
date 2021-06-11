@@ -6,4 +6,4 @@ select image, print it in context of any page it is included in
 select colours for text, imitate image by just different text weight
 just change wikipedia url to get the content loaded into wikify
 Tool ideas:
-	Stupid shit like uwu, 1337speech, pirate speech.
+	Stupid shit like uwu, 1337speech, pirate speech. aLsO tHIs ShIt
