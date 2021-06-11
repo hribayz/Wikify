@@ -73,32 +73,25 @@ namespace Wikify.Parser.MwParser
                 throw new NotImplementedException();
             }
 
-            // TODO: go through matched nodes, join their ToStrings().
-            // Write good tests for this.
+            var rawDataSb = new StringBuilder();
+            Node exportNode = startNode;
 
-            string componentText;
-
-            if (startNode == match.EndNode)
+            while (true)
             {
-                componentText = startNode.ToPlainText();
-            }
-            else
-            {
-                var rawDataSb = new StringBuilder().Append(startNode.ToPlainText());
+                rawDataSb.Append(exportNode.ToPlainText());
 
-                Node exportNode = startNode;
-
-                do
+                if (exportNode == match.EndNode)
                 {
+                    break;
+                }
+                else
+                {
+                    // Assuming that there is a non-null node behind one that was not the end node.
                     exportNode = exportNode.NextNode;
-                    rawDataSb.Append(exportNode.ToPlainText());
-
-                } while (exportNode != match.EndNode);
-
-                componentText = rawDataSb.ToString();
+                }
             }
 
-            var rawData = _wikiContentFactory.CreateWikiData(componentText, ContentModel.WikiText);
+            var rawData = _wikiContentFactory.CreateWikiData(rawDataSb.ToString(), ContentModel.WikiText);
 
             outMatchComponent = new PatternMatchComponent(match, _wikiComponentFactory.CreateComponent(rawData, match.WikiComponentType, startNode, match.EndNode));
 

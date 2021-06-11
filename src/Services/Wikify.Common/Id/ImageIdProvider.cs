@@ -40,7 +40,8 @@ namespace Wikify.Common.Id
         public async Task<IReadOnlyDictionary<string, IImageIdentifier>> GetIdentifiersAsync(IEnumerable<string> imageTitles)
         {
             var props = ImageInfoProps.ExtMetadata | ImageInfoProps.Url;
-            var imageQueryResult = await QueryImageMetadataAsync(imageTitles, props);
+            var imageQueryResult = await QueryImageMetadataAsync(imageTitles, props) ??
+                throw new ApplicationException("Null image metadata object");
 
             // Validate response.
             if (!MediaWikiUtils.AssertImageInfoPropsNotNull(imageQueryResult, props))
@@ -54,33 +55,24 @@ namespace Wikify.Common.Id
 
             var originalTitles = new Dictionary<string, string>();
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
             if (imageQueryResult.query.normalized != null)
             {
                 originalTitles = imageQueryResult.query.normalized.ToDictionary(x => x.to, x => x.from);
             }
 
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             Dictionary<string, IImageIdentifier> imageIdentifiers = new();
 
             foreach (var page in imageQueryResult.query.pages)
             {
-                var imageInfo = page.Value?.imageinfo?.SingleOrDefault();
-
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8604 // Possible null reference argument.
+                var imageInfo = page.Value?.imageinfo?.SingleOrDefault() ?? throw new ApplicationException("Null image info object");
 
                 // Null safety of the following dereferences has been asserted by AssertImageInfoPropsNotNull
                 var metaAttributes = imageInfo.extmetadata;
-                var url = page.Value.imageinfo.SingleOrDefault().url;
-                var descriptionUrl = page.Value.imageinfo.SingleOrDefault().descriptionurl;
-                var normalizedTitle = page.Value?.title;
-
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8604 // Possible null reference argument.
-
+                var url = imageInfo.url;
+                var descriptionUrl = imageInfo.descriptionurl;
+                var normalizedTitle = page.Value.title;
 
                 var matchingTitle = imageTitles.Single(x => (x == normalizedTitle || x == originalTitles[normalizedTitle]));
 

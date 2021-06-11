@@ -47,7 +47,10 @@ namespace Wikify.Common.Network
                     logSb.Append("Request was not succesful.").Append(Environment.NewLine)
                         .Append("Response status: ").Append(response.StatusCode);
 
-                    throw new ApplicationException(logSb.ToString());
+                    var errorMessage = logSb.ToString();
+                    _logger.LogError(errorMessage);
+
+                    throw new ApplicationException(errorMessage);
                 }
 
                 projectionResult = await projection(response);
