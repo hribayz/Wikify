@@ -4,5 +4,6 @@ add github project url to nupkg descriptions, reference the eshop from there.
 wiki quotes? https://en.wikiquote.org/wiki/Yogi_Berra
 select image, print it in context of any page it is included in
 select colours for text, imitate image by just different text weight
-this is a very good way to express yourself. It serves a customer who wants to express something explicitly, maybe because it's hard without.
 just change wikipedia url to get the content loaded into wikify
+Tool ideas:
+	Stupid shit like uwu, 1337speech, pirate speech.

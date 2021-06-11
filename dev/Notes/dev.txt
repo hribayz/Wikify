@@ -126,4 +126,14 @@ Page composition:
 	Page is sum of its components and nothing more, i.e. everything on a page is a part of some of its components.
 	No need to crawl through templates just to _exclude_ them. Just don't include them.
 	Component carries its source text and text component model. Therefore it is possible to rebuild the page just from the IWikiContainer<IWikiArticle>.
-	This way, export from the parser is complete. It is possible to build an independent designer tool that runs on just one data object from the parser.
+	This way, export from the parser is complete. It is possible to build an independent designer tool that runs just on the data from the parser.
+	
+	
+Builder ideas:
+
+	Builder takes the IWikiContainer<T> data structure and modifies it.
+	Then it operates in pipelines that are command chains. Every tool adds a command or more into the pipeline.
+	Some operations can be undone independently.
+	Some tools may be on/off (hide, show), some tools may be scale (pronounce text by this much -- punchline generator), some tools may be fire and forget operation.
+	Then it returns raw output which is WikiText or Html.
+	
