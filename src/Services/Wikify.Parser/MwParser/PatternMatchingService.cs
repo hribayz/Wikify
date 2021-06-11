@@ -76,6 +76,8 @@ namespace Wikify.Parser.MwParser
             var rawDataSb = new StringBuilder();
             Node exportNode = startNode;
 
+            // TODO: This way, raw data of nested components will overlap. Is that OK? Shall there be a config for this?
+
             while (true)
             {
                 rawDataSb.Append(exportNode.ToPlainText());
