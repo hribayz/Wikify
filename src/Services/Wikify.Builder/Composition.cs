@@ -7,16 +7,15 @@ using Wikify.Common.Content.Parsed;
 
 namespace Wikify.Builder
 {
-    public class Builder : IBuilder
+    public class Composition : IComposition
     {
         // This implementation is thread-unsafe for performance. Instantiate as scoped.
         private ILogger _logger;
         private Stack<IState> _stateStack;
         private IWikiComponent _rootComponent;
+        private IState _currentState => _stateStack.Peek();
 
-        public IState CurrentState => _stateStack.Peek();
-
-        public Builder(ILogger<Builder> logger, IWikiComponent rootComponent, IState state)
+        public Composition(ILogger<Composition> logger, IWikiComponent rootComponent, IState state)
         {
             _logger = logger;
             _rootComponent = rootComponent;
@@ -27,13 +26,13 @@ namespace Wikify.Builder
 
         public async Task<IState> ApplyToolAsync(ITool tool)
         {
-            var newState = await tool.ApplyAsync(CurrentState);
+            var newState = await tool.ApplyAsync(_currentState);
             _stateStack.Push(newState);
             return newState;
         }
         public async Task<IState> UndoToolAsync(ITool tool)
         {
-            if (CurrentState.IsDefault)
+            if (_currentState.IsDefault)
             {
                 var errorMessage = "Can't undo default state!";
                 _logger.LogError(errorMessage);
@@ -76,6 +75,7 @@ namespace Wikify.Builder
                 await ApplyToolAsync(removedTools.Pop());
             }
 
+            return _currentState;
         }
         public async Task<IWikiComponent> BuildAsync()
         {
@@ -86,22 +86,27 @@ namespace Wikify.Builder
 
         public async Task<IState> UndoAsync()
         {
+            // Composition in default state.
             if (_stateStack.Count == 1)
             {
-                #region Debug assertion
-
-                // The original default state has to sit at the bottom of the stack all the time.
-
-                var state = _stateStack.Peek();
-                Debug.Assert(state.IsDefault);
-
-                #endregion
-
-                return CurrentState;
+                if (!_currentState.IsDefault)
+                {
+                    var errorMessage = "The original default state has to sit at the bottom of the stack all the time.";
+                    _logger.LogError(errorMessage);
+                    throw new ApplicationException(errorMessage);
+                }
+                else
+                {
+                    return _currentState;
+                }
             }
 
-            _stateStack.Pop();
-            return _stateStack.Peek();
+            else
+            {
+                _stateStack.Pop();
+                return _stateStack.Peek();
+            }
+
         }
     }
 }
