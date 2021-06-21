@@ -91,7 +91,7 @@ namespace Wikify.Builder
             {
                 if (!_currentState.IsDefault)
                 {
-                    var errorMessage = "The original default state has to sit at the bottom of the stack all the time.";
+                    var errorMessage = "The state at the bottom of the stack was not the default state.";
                     _logger.LogError(errorMessage);
                     throw new ApplicationException(errorMessage);
                 }

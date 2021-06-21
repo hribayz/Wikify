@@ -109,9 +109,6 @@ Api has endpoint for all data at once, which is desirable (saves requests). How 
 AST parsing into WikiComponents
 	if a subnode is a part of a component, all its descendants are as well. Therefore it's sufficient only to hold the array of the subroots.
 	Pattern matching: use naive algorithm. It's O(nm) but the sofisticated algorithms in reality are not that much better. Also it's not that bad, early exits usually very early so the nm plays out only in case of actual matches, and there are only few per article.
-	
-No such host is known exception?
-
 
 Templates
 
@@ -137,3 +134,13 @@ Builder ideas:
 	Some tools may be on/off (hide, show), some tools may be scale (pronounce text by this much -- punchline generator), some tools may be fire and forget operation.
 	Then it returns raw output which is WikiText or Html.
 	
+WIKITEXT Pick theme. (lock WikiText)
+CANVAS Pick product (lock Canvas)
+
+COMPOSITION Define composition. (lock IComponent tree)
+	Tools to achieve this: Punchline generator, image, component picker
+COMPONENT Component modification (lock component attributes).
+	Tools that modify each component independently on others: uwu, 1337, pirate, sHItTiFieR. Font.
+(COMPOSITION) and (COMPONENT) don't have to be mutually exclusive. It should be possible to remove a component from composition when in (COMPONENT).
+SYNTHESIS Modify synthesis of whole composition.
+	Tools that affect whole composition: Matrix, Code, Wordcloud, Hawaii, Shape, Artext-like advanced tools

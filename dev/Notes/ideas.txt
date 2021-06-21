@@ -7,3 +7,6 @@ select colours for text, imitate image by just different text weight
 just change wikipedia url to get the content loaded into wikify
 Tool ideas:
 	Stupid shit like uwu, 1337speech, pirate speech. aLsO tHIs ShIt
+Show the stack, lock down levels of it when conflicting.
+	Levels: Theme, composition tools, text only tools, display tools.
+Everything must be undoable, even seed generation.
