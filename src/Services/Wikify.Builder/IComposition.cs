@@ -6,9 +6,9 @@ namespace Wikify.Builder
     public interface IComposition
     {
         public Task<IWikiComponent> BuildAsync();
-        public Task<IState> UndoAsync();
-        public Task<IState> UndoToolAsync(ITool tool);
-        public Task<IState> ApplyToolAsync(ITool tool);
+        public Task<ICompositionState> UndoAsync();
+        public Task<ICompositionState> UndoToolAsync(ITool tool);
+        public Task<ICompositionState> ApplyToolAsync(ITool tool);
 
     }
 }

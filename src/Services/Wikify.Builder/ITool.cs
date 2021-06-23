@@ -6,13 +6,13 @@ namespace Wikify.Builder
 
     public interface ITool
     {
-        public Task<IState> ApplyAsync(IState state);
+        public Task<ICompositionState> ApplyAsync(ICompositionState state);
         public bool Equals(object? obj);
         public int GetHashCode();
     }
     public class Tool : ITool
     {
-        public Task<IState> ApplyAsync(IState state)
+        public Task<ICompositionState> ApplyAsync(ICompositionState state)
         {
             throw new NotImplementedException();
         }

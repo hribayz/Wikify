@@ -11,26 +11,26 @@ namespace Wikify.Builder
     {
         // This implementation is thread-unsafe for performance. Instantiate as scoped.
         private ILogger _logger;
-        private Stack<IState> _stateStack;
+        private Stack<ICompositionState> _stateStack;
         private IWikiComponent _rootComponent;
-        private IState _currentState => _stateStack.Peek();
+        private ICompositionState _currentState => _stateStack.Peek();
 
-        public Composition(ILogger<Composition> logger, IWikiComponent rootComponent, IState state)
+        public Composition(ILogger<Composition> logger, IWikiComponent rootComponent, ICompositionState state)
         {
             _logger = logger;
             _rootComponent = rootComponent;
 
-            _stateStack = new Stack<IState>();
+            _stateStack = new Stack<ICompositionState>();
             _stateStack.Push(state);
         }
 
-        public async Task<IState> ApplyToolAsync(ITool tool)
+        public async Task<ICompositionState> ApplyToolAsync(ITool tool)
         {
             var newState = await tool.ApplyAsync(_currentState);
             _stateStack.Push(newState);
             return newState;
         }
-        public async Task<IState> UndoToolAsync(ITool tool)
+        public async Task<ICompositionState> UndoToolAsync(ITool tool)
         {
             if (_currentState.IsDefault)
             {
@@ -62,7 +62,7 @@ namespace Wikify.Builder
                     break;
                 }
 
-                // This wasn't the tool to undo. We will be re-applying it later.
+                // This wasn't the tool to undo. Save for re-applying.
                 else
                 {
                     removedTools.Push(state.LastToolApplied);
@@ -77,6 +77,7 @@ namespace Wikify.Builder
 
             return _currentState;
         }
+
         public async Task<IWikiComponent> BuildAsync()
         {
 
@@ -84,7 +85,7 @@ namespace Wikify.Builder
 
         }
 
-        public async Task<IState> UndoAsync()
+        public async Task<ICompositionState> UndoAsync()
         {
             // Composition in default state.
             if (_stateStack.Count == 1)
