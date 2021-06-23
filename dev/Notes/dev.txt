@@ -144,3 +144,12 @@ COMPONENT Component modification (lock component attributes).
 (COMPOSITION) and (COMPONENT) don't have to be mutually exclusive. It should be possible to remove a component from composition when in (COMPONENT).
 SYNTHESIS Modify synthesis of whole composition.
 	Tools that affect whole composition: Matrix, Code, Wordcloud, Hawaii, Shape, Artext-like advanced tools
+	
+Example: Zalgo changes Artext colours so after Zalgo text has to be re-artexed.
+Combination of SYNTHESIS tools makes mostly no sense. That means SYNTHESIS is the last step.
+Solution 1: SYNTHESIS operation would update state and impose lock on other further SYNTHESIS modifications and produce image.
+Solution 2: SYNTHESIS operation would update state and impose lock on other further SYNTHESIS modifications and image will be produced by build.
+Solution 3: SYNTHESIS operation would update state and no further SYNTHESIS modifications on that state will be possible and image will be produced by build.
+
+
+
